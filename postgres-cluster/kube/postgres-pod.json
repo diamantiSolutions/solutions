@@ -1,0 +1,338 @@
+{
+    "apiVersion": "v1",
+    "kind": "List",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "v1",
+	    "kind": "ReplicationController",
+	    "metadata":{
+	    	"name": "pg-<num>"
+	    },
+	    "spec":{
+		"replicas": 1,
+  		"selector":{
+		    "name": "pg-<num>"
+		},
+		"template":{
+	            "metadata": {
+			"annotations": {
+			    "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
+			},
+			"labels": {
+			    "name": "pg-<num>"
+			},
+			"name": "pg-<num>"
+		    },
+		    "spec": {
+			"containers": [
+			    {
+				"env": [
+				    {
+					"name": "KUBERNETES_SERVICE_HOST",
+					"value": "172.16.17.3"
+				    },
+				    {
+					"name": "KUBERNETES_SERVICE_PORT",
+					"value": "8080"
+				    },
+				    {
+					"name": "PG_MASTER_PORT",
+					"value": "5432"
+				    },
+				    {
+					"name": "PG_MASTER_USER",
+					"value": "master"
+				    },
+				    {
+					"name": "PG_MODE",
+					"value": "set"
+				    },
+				    {
+					"name": "PG_MASTER_PASSWORD",
+					"value": "password"
+				    },
+				    {
+					"name": "PG_USER",
+					"value": "pgbench"
+				    },
+				    {
+					"name": "PG_PASSWORD",
+					"value": "password"
+				    },
+				    {
+					"name": "PG_DATABASE",
+					"value": "pgbench"
+				    },
+				    {
+					"name": "PG_ROOT_PASSWORD",
+					"value": "password"
+				    },
+				    {
+					"name": "PGHOST",
+					"value": "/tmp"
+				    },
+				    {
+					"name": "HOSTNAME",
+					"value": "pg-<num>"
+				    },
+				    { 
+					"name": "POD_IP",
+					"valueFrom":{
+					    "fieldRef":{
+						"fieldPath": "status.podIP"
+					    }
+					}
+				    },
+				    { 
+					"name": "POD_NAME",
+					"valueFrom":{
+					    "fieldRef":{
+						"fieldPath": "metadata.name"
+					    }
+					}
+				    }
+				],
+				"image": "guptaarvindk/diamanti-postgres:v1",
+				"imagePullPolicy": "Always",
+				"name": "postgres",
+				"resources" : {
+				    "requests" : {
+					"cpu": "0m",
+					"memory": "4Gi"
+				    },
+				    "limits" : {
+					
+					"memory": "4Gi"
+				    }
+				},
+				"ports": [
+				    {
+					"containerPort": 5432,
+					"protocol": "TCP"
+				    }
+				],
+				"volumeMounts": [
+				    {
+					"mountPath": "/pgdata",
+					"name": "pgdata",
+					"readOnly": false
+				    }
+				]
+			    },
+			    {
+				"name": "consul",
+				"image": "consul:0.8.1",
+				"env": [
+					{ 
+					    "name": "POD_IP",
+					    "valueFrom":{
+						"fieldRef":{
+						    "fieldPath": "status.podIP"
+						}
+					    }
+					}
+				],
+				"args":[
+				    "agent",
+				    "-advertise=$(POD_IP)",
+				    "-bind=0.0.0.0",
+				    "-bootstrap-expect=3",
+				    "-client=0.0.0.0",
+				    "-datacenter=dc1",
+				    "-data-dir=/var/lib/consul",
+				    "-domain=solutions.datawise.io",
+				    "-server",
+				    "-ui",
+				    "-disable-host-node-id"
+				],
+				"volumeMounts":[
+				    {
+					"name": "data",
+					"mountPath": "/var/lib/consul"
+				    },
+				    {
+					"name": "config",
+					"mountPath": "/etc/consul"
+				    }
+				],
+				"lifecycle":{
+				    "preStop":{
+					"exec":{
+					    "command":[
+						"/bin/sh",
+						"-c",
+						"consul leave"
+					    ]
+					}
+				    }
+				},
+				"ports":[
+				    {
+					"containerPort": 8500,
+					"name": "ui-port"
+				    },
+				    {
+					"containerPort": 8400,
+					"name": "alt-port"
+				    },
+				    {
+					"containerPort": 53,
+					"name": "udp-port"
+				    },
+				    {
+					"containerPort": 8443,
+					"name": "https-port"
+				    },
+				    {
+					"containerPort": 8080,
+					"name": "http-port"
+				    },
+				    {
+					"containerPort": 8301,
+					"name": "serflan"
+				    },
+				    {
+					"containerPort": 8302,
+					"name": "serfwan"
+				    },
+				    {
+					"containerPort": 8600,
+					"name": "consuldns"
+				    },
+				    {
+					"containerPort": 8300,
+					"name": "server"
+				    }
+				]
+			    },
+			    {
+
+				"name": "pg-controller",
+				"image": "guptaarvindk/pg-controller:v1",
+				"imagePullPolicy": "Always",
+				"env": [
+				    { 
+					"name": "POD_IP",
+					"valueFrom":{
+					    "fieldRef":{
+						"fieldPath": "status.podIP"
+					    }
+					}
+				    },
+				    { 
+					"name": "POD_NAME",
+					"valueFrom":{
+					    "fieldRef":{
+						"fieldPath": "metadata.name"
+					    }
+					}
+				    },
+				    {
+					"name": "PGHOST",
+					"value": "pg-<num>"
+				    }, {
+					"name": "SLEEP_TIME",
+					"value": "20"
+				    }, {
+					"name": "KUBERNETES_CLUSTER_DOMAIN",
+					"value": "solutions.datawise.io"
+				    }, {
+					"name": "KUBERNETES_CLUSTER_NAME",
+					"value": "solutions-cluster"
+				    }, {
+					"name": "KUBERNETES_SERVICE_HOST",
+					"value": "172.16.17.3"
+				    }, {
+					"name": "KUBERNETES_SERVICE_PORT",
+					"value": "8080"
+				    }, {
+					"name": "KUBE_NAMESPACE",
+					"value": "default"
+				    }, {
+					"name": "MASTER_LABEL",
+					"value": "name=pg-master"
+				    }],
+				"volumeMounts": [
+				    {
+					"mountPath": "/pgdata",
+					"name": "pgdata",
+					"readOnly": false
+				    }
+				]
+     
+				
+			    }
+			    
+			],
+			"securityContext":{
+			    "fsGroup": 26
+			},
+			"volumes": [
+			    {
+				"name": "pgdata",
+				"flexVolume": {
+				    "driver": "diamanti.com/volume",
+				    "fsType": "xfs",
+				    "options": {
+					"name": "pg-vol-<num>",
+					"perfTier": "high",
+					"type":"Simple"
+				    }
+				}
+			    },
+			    {
+				"name": "config",
+				"configMap":{
+				    "name": "consul"
+				}
+			    },
+			    {
+				"name": "data",
+				"emptyDir": {}
+			    },
+			    {
+				"name": "old-data",
+				"flexVolume": {
+				    "driver": "diamanti.com/volume",
+				    "fsType": "xfs",
+				    "options": {
+					"name": "consul-vol-<num>",
+					"perfTier": "high",
+					"type":"Simple"
+				    }
+				}
+			    }
+			]
+		    }
+		}
+	    }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "labels": {
+                    "name": "pg-<num>"
+                },
+                "name": "pg-<num>"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "ports": [
+                    {
+                        "nodePort": 0,
+                        "port": 5432,
+                        "protocol": "TCP",
+                        "targetPort": 5432
+                    }
+                ],
+                "selector": {
+                    "name": "pg-<num>"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            }
+        }
+    ]
+}
