@@ -1,0 +1,117 @@
+Single controller may not work as if node dies where controller is running, it might take time to restart the pg-controller.
+
+
+- have side car container, each side car takes care of setting up the local postgres.? or start.sh is better for init?
+
+-sidecar container will communicate with each other, and realize who is master and set itself correctly to be slave if not master (by setting correct master replication and pg_Rewind if needed)
+
+- when pgpod with  sidecar comes in, will check currently running pg-instances via service account, contact them to ask if anyone of them is master? if master exists then it will set itself as slave and set  correct configurations.
+
+- if pgpod realize that there is no master, it will mark itself as master, and broadcast to others. Everyone recieving the broadcast should demot themself as slave.  THere could be race condition for multiple masters in this case. How do we overcome the race condition? how mongo does it?
+
+
+
+
+
+
+
+
+setting up consul:
+
+install go:
+diamanti@appserv36  $ sudo tar -C /usr/local -xzf go1.8.3.linux-amd64.tar.gz
+diamanti@appserv36  $ export PATH=$PATH:/usr/local/go/bin
+install cfssl
+diamanti@appserv36  $ go get -u github.com/cloudflare/cfssl/cmd/cfssl
+diamanti@appserv36  $ go get -u github.com/cloudflare/cfssl/cmd/...
+
+
+
+
+
+-------------------- FINAL ----------------------
+
+
+node-
+ -- postgres-container.
+ -- consul-container.
+ -- pg-sidecar-container.
+
+init()
+ . wait for getting consul status and make sure master is elected. Once master is elected see who am I?
+ leader = localhost:8500/v1/status/leader
+ leader==null==> find again.
+ iAmMaster=(leader==myIP)
+ . If I am master modify my config files and reset the postgres. promote as master.
+   modify the config files to make it master
+   run pgctl cmd to reload pg.(how to run the cmd form sidecar-connect to local-pg)--> use "SELECT pg_reload_conf();" query to reload cfg.
+ . If I am slave modify my config files and connect wal to master. run_pg_rewind (to recover in case if it was down)
+   modify the config files to make it master
+   run pgctl cmd to reload pg.
+
+workloop()
+  . detect/poll change in mastership(), when changed => promote new master, trigger init()
+  . detect/poll liveness of all pg-hosts, kill nonlive pod.
+
+consul-join job? how to automate it?
+
+
+
+
+
+<<<<<start.sh: >>>>.
+
+QUESTION== what if this process died but pg still running?
+
+currentMaster=NOTKNOWN;
+
+while true; do
+
+  1)- role_discovery()
+    -- wait for consul to be ready. may be call localhost:8500/v1/status/leader until leader name is returned.
+    -- check if leadername is not matching with currentMaster
+       {
+         -- check if leader name is matching with my name.
+         -- if yes PG_MODE=master else PG_MODE=slave
+         2) fill_conf_file()
+         -- crate paramaeters based on role discovery.
+
+         3) if(currentMaster==NOTKNOWN)
+	 {
+	    -- if PG_MODE=master then initialize_master 
+            -- if PG_MODE==slave then initialize_replica
+
+            -- start postgres.
+	    }
+	  else
+	  {
+	   -- pg_reload_config()
+	   -- pg_rewind (how to do without restart?) is it realy needed with diamanti mirroring?
+	  }
+
+
+done
+
+
+
+recovery:
+ So there's three options
+ 1) consule will pick a master that will be done just by promoting from sidecar container
+ 2) second thing is old slave need to follow new master that can be achieved by simply modifying the config files and reloading the PG, but only thing need to be taken care  that when reloading is it really working? is it going to take the reflect the chache for following the new master or will miss new wall config?  I need to restart so that's doing it to be looked at.
+ 3) third thing is master which was the old master now need to be demoted as slave now so when it comes back with the mirrored volume within few seconds or muster up any gum bag and will see that it is not a slave anymore so it's all good we'll see it's not a master anymore so when it says it's not my statement image Lasic self as a snail only thing we need to make sure dad knows that it is leave and start asleep but will it start following the new mustard yes but will it be able to recover the data  by following the new master or if need be Jeetu Lane to follow the new master if old sleeve is able to follow the new mustard and a cover anything I believe as new Mustang is coming back quickly should be able to recover everything from the new master but only thing we need to see is is is there a difference in timeline or something call timeline .  If recovered master is not able to recover from the existing wall log off the new master then we have no other choice than wind here we have to to be due to wind we need to do it in the start up script itself by recognizing that it is a recovery not the new init.
+
+start.sh
+ As discussed in previous one if we Genia wind is not needed list of the things like promoting the master and updating the sleeves to follow new master can be done from the sidecar container but if B Deewan is needed to see if we did it when it's not needed then we don't need to keep Ruby anything inside the start up script but start up screen 
+
+We need to update that start script to make sure the first look nice for his master and based on that and is on that create the config files and based on that initialize it self I don't master or slave. But in case B Deewan is really need it to record the master we need to somehow keep this information persistent that the leak over the recovered machine was a master  was a master and based on that I need to run the BGC wine so we can store something in database on in my system but remember that this was all master I need BGD wine during the recovery process 
+
+
+pg_isready --port=8300 --host=pg-2 --username=master --timeout=2
+
+
+??? initialize_replica is deleting pgdata nad recopying everythign, thats not good. replace it with pg_rewind in case of pgdata exists? So simply restarting the pod not gonna help.
+
+
+>>> had to modify the connection string and timeline to latest and then do pg_Ctl restart to make old slave to follow new master.
+>>> old master when came back, not having recovery.conf. Looks like it auto promoted itself? as failover-trigger file is written.
+
