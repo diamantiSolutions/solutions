@@ -1,3 +1,14 @@
+
+## what you need:
+
+- diamanti cluster
+- crunchy postgres image.
+- diamanti sample applicaiton image.
+
+
+
+## steps to follow:
+
 1) create a dctl volume (with appropriate mirroring)
 dctl volume create pg-vol-single -s 20G -m 2
 
