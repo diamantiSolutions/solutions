@@ -115,7 +115,7 @@
 				"volumeMounts": [
 				    {
 					"mountPath": "/pgdata",
-					"name": "pgdata",
+					"name": "pg-vol-<num>",
 					"readOnly": false
 				    }
 				]
@@ -256,7 +256,7 @@
 				"volumeMounts": [
 				    {
 					"mountPath": "/pgdata",
-					"name": "pgdata",
+					"name": "pg-vol-<num>",
 					"readOnly": false
 				    }
 				]
@@ -270,13 +270,14 @@
 			},
 			"volumes": [
 			    {
-				"name": "pgdata",
+				"name": "pg-vol-<num>",
 				"flexVolume": {
 				    "driver": "diamanti.com/volume",
 				    "fsType": "xfs",
 				    "options": {
 					"name": "pg-vol-<num>",
 					"perfTier": "high",
+					"detachPolicy": "Auto",
 					"type":"Simple"
 				    }
 				}
@@ -299,6 +300,7 @@
 				    "options": {
 					"name": "consul-vol-<num>",
 					"perfTier": "high",
+					"detachPolicy": "Auto",
 					"type":"Simple"
 				    }
 				}
