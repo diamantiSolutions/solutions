@@ -103,11 +103,6 @@ var workloop = function workloop() {
 				console.log(`stdout: ${stdout}`);
 				console.log(`stderr: ${stderr}`);
 			    });
-
-
-			    
-
-			    
 			}
 			
 		    }
@@ -141,7 +136,7 @@ var workloop = function workloop() {
     //         If time taken by each loop is not more than the expected hearbeat time we should be ok to run in sequence.
     if(consuleIsStable==1) {
 	console.log('pg-controller: workloop: healthcheck');
-	/*
+	
 	//1//get list of nodes(pods) in consule.
 	
 	var request = require('request');
@@ -151,63 +146,77 @@ var workloop = function workloop() {
 		agents= JSON.parse(body);
 		//2// for each node(pod) do a health check.
 		
-		for (var i = 0; i < agents.length; i++) {
-		
-		    //3// if node(pod)'s postgress is not alive delete the pod to restart it
-		    
-		    //FIXME ARVIND TODO: find default database?? do we need to pass database?
-		    var connectionString = {
-			host: agents[i].Addr,
-			port: 5432,
-			//database: 'puppies',
-			user: 'pgbench',
-			password: 'password'
-		    };
-		    
-		    var isAlive=pg.isPodAlive(connectionString);
-		    if(!isAlive){
-			//check again 
-			isAlive=pg.isPodAlive(connectionString);
-			if(!isAlive){
-			    //check again
-			    isAlive=pg.isPodAlive(connectionString);
-			    if(!isAlive){
-				//even after checking three time not finding the postgress pod alive.
-				//Lets kill it so that it will be rescheduled.
-				//TBD how do we assure that same pod is not deleted multiple time.
-				console.log('pg-controller: workloop: healthcheck failed: deleting pod');
-				
-				k8s.deletePodByName(agents[i].Name, function(err) {
-				    //finish(err, db);
-				    if(err){
-					console.log('Error: pod delete failed'+err);
-				    }
-				});
-				
-				//var labels = getPodLabelCollection(process.env.MASTER_LABEL);
-				//k8s.deletePods(labels,function(err) {
-				//	if(err){
-				//	    console.error('Error: pod delete failed'+err);
-				//	}
-				//});
-				
-			    }  
-			}
-		    }
+		agents.forEach( function (myAgent, idx, agents){
+		    (function(index){
+			console.log('pg-controller: workloop: healthcheck: checking '+agents[index].Name+'('+agents[index].Addr+')');
+			//3// if node(pod)'s postgress is not alive delete the pod to restart it
+			
+			//FIXME ARVIND TODO: find default database?? do we need to pass database?
+			var connectionString = {
+			    host: agents[index].Addr,
+			    port: 5432,
+			    database: 'postgres',
+			    user: 'pgbench',
+			    password: 'password'
+			};
+			pg.isPodAlive(connectionString,
+				      function(){
+					  console.log("host is alive: beat1: "+agents[index].Addr);
+				      },
+				      function()
+				      {
+					  console.log("host missed beat1: "+agents[index].Addr);
+					  pg.isPodAlive(agents[index].Addr,
+							function(){
+							    console.log("host is alive:: beat2:"+agents[index].Addr);
+							},
+							function(){
+							    console.log("host missed beat2: "+agents[index].Addr);
+							    pg.isPodAlive(agents[index].Addr,
+									  function(){
+									      console.log("host is alive:: beat3:"+agents[index].Addr);
+									  },
+									  function(){
+									      console.log("host missed beat3: "+agents[index].Addr);
+									      
+									      //even after checking three time not finding the postgress pod alive.
+									      //Lets kill it so that it will be rescheduled.
+									      //TBD how do we assure that same pod is not deleted multiple time.
+									      console.log('pg-controller: workloop: healthcheck failed: deleting pod '+agents[index].Name);
+									      
+									      k8s.deletePodByName(agents[index].Name, function(err) {
+										  //finish(err, db);
+										  if(err){
+									  	      console.log('Error: pod delete failed'+err);
+										  }
+									      });
+									      
+
+
+									      
+									      //var labels = getPodLabelCollection(process.env.MASTER_LABEL);
+											 //k8s.deletePods(labels,function(err) {
+									      //	if(err){
+									      //	    console.error('Error: pod delete failed'+err);
+									      //	}
+									      //});
+									      
+									  }
+									 );
+							}
+						       );
+				      }
+				     );
+		    })(idx);
 		}
+			      );
 	    }
 	    else{
 		console.log("Health Check: get consul agents: ERROR:"+error+" , response: "+response+" , body: "+body);
 		consuleIsStable=0;
 	    }
 	});
-
-
-	*/
     }
-
-
-    
     setTimeout(workloop, loopSleepSeconds * 1000);
     
 };
