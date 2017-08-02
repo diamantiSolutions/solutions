@@ -1,7 +1,11 @@
-./cleanup.sh
-dctl volume delete pg-vol-0
-dctl volume delete pg-vol-1
-dctl volume delete pg-vol-2
-dctl volume create pg-vol-0 -s 20G -m 2
-dctl volume create pg-vol-1 -s 20G -m 2
-dctl volume create pg-vol-2 -s 20G -m 2
+./volDelete.sh
+
+dctl volume create pg-vol-0 -s 20G -m 3 
+dctl volume create pg-vol-1 -s 20G -m 3 
+dctl volume create pg-vol-2 -s 20G -m 3 
+
+
+dctl volume create consul-vol-0 -s 5G
+dctl volume create consul-vol-1 -s 5G
+dctl volume create consul-vol-2 -s 5G
+
