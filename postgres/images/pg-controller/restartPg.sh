@@ -1,1 +1,1 @@
-kubectl exec -it $POD_NAME /opt/cpm/bin/stopPg.sh
+./kubectl exec  $POD_NAME /opt/cpm/bin/stopPg.sh
