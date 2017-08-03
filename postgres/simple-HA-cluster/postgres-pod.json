@@ -7,12 +7,12 @@
             "apiVersion": "v1",
 	    "kind": "ReplicationController",
 	    "metadata":{
-	    	"name": "pg-ha-<num>"
+	    	"name": "pgha-<mode>"
 	    },
 	    "spec":{
 		"replicas": 1,
   		"selector":{
-		    "name": "pg-ha-<num>"
+		    "name": "pgha-<mode>"
 		},
 		"template":{
 	            "metadata": {
@@ -20,9 +20,9 @@
 			    "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
 			},
 			"labels": {
-			    "name": "pg-ha-<num>"
+			    "name": "pgha-<mode>"
 			},
-			"name": "pg-ha-<num>"
+			"name": "pgha-<mode>"
 		    },
 		    "spec": {
 			"containers": [
@@ -30,11 +30,11 @@
 				"env": [
 				    {
 					"name": "PG_MASTER_HOST",
-					"value": "pg-ha-master"
+					"value": "pgha-master"
 				    },
 				    {
 					"name": "PG_MASTER_SERVICE_NAME",
-					"value": "pg-ha-master"
+					"value": "pgha-master"
 				    },
 				    {
 					"name": "PG_MASTER_PORT",
@@ -94,24 +94,27 @@
 				"volumeMounts": [
 				    {
 					"mountPath": "/pgdata",
-					"name": "vol-pg-ha-<num>",
+					"name": "volpgha-<mode>",
 					"readOnly": false
 				    }
 				]
 			    }
 			],
+                        "securityContext":{
+                            "fsGroup": 26
+                        },
 			"volumes": [
 			    {
 				"flexVolume": {
 				    "driver": "diamanti.com/volume",
 				    "fsType": "xfs",
 				    "options": {
-					"name": "vol-pg-ha-<num>",
+					"name": "volpgha-<mode>",
 					"perfTier": "high",
 					"type":"Simple"
 				    }
 				},
-				"name": "vol-pg-ha-<num>"
+				"name": "volpgha-<mode>"
 			    }
 			]
 		    }
@@ -124,9 +127,9 @@
             "metadata": {
                 "labels": {
 
-		    "name": "pg-ha-<num>"
+		    "name": "pgha-<mode>"
                 },
-                "name": "pg-ha-<num>"
+                "name": "pgha-<mode>"
             },
             "spec": {
                 "clusterIP": "None",
@@ -139,7 +142,7 @@
                     }
                 ],
                 "selector": {
-                    "name": "pg-ha-<num>"
+                    "name": "pgha-<mode>"
                 },
                 "sessionAffinity": "None",
                 "type": "ClusterIP"
