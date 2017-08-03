@@ -1,0 +1,74 @@
+{
+    "apiVersion": "v1",
+    "items": [
+	{
+	    "kind": "Pod",
+	    "apiVersion": "v1",
+	    "metadata": {
+                "annotations": {
+                    "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
+                },
+		"name": "pgpool-ha",
+		"labels": {
+		    "name": "pgpool-ha"
+		}
+	    },
+	    "spec": {
+		"containers": [{
+		    "name": "pgpool-ha",
+		    "imagePullPolicy": "Always",
+		    "image": "crunchydata/crunchy-pgpool:centos7-9.6-1.4.1",
+		    "ports": [{
+			"containerPort": 5432,
+			"protocol": "TCP"
+		    }],
+		    "env": [
+			{
+			    "name": "PG_USERNAME",
+			"value": "pgbench"
+			}, {
+			    "name": "PG_PASSWORD",
+			    "value": "password"
+			}, {
+			    "name": "PG_MASTER_SERVICE_NAME",
+			    "value": "pg-ha-master"
+			}, {
+			    "name": "PG_SLAVE_SERVICE_NAME",
+			    "value": "pg-ha-slave"
+			}],
+		    "volumeMounts": []
+		}],
+        "volumes": []
+	    }
+	},
+	
+	
+	{
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+		"name": "pgpool-ha",
+		"labels": {
+                    "name": "pgpool-ha"
+		}
+            },
+            "spec": {
+                "clusterIP": "None",
+		"ports": [{
+                    "protocol": "TCP",
+                    "port": 5432,
+                    "targetPort": 5432,
+                    "nodePort": 0
+            }],
+		"selector": {
+                    "name": "pgpool-ha"
+		},
+		"sessionAffinity": "None"
+            }
+	}
+    ],
+    "kind": "List",
+    "metadata": {}
+}
+
+	

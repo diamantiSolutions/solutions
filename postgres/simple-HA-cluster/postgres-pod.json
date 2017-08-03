@@ -1,0 +1,149 @@
+{
+    "apiVersion": "v1",
+    "kind": "List",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "v1",
+	    "kind": "ReplicationController",
+	    "metadata":{
+	    	"name": "pg-ha-<num>"
+	    },
+	    "spec":{
+		"replicas": 1,
+  		"selector":{
+		    "name": "pg-ha-<num>"
+		},
+		"template":{
+	            "metadata": {
+			"annotations": {
+			    "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
+			},
+			"labels": {
+			    "name": "pg-ha-<num>"
+			},
+			"name": "pg-ha-<num>"
+		    },
+		    "spec": {
+			"containers": [
+			    {
+				"env": [
+				    {
+					"name": "PG_MASTER_HOST",
+					"value": "pg-ha-master"
+				    },
+				    {
+					"name": "PG_MASTER_SERVICE_NAME",
+					"value": "pg-ha-master"
+				    },
+				    {
+					"name": "PG_MASTER_PORT",
+					"value": "5432"
+				    },
+				    {
+					"name": "PG_MASTER_USER",
+					"value": "master"
+				    },
+				    {
+					"name": "PG_MODE",
+					"value": "<mode>"
+				    },
+				    {
+					"name": "PG_MASTER_PASSWORD",
+					"value": "password"
+				    },
+				    {
+					"name": "PG_USER",
+					"value": "pgbench"
+				    },
+				    {
+					"name": "PG_PASSWORD",
+					"value": "password"
+				    },
+				    {
+					"name": "PG_DATABASE",
+					"value": "pgbench"
+				    },
+				    {
+					"name": "PG_ROOT_PASSWORD",
+					"value": "password"
+				    },
+				    {
+					"name": "PGHOST",
+					"value": "/tmp"
+				    }
+				],
+				"image": "guptaarvindk/postgres-cluster:v1",
+				"name": "postgres",
+				"resources" : {
+				    "requests" : {
+					"cpu": "0m",
+					"memory": "4Gi"
+				    },
+				    "limits" : {
+					
+					"memory": "4Gi"
+				    }
+				},
+				"ports": [
+				    {
+					"containerPort": 5432,
+					"protocol": "TCP"
+				    }
+				],
+				"volumeMounts": [
+				    {
+					"mountPath": "/pgdata",
+					"name": "vol-pg-ha-<num>",
+					"readOnly": false
+				    }
+				]
+			    }
+			],
+			"volumes": [
+			    {
+				"flexVolume": {
+				    "driver": "diamanti.com/volume",
+				    "fsType": "xfs",
+				    "options": {
+					"name": "vol-pg-ha-<num>",
+					"perfTier": "high",
+					"type":"Simple"
+				    }
+				},
+				"name": "vol-pg-ha-<num>"
+			    }
+			]
+		    }
+		}
+	    }
+	},
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "labels": {
+
+		    "name": "pg-ha-<num>"
+                },
+                "name": "pg-ha-<num>"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "ports": [
+                    {
+                        "nodePort": 0,
+                        "port": 5432,
+                        "protocol": "TCP",
+                        "targetPort": 5432
+                    }
+                ],
+                "selector": {
+                    "name": "pg-ha-<num>"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            }
+        }
+    ]
+}

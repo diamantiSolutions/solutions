@@ -1,0 +1,55 @@
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "watch",
+        "labels": {
+            "name": "watch"
+        }
+    },
+    "spec": {
+        "serviceAccount": "default",
+        "containers": [{
+            "name": "watch",
+            "image": "guptaarvindk/pg-watch:v1",
+	    "imagePullPolicy": "Always",
+            "env": [{
+                "name": "KUBE_PROJECT",
+                "value": "default"
+            },  {
+		"name": "KUBERNETES_CLUSTER_DOMAIN",
+		"value": "solutions.diamanti.com"
+	    }, {
+		"name": "KUBERNETES_CLUSTER_NAME",
+		"value": "solutions-cluster"
+	    }, {
+		"name": "KUBERNETES_SERVICE_HOST",
+		"value": "172.16.17.3"
+	    }, {
+		"name": "KUBERNETES_SERVICE_PORT",
+		"value": "8080"
+            }, {
+                "name": "SLEEP_TIME",
+                "value": "20"
+            }, {
+                "name": "PG_MASTER_SERVICE",
+                "value": "pg-ha-master"
+            }, {
+                "name": "PG_SLAVE_SERVICE",
+                "value": "pg-ha-slave-1"
+            }, {
+                "name": "PG_MASTER_PORT",
+                "value": "5432"
+            }, {
+                "name": "PG_MASTER_USER",
+                "value": "master"
+            }, {
+                "name": "HOME",
+                "value": "/tmp"
+            }, {
+                "name": "PG_DATABASE",
+                "value": "pgbench"
+            }]
+        }]
+    }
+}
