@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-sed -e 's~<num>~master~g' postgres-pod.json | kubectl delete -f -
-sed -e 's~<num>~slave~g' postgres-pod.json | kubectl delete -f -
+sed -e 's~<mode>~master~g' postgres-pod.json | kubectl delete -f -
+sed -e 's~<mode>~slave~g' postgres-pod.json | kubectl delete -f -
 
 
 kubectl delete -f nodeJsPgApp.yaml

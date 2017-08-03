@@ -4,8 +4,9 @@
 
 sleep 20
 
-sed -e 's~<num>~master~g' postgres-pod.json | sed -e 's~<mode>~master~g' - | kubectl create -f -
-sed -e 's~<num>~slave~g' postgres-pod.json | sed -e 's~<mode>~slave~g' - |  kubectl create -f -
+sed -e 's~<mode>~master~g' postgres-pod.json | kubectl create -f -
+sed -e 's~<mode>~slave~g' postgres-pod.json | kubectl create -f -
+
 
 kubectl create -f nodeJsPgApp.yaml
 kubectl create -f nodeJsPgAppMaster.yaml  

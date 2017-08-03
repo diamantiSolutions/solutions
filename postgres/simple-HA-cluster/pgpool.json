@@ -31,10 +31,10 @@
 			    "value": "password"
 			}, {
 			    "name": "PG_MASTER_SERVICE_NAME",
-			    "value": "pg-ha-master"
+			    "value": "pgha-master"
 			}, {
 			    "name": "PG_SLAVE_SERVICE_NAME",
-			    "value": "pg-ha-slave"
+			    "value": "pgha-slave"
 			}],
 		    "volumeMounts": []
 		}],

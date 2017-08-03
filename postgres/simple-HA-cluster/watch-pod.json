@@ -33,10 +33,10 @@
                 "value": "20"
             }, {
                 "name": "PG_MASTER_SERVICE",
-                "value": "pg-ha-master"
+                "value": "pgha-master"
             }, {
                 "name": "PG_SLAVE_SERVICE",
-                "value": "pg-ha-slave-1"
+                "value": "pgha-slave"
             }, {
                 "name": "PG_MASTER_PORT",
                 "value": "5432"
