@@ -14,7 +14,7 @@ sed -e 's~<num>~1~g' postgres-pod.json | kubectl create -f -
 sed -e 's~<num>~2~g' postgres-pod.json | kubectl create -f -
 
 
-sleep 30
+sleep 60
 
 kubectl create -f consul-join.yaml 
 

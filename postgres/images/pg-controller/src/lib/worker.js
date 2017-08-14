@@ -7,7 +7,7 @@ var k8s = require('./k8s');
 //var dns = require('dns');
 //var os = require('os');
 
-var loopSleepSeconds = 30;//config.loopSleepSeconds;
+var loopSleepSeconds = 10;//config.loopSleepSeconds;
 //var unhealthySeconds = config.unhealthySeconds;
 
 //var hostIp = false;
@@ -15,7 +15,7 @@ var loopSleepSeconds = 30;//config.loopSleepSeconds;
 
 var oldMaster="";
 var consuleIsStable=0;
-
+var healthCheckEnable=0;
 
 var init =function(done) {
     //nothing?
@@ -134,6 +134,7 @@ var workloop = function workloop() {
     //B)  do postgress healthcheck and kill pod if its not alive.
     //    TBD: do we need to seperate the leader check and health chekc loop to be more efficient? or its better to do them sequentially.
     //         If time taken by each loop is not more than the expected hearbeat time we should be ok to run in sequence.
+    if(healthCheckEnable==1){
     if(consuleIsStable==1) {
 	console.log('pg-controller: workloop: healthcheck');
 	
@@ -217,6 +218,8 @@ var workloop = function workloop() {
 	    }
 	});
     }
+    }
+    
     setTimeout(workloop, loopSleepSeconds * 1000);
     
 };
