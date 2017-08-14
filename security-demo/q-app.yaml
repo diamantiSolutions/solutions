@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-quota-app-<num>
+  annotations: 
+    diamanti.com/endpoint0: "{\"network\":\"blue\",\"perfTier\":\"high\"}"
+  labels:
+    app: simple-app
+spec:
+  hostNetwork: false
+  containers:
+  - image: docker.io/redis:latest
+    name: simple-quota-app-<num>
+    imagePullPolicy: Always
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        memory: 1Gi

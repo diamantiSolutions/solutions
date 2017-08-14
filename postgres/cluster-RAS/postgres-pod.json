@@ -149,7 +149,8 @@
 				"volumeMounts":[
 				    {
 					"name": "data",
-					"mountPath": "/var/lib/consul"
+					"mountPath": "/var/lib/consul",
+					"readOnly": false
 				    },
 				    {
 					"name": "config",
@@ -236,7 +237,7 @@
 					"value": "20"
 				    }, {
 					"name": "KUBERNETES_CLUSTER_DOMAIN",
-					"value": "solutions.datawise.io"
+					"value": "solutions.diamanti.com"
 				    }, {
 					"name": "KUBERNETES_CLUSTER_NAME",
 					"value": "solutions-cluster"
@@ -265,9 +266,9 @@
 			    }
 			    
 			],
-			"securityContext":{
-			    "fsGroup": 26
-			},
+                       "securityContext":{
+                           "fsGroup": 26
+                       },
 			"volumes": [
 			    {
 				"name": "pg-vol-<num>",
@@ -291,20 +292,7 @@
 			    {
 				"name": "data",
 				"emptyDir": {}
-			    },
-			    {
-				"name": "old-data",
-				"flexVolume": {
-				    "driver": "diamanti.com/volume",
-				    "fsType": "xfs",
-				    "options": {
-					"name": "consul-vol-<num>",
-					"perfTier": "high",
-					"detachPolicy": "Auto",
-					"type":"Simple"
-				    }
-				}
-			    }
+                           }
 			]
 		    }
 		}
