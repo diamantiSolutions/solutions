@@ -20,7 +20,7 @@ COPY package.json /opt/pg-controller/package.json
 
 COPY ./kubectlSetup.sh /opt/pg-controller/kubectlSetup.sh
 COPY ./restartPg.sh /opt/pg-controller/restartPg.sh
-
+COPY kubectl /opt/pg-controller/kubectl
 RUN apk update && \
     apk upgrade && \
     apk add curl
