@@ -30,7 +30,8 @@ RUN yum -y install epel-release \
 # set up cpm directory
 RUN mkdir -p /opt/cpm/bin /opt/cpm/conf
 
-copy start.sh /opt/cpm/bin
+COPY start.sh /opt/cpm/bin
+COPY kubectl /opt/cpm/bin
 ADD conf /opt/cpm/conf
 
 RUN chown -R postgres:postgres /opt/cpm 
