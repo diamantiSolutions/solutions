@@ -1,1 +1,2 @@
-./kubectl exec  $POD_NAME /opt/cpm/bin/stopPg.sh
+echo "./kubectl exec  $POD_NAME -c postgres /opt/cpm/bin/stopPg.sh"
+./kubectl exec  $POD_NAME -c postgres sh /opt/cpm/bin/stopPg.sh

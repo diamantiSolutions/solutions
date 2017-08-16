@@ -31,10 +31,15 @@ RUN yum -y install epel-release \
 RUN mkdir -p /opt/cpm/bin /opt/cpm/conf
 
 COPY start.sh /opt/cpm/bin
-COPY kubectl /opt/cpm/bin
+#COPY kubectl /opt/cpm/bin
 ADD conf /opt/cpm/conf
 
 RUN chown -R postgres:postgres /opt/cpm 
+
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl; 
+RUN chmod +x ./kubectl;
+RUN mv ./kubectl /opt/cpm/bin/
 
 USER 26
 

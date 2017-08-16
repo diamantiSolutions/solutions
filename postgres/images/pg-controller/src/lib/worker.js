@@ -22,12 +22,12 @@ var init =function(done) {
 
     const { exec } = require('child_process');
     exec('./kubectlSetup.sh',(error, stdout, stderr) => {
+	console.log(`stdout: ${stdout}`);
+	console.log(`stderr: ${stderr}`);
 	if (error) {
 	    console.error(`exec error: ${error}`);
 	    return;
 	}
-	console.log(`stdout: ${stdout}`);
-	console.log(`stderr: ${stderr}`);
     });
     
     console.log('pg-controller: done init');
@@ -96,20 +96,18 @@ var workloop = function workloop() {
 
 			    const { exec } = require('child_process');
 			    exec('./restartPg.sh',(error, stdout, stderr) => {
+				console.log(`stdout: ${stdout}`);
+				console.log(`stderr: ${stderr}`);
 				if (error) {
 				    console.error(`exec error: ${error}`);
 				    return;
 				}
-				console.log(`stdout: ${stdout}`);
-				console.log(`stderr: ${stderr}`);
 			    });
 			}
-			
 		    }
 		    else{
 			consuleIsStable=1;
 		    }
-		    
 		}
 		else{
 		    console.log("First time New leader found, no action needed");
