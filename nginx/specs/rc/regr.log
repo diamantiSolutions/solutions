@@ -1,0 +1,946 @@
+[diamanti@appserv82 rc]$ ./regr.sh 
+Error from server (NotFound): error when stopping "wrk2.yaml": pods "wrk2" not found
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.06ms   13.04ms 310.69ms   92.99%
+    Req/Sec    89.17k     7.62k  100.71k    79.83%
+  5323891 requests in 1.00m, 6.22GB read
+Requests/sec:  88728.80
+Transfer/sec:    106.20MB
+pod "wrk2" deleted
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.53ms   13.95ms 317.59ms   92.67%
+    Req/Sec    46.19k     2.36k   52.24k    76.70%
+  1281568 requests in 1.00m, 1.50GB read
+Requests/sec:  21355.69
+Transfer/sec:     25.56MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.21ms   13.24ms 238.20ms   93.04%
+    Req/Sec    47.15k     2.77k   53.08k    78.14%
+  1309069 requests in 1.00m, 1.53GB read
+Requests/sec:  21799.88
+Transfer/sec:     26.09MB
+pod "wrk2" deleted
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.88ms    5.22ms 183.69ms   97.74%
+    Req/Sec    21.40k     3.77k   25.20k    88.89%
+  57520 requests in 1.00m, 68.84MB read
+Requests/sec:    957.25
+Transfer/sec:      1.15MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.79ms    4.68ms 134.85ms   97.81%
+    Req/Sec    22.34k     3.88k   28.88k    85.19%
+  59989 requests in 1.00m, 71.80MB read
+Requests/sec:    999.80
+Transfer/sec:      1.20MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.86ms    5.20ms 184.18ms   97.69%
+    Req/Sec    21.78k     3.44k   24.76k    92.59%
+  58496 requests in 1.00m, 70.01MB read
+Requests/sec:    974.27
+Transfer/sec:      1.17MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.92ms    5.32ms 183.28ms   97.59%
+    Req/Sec    20.69k     3.28k   23.19k    92.59%
+  55551 requests in 1.00m, 66.49MB read
+Requests/sec:    924.55
+Transfer/sec:      1.11MB
+pod "wrk2" deleted
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.16ms   19.00ms 321.00ms   89.83%
+    Req/Sec    11.67k   765.93    13.80k    72.17%
+  696437 requests in 1.00m, 833.54MB read
+Requests/sec:  11607.03
+Transfer/sec:     13.89MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.39ms   19.23ms 321.48ms   89.65%
+    Req/Sec    11.44k   814.13    13.94k    70.50%
+  683038 requests in 1.00m, 817.50MB read
+Requests/sec:  11383.71
+Transfer/sec:     13.62MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.37ms   19.19ms 320.88ms   89.56%
+    Req/Sec    11.51k   808.87    14.85k    72.17%
+  687100 requests in 1.00m, 822.36MB read
+Requests/sec:  11451.42
+Transfer/sec:     13.71MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.26ms   18.93ms 321.06ms   89.62%
+    Req/Sec    11.54k   736.83    13.91k    72.67%
+  688681 requests in 1.00m, 824.26MB read
+Requests/sec:  11477.76
+Transfer/sec:     13.74MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     9.96ms   18.44ms 292.43ms   89.80%
+    Req/Sec    11.76k   849.23    14.85k    71.67%
+  702193 requests in 1.00m, 840.43MB read
+Requests/sec:  11702.95
+Transfer/sec:     14.01MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.33ms   19.01ms 320.68ms   89.58%
+    Req/Sec    11.48k   773.21    14.00k    72.50%
+  685687 requests in 1.00m, 820.67MB read
+Requests/sec:  11427.86
+Transfer/sec:     13.68MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.18ms   18.95ms 320.83ms   89.75%
+    Req/Sec    11.69k   688.48    15.39k    72.67%
+  697873 requests in 1.00m, 835.26MB read
+Requests/sec:  11630.92
+Transfer/sec:     13.92MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.24ms   18.79ms 319.67ms   89.61%
+    Req/Sec    11.53k   823.42    14.02k    72.83%
+  688553 requests in 1.00m, 824.10MB read
+Requests/sec:  11475.58
+Transfer/sec:     13.73MB
+pod "wrk2" deleted
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.57ms    9.14ms 160.70ms   96.22%
+    Req/Sec     5.51k     1.08k    7.53k    84.38%
+  17536 requests in 1.00m, 20.99MB read
+Requests/sec:    292.26
+Transfer/sec:    358.19KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.45ms    8.90ms 150.09ms   96.25%
+    Req/Sec     5.84k     1.06k    7.41k    78.12%
+  18601 requests in 1.00m, 22.26MB read
+Requests/sec:    310.01
+Transfer/sec:    379.94KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.60ms    9.45ms 161.94ms   96.00%
+    Req/Sec     5.24k     1.07k    6.88k    68.75%
+  16667 requests in 1.00m, 19.95MB read
+Requests/sec:    277.78
+Transfer/sec:    340.44KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.58ms    9.06ms 151.72ms   96.27%
+    Req/Sec     6.03k     1.19k    7.08k    84.38%
+  19184 requests in 1.00m, 22.96MB read
+Requests/sec:    319.73
+Transfer/sec:    391.85KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.61ms    9.66ms 151.83ms   96.21%
+    Req/Sec     5.83k     1.16k    7.85k    78.12%
+  18562 requests in 1.00m, 22.22MB read
+Requests/sec:    309.36
+Transfer/sec:    379.15KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.64ms    9.04ms 161.31ms   96.15%
+    Req/Sec     5.60k     1.37k    7.45k    78.12%
+  17816 requests in 1.00m, 21.32MB read
+Requests/sec:    296.93
+Transfer/sec:    363.91KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.72ms    9.38ms 163.49ms   95.95%
+    Req/Sec     5.23k     1.08k    7.41k    87.50%
+  16648 requests in 1.00m, 19.93MB read
+Requests/sec:    277.46
+Transfer/sec:    340.05KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.75ms    9.78ms 146.33ms   95.98%
+    Req/Sec     4.89k     1.01k    7.02k    78.12%
+  15563 requests in 1.00m, 18.63MB read
+Requests/sec:    259.38
+Transfer/sec:    317.89KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.72ms    9.59ms 163.73ms   96.07%
+    Req/Sec     5.34k     0.97k    6.53k    84.38%
+  17004 requests in 1.00m, 20.35MB read
+Requests/sec:    283.39
+Transfer/sec:    347.32KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.75ms    9.67ms 141.32ms   95.77%
+    Req/Sec     4.93k     0.94k    7.08k    75.00%
+  15662 requests in 1.00m, 18.75MB read
+Requests/sec:    261.03
+Transfer/sec:    319.91KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.54ms    9.25ms 164.00ms   96.36%
+    Req/Sec     5.47k     0.92k    6.48k    87.50%
+  17430 requests in 1.00m, 20.86MB read
+Requests/sec:    290.49
+Transfer/sec:    356.02KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.95ms    9.90ms 160.97ms   95.67%
+    Req/Sec     5.10k     1.00k    6.16k    78.12%
+  16219 requests in 1.00m, 19.41MB read
+Requests/sec:    270.31
+Transfer/sec:    331.29KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.76ms    9.63ms 152.99ms   96.17%
+    Req/Sec     4.92k     1.24k    7.18k    75.00%
+  15681 requests in 1.00m, 18.77MB read
+Requests/sec:    261.34
+Transfer/sec:    320.29KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     6.03ms   10.15ms 150.16ms   96.05%
+    Req/Sec     3.74k     1.07k    5.36k    62.50%
+  11914 requests in 1.00m, 14.26MB read
+Requests/sec:    198.55
+Transfer/sec:    243.34KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.62ms    9.37ms 152.47ms   96.29%
+    Req/Sec     5.02k     1.00k    5.99k    90.62%
+  15993 requests in 1.00m, 19.14MB read
+Requests/sec:    266.54
+Transfer/sec:    326.67KB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.73ms    9.89ms 149.38ms   96.16%
+    Req/Sec     5.41k     0.99k    7.27k    78.12%
+  17196 requests in 1.00m, 20.58MB read
+Requests/sec:    286.59
+Transfer/sec:    351.25KB
+pod "wrk2" deleted
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.16ms   80.97ms   1.25s    91.03%
+    Req/Sec     2.11k   233.73     2.74k    75.92%
+  126153 requests in 1.00m, 150.99MB read
+Requests/sec:   2100.96
+Transfer/sec:      2.51MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.24ms   76.84ms   1.05s    90.73%
+    Req/Sec     2.13k   211.74     3.25k    77.63%
+  127334 requests in 1.00m, 152.40MB read
+Requests/sec:   2122.20
+Transfer/sec:      2.54MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    46.01ms   86.33ms   1.25s    90.59%
+    Req/Sec     2.10k   225.98     2.81k    71.33%
+  125484 requests in 1.00m, 150.19MB read
+Requests/sec:   2090.94
+Transfer/sec:      2.50MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    42.94ms   77.22ms   1.28s    90.86%
+    Req/Sec     2.14k   214.27     2.99k    74.17%
+  127624 requests in 1.00m, 152.75MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2124.98
+Transfer/sec:      2.54MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.46ms   79.65ms   1.17s    90.69%
+    Req/Sec     2.12k   237.50     4.26k    81.50%
+  126473 requests in 1.00m, 151.37MB read
+Requests/sec:   2105.50
+Transfer/sec:      2.52MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    45.50ms   86.16ms   1.31s    90.85%
+    Req/Sec     2.12k   217.66     3.12k    78.33%
+  126420 requests in 1.00m, 151.31MB read
+Requests/sec:   2105.94
+Transfer/sec:      2.52MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    42.52ms   77.60ms   1.12s    90.94%
+    Req/Sec     2.16k   227.62     3.46k    78.67%
+  129242 requests in 1.00m, 154.68MB read
+Requests/sec:   2152.06
+Transfer/sec:      2.58MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.49ms   83.02ms   1.04s    91.03%
+    Req/Sec     2.13k   237.30     3.66k    77.17%
+  127454 requests in 1.00m, 152.54MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2123.98
+Transfer/sec:      2.54MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.94ms   84.51ms   1.51s    90.87%
+    Req/Sec     2.16k     0.88k   22.71k    98.83%
+  129302 requests in 1.00m, 154.76MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2151.77
+Transfer/sec:      2.58MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    45.15ms   84.33ms   1.06s    90.88%
+    Req/Sec     2.12k   208.92     2.97k    75.00%
+  126664 requests in 1.00m, 151.60MB read
+Requests/sec:   2110.16
+Transfer/sec:      2.53MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    42.72ms   77.87ms   1.25s    91.02%
+    Req/Sec     2.15k   218.67     2.96k    77.83%
+  128498 requests in 1.00m, 153.79MB read
+Requests/sec:   2139.60
+Transfer/sec:      2.56MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.72ms   78.34ms   1.20s    90.78%
+    Req/Sec     2.13k   202.21     3.09k    74.83%
+  127042 requests in 1.00m, 152.05MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2116.92
+Transfer/sec:      2.53MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    45.05ms   85.46ms   1.47s    91.00%
+    Req/Sec     2.13k   243.98     4.09k    80.00%
+  127404 requests in 1.00m, 152.48MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+Requests/sec:   2122.69
+Transfer/sec:      2.54MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.90ms   84.48ms   1.47s    90.96%
+    Req/Sec     2.15k   266.75     4.25k    84.50%
+  128606 requests in 1.00m, 153.92MB read
+Requests/sec:   2142.93
+Transfer/sec:      2.56MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.91ms   79.83ms   1.25s    90.88%
+    Req/Sec     2.12k   214.43     2.85k    74.67%
+  126707 requests in 1.00m, 151.65MB read
+Requests/sec:   2111.50
+Transfer/sec:      2.53MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    45.55ms   85.68ms   1.47s    90.77%
+    Req/Sec     2.12k   218.06     3.47k    77.00%
+  126338 requests in 1.00m, 151.21MB read
+Requests/sec:   2103.74
+Transfer/sec:      2.52MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.94ms   81.44ms   1.32s    91.09%
+    Req/Sec     2.16k   330.31     5.58k    89.17%
+  129251 requests in 1.00m, 154.70MB read
+Requests/sec:   2153.05
+Transfer/sec:      2.58MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.44ms   81.50ms   1.26s    91.40%
+    Req/Sec     2.14k   210.38     3.09k    75.96%
+  127894 requests in 1.00m, 153.07MB read
+Requests/sec:   2131.46
+Transfer/sec:      2.55MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.28ms   78.89ms   1.25s    91.00%
+    Req/Sec     2.13k   235.25     4.78k    79.17%
+  127378 requests in 1.00m, 152.45MB read
+Requests/sec:   2122.50
+Transfer/sec:      2.54MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.82ms   79.08ms   1.11s    90.84%
+    Req/Sec     2.14k   226.39     3.69k    79.00%
+  127904 requests in 1.00m, 153.08MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2131.25
+Transfer/sec:      2.55MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.33ms   81.04ms   1.78s    91.27%
+    Req/Sec     2.14k   209.86     3.59k    74.00%
+  127931 requests in 1.00m, 153.12MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2131.81
+Transfer/sec:      2.55MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.41ms   81.91ms   1.25s    90.96%
+    Req/Sec     2.14k   230.51     3.78k    79.00%
+  127737 requests in 1.00m, 152.88MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2128.56
+Transfer/sec:      2.55MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.07ms   80.36ms   1.27s    90.97%
+    Req/Sec     2.14k   234.40     4.30k    78.00%
+  127969 requests in 1.00m, 153.16MB read
+Requests/sec:   2132.31
+Transfer/sec:      2.55MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.03ms   80.15ms   1.25s    91.34%
+    Req/Sec     2.15k   219.70     3.54k    76.00%
+  128199 requests in 1.00m, 153.44MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2136.13
+Transfer/sec:      2.56MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.20ms   80.35ms   1.09s    90.90%
+    Req/Sec     2.12k   224.16     3.15k    76.33%
+  126531 requests in 1.00m, 151.44MB read
+Requests/sec:   2107.82
+Transfer/sec:      2.52MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    42.56ms   75.96ms   1.21s    90.51%
+    Req/Sec     2.16k   229.00     3.54k    77.17%
+  128739 requests in 1.00m, 154.08MB read
+Requests/sec:   2145.43
+Transfer/sec:      2.57MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.25ms   80.17ms   1.25s    90.85%
+    Req/Sec     2.13k   200.08     3.03k    74.00%
+  127154 requests in 1.00m, 152.19MB read
+Requests/sec:   2117.82
+Transfer/sec:      2.53MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.76ms   83.67ms   1.24s    90.98%
+    Req/Sec     2.15k   289.97     6.15k    87.33%
+  128441 requests in 1.00m, 153.73MB read
+Requests/sec:   2140.15
+Transfer/sec:      2.56MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    45.03ms   82.35ms   1.13s    90.64%
+    Req/Sec     2.12k   237.81     4.39k    78.83%
+  126820 requests in 1.00m, 151.79MB read
+Requests/sec:   2113.30
+Transfer/sec:      2.53MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.93ms   82.79ms   1.25s    91.30%
+    Req/Sec     2.15k   207.64     3.34k    74.33%
+  128340 requests in 1.00m, 153.61MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+Requests/sec:   2138.56
+Transfer/sec:      2.56MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.02ms   80.52ms   1.25s    90.91%
+    Req/Sec     2.13k   212.17     3.57k    77.83%
+  127330 requests in 1.00m, 152.40MB read
+Requests/sec:   2121.50
+Transfer/sec:      2.54MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    44.81ms   83.73ms   1.27s    90.96%
+    Req/Sec     2.14k   238.01     4.46k    81.50%
+  127892 requests in 1.00m, 153.07MB read
+Requests/sec:   2131.07
+Transfer/sec:      2.55MB
+pod "wrk2" deleted
+pod "wrk2" created
+NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
+coffee-rc-4hqmc               1/1       Running   0          2h        172.16.167.7   appserv82
+nginx-plus-ingress-rc-3dvlc   1/1       Running   0          2h        172.16.167.5   appserv83
+tea-rc-69dsh                  1/1       Running   0          2h        172.16.167.6   appserv82
+wrk2                          1/1       Running   0          1m        172.16.167.4   appserv85
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    75.81ms  125.68ms   1.79s    87.98%
+    Req/Sec     1.43k   523.34     2.83k    81.24%
+  85239 requests in 1.00m, 101.65MB read
+  Socket errors: connect 0, read 0, write 0, timeout 3
+  Non-2xx or 3xx responses: 415
+Requests/sec:   1420.61
+Transfer/sec:      1.69MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.93ms  127.55ms   1.53s    88.41%
+    Req/Sec     1.43k   525.08     3.88k    83.28%
+  85167 requests in 1.00m, 101.57MB read
+  Non-2xx or 3xx responses: 416
+Requests/sec:   1417.20
+Transfer/sec:      1.69MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.18ms  127.83ms   1.78s    88.61%
+    Req/Sec     1.40k   499.45     2.57k    80.94%
+  83577 requests in 1.00m, 99.65MB read
+  Socket errors: connect 0, read 0, write 0, timeout 5
+  Non-2xx or 3xx responses: 437
+Requests/sec:   1392.42
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    79.43ms  133.17ms   1.75s    89.15%
+    Req/Sec     1.36k   499.43     2.25k    81.10%
+  81153 requests in 1.00m, 96.76MB read
+  Non-2xx or 3xx responses: 422
+Requests/sec:   1350.39
+Transfer/sec:      1.61MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.76ms  135.26ms   1.95s    89.51%
+    Req/Sec     1.41k   507.40     2.59k    80.43%
+  83843 requests in 1.00m, 99.96MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 436
+Requests/sec:   1395.23
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.26ms  130.90ms   1.97s    89.21%
+    Req/Sec     1.40k   504.40     2.36k    81.91%
+  83359 requests in 1.00m, 99.41MB read
+  Socket errors: connect 0, read 0, write 0, timeout 3
+  Non-2xx or 3xx responses: 409
+Requests/sec:   1388.05
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.08ms  131.97ms   1.98s    89.42%
+    Req/Sec     1.37k   498.17     2.84k    81.27%
+  81792 requests in 1.00m, 97.49MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 459
+Requests/sec:   1361.05
+Transfer/sec:      1.62MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.12ms  125.03ms   1.56s    87.85%
+    Req/Sec     1.42k   514.67     2.65k    80.43%
+  84557 requests in 1.00m, 100.83MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 424
+Requests/sec:   1408.94
+Transfer/sec:      1.68MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.01ms  122.53ms   1.35s    87.58%
+    Req/Sec     1.41k   510.21     2.36k    81.07%
+  83757 requests in 1.00m, 99.85MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 449
+Requests/sec:   1395.06
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.82ms  132.73ms   1.55s    89.25%
+    Req/Sec     1.38k   486.60     2.36k    82.61%
+  82004 requests in 1.00m, 97.78MB read
+  Socket errors: connect 0, read 0, write 0, timeout 3
+  Non-2xx or 3xx responses: 419
+Requests/sec:   1366.13
+Transfer/sec:      1.63MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.85ms  130.85ms   1.69s    89.36%
+    Req/Sec     1.42k   509.80     3.66k    80.60%
+  84569 requests in 1.00m, 100.85MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 421
+Requests/sec:   1408.38
+Transfer/sec:      1.68MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.73ms  127.98ms   1.79s    88.70%
+    Req/Sec     1.42k   504.16     3.16k    81.61%
+  84308 requests in 1.00m, 100.52MB read
+  Non-2xx or 3xx responses: 435
+Requests/sec:   1404.63
+Transfer/sec:      1.67MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.66ms  128.33ms   1.97s    88.88%
+    Req/Sec     1.39k   501.57     2.77k    81.77%
+  82524 requests in 1.00m, 98.38MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 442
+Requests/sec:   1373.70
+Transfer/sec:      1.64MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.64ms  128.11ms   1.52s    88.86%
+    Req/Sec     1.37k   484.62     2.01k    82.94%
+  81407 requests in 1.00m, 97.08MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 405
+Requests/sec:   1356.14
+Transfer/sec:      1.62MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.48ms  130.01ms   1.79s    89.27%
+    Req/Sec     1.37k   479.23     2.33k    81.77%
+  81524 requests in 1.00m, 97.23MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 393
+Requests/sec:   1356.75
+Transfer/sec:      1.62MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    75.84ms  127.73ms   1.70s    88.63%
+    Req/Sec     1.40k   491.13     2.34k    82.11%
+  83101 requests in 1.00m, 99.07MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 442
+Requests/sec:   1384.53
+Transfer/sec:      1.65MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.40ms  128.64ms   1.69s    88.88%
+    Req/Sec     1.43k   520.80     3.11k    80.77%
+  85064 requests in 1.00m, 101.43MB read
+  Non-2xx or 3xx responses: 431
+Requests/sec:   1416.34
+Transfer/sec:      1.69MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.65ms  130.79ms   1.80s    89.19%
+    Req/Sec     1.41k   670.58     9.63k    84.11%
+  83932 requests in 1.00m, 100.08MB read
+  Socket errors: connect 0, read 0, write 0, timeout 3
+  Non-2xx or 3xx responses: 422
+Requests/sec:   1398.34
+Transfer/sec:      1.67MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    75.96ms  129.36ms   1.97s    88.84%
+    Req/Sec     1.46k   639.55     9.42k    83.95%
+  86657 requests in 1.00m, 103.34MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 426
+Requests/sec:   1443.36
+Transfer/sec:      1.72MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    75.62ms  123.91ms   1.59s    87.82%
+    Req/Sec     1.44k   522.54     2.92k    79.87%
+  85490 requests in 1.00m, 101.95MB read
+  Non-2xx or 3xx responses: 424
+Requests/sec:   1424.20
+Transfer/sec:      1.70MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    81.68ms  139.97ms   1.77s    89.28%
+    Req/Sec     1.37k   503.02     3.69k    82.44%
+  81447 requests in 1.00m, 97.09MB read
+  Socket errors: connect 0, read 0, write 0, timeout 4
+  Non-2xx or 3xx responses: 444
+Requests/sec:   1356.85
+Transfer/sec:      1.62MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.92ms  134.87ms   1.97s    89.46%
+    Req/Sec     1.41k   522.80     3.04k    82.78%
+  84101 requests in 1.00m, 100.26MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 446
+Requests/sec:   1399.65
+Transfer/sec:      1.67MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.00ms  124.53ms   1.78s    87.77%
+    Req/Sec     1.44k   517.09     3.50k    81.44%
+  85571 requests in 1.00m, 102.04MB read
+  Non-2xx or 3xx responses: 431
+Requests/sec:   1425.61
+Transfer/sec:      1.70MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    79.84ms  137.21ms   1.67s    89.40%
+    Req/Sec     1.34k   483.98     2.70k    81.74%
+  79791 requests in 1.00m, 95.12MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 432
+Requests/sec:   1327.97
+Transfer/sec:      1.58MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.90ms  134.45ms   1.99s    89.49%
+    Req/Sec     1.36k   487.81     2.72k    82.27%
+  81235 requests in 1.00m, 96.86MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 422
+Requests/sec:   1353.31
+Transfer/sec:      1.61MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.23ms  126.17ms   1.79s    88.04%
+    Req/Sec     1.42k   489.01     2.87k    80.94%
+  84411 requests in 1.00m, 100.63MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 455
+Requests/sec:   1406.19
+Transfer/sec:      1.68MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.32ms  131.61ms   1.98s    89.56%
+    Req/Sec     1.43k   524.95     3.26k    80.77%
+  85332 requests in 1.00m, 101.77MB read
+  Non-2xx or 3xx responses: 405
+Requests/sec:   1420.11
+Transfer/sec:      1.69MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.96ms  127.68ms   1.77s    88.48%
+    Req/Sec     1.43k   532.41     3.81k    81.44%
+  85001 requests in 1.00m, 101.35MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 432
+Requests/sec:   1414.37
+Transfer/sec:      1.69MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    74.69ms  122.71ms   1.56s    87.87%
+    Req/Sec     1.38k   484.41     2.52k    82.75%
+  82369 requests in 1.00m, 98.19MB read
+  Non-2xx or 3xx responses: 445
+Requests/sec:   1372.24
+Transfer/sec:      1.64MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    79.12ms  136.58ms   1.99s    89.56%
+    Req/Sec     1.38k   510.37     2.65k    81.77%
+  82125 requests in 1.00m, 97.92MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 426
+Requests/sec:   1367.84
+Transfer/sec:      1.63MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    81.42ms  137.59ms   1.97s    89.16%
+    Req/Sec     1.40k   515.12     2.66k    80.60%
+  83458 requests in 1.00m, 99.51MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 434
+Requests/sec:   1389.96
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    75.42ms  124.77ms   1.36s    87.93%
+    Req/Sec     1.41k   505.03     2.77k    81.61%
+  84010 requests in 1.00m, 100.16MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 441
+Requests/sec:   1399.44
+Transfer/sec:      1.67MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.64ms  128.31ms   1.79s    88.82%
+    Req/Sec     1.38k   497.34     2.15k    82.61%
+  82442 requests in 1.00m, 98.29MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 436
+Requests/sec:   1373.33
+Transfer/sec:      1.64MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.51ms  133.04ms   1.74s    89.42%
+    Req/Sec     1.41k   499.50     2.39k    82.27%
+  83906 requests in 1.00m, 100.06MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 416
+Requests/sec:   1397.98
+Transfer/sec:      1.67MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    79.26ms  131.55ms   1.54s    89.11%
+    Req/Sec     1.35k   495.41     2.25k    82.05%
+  80321 requests in 1.00m, 95.75MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 439
+Requests/sec:   1338.24
+Transfer/sec:      1.60MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    77.95ms  127.63ms   1.47s    88.77%
+    Req/Sec     1.36k   492.41     2.11k    82.58%
+  80648 requests in 1.00m, 96.12MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
+  Non-2xx or 3xx responses: 459
+Requests/sec:   1343.99
+Transfer/sec:      1.60MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    79.72ms  131.20ms   1.37s    88.98%
+    Req/Sec     1.41k   516.78     2.77k    80.27%
+  83672 requests in 1.00m, 99.77MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 422
+Requests/sec:   1393.98
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    76.86ms  126.93ms   1.65s    88.32%
+    Req/Sec     1.40k   495.03     2.22k    82.44%
+  83445 requests in 1.00m, 99.48MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1
+  Non-2xx or 3xx responses: 440
+Requests/sec:   1390.14
+Transfer/sec:      1.66MB
+Running 1m test @ https://cafe.example.com:443/coffee/1kb.bin
+  1 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    78.89ms  132.21ms   1.74s    89.22%
+    Req/Sec     1.38k   515.28     3.03k    83.44%
+  82444 requests in 1.00m, 98.27MB read
+  Non-2xx or 3xx responses: 462
+Requests/sec:   1373.59
+Transfer/sec:      1.64MB
+[diamanti@appserv82 rc]$ 
