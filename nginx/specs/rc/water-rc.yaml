@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: water-rc
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: water
+      annotations:
+        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+    spec:
+      containers:
+      - name: water
+        image: nginxdemos/hello
+        ports:
+        - containerPort: 80
