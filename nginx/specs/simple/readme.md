@@ -4,26 +4,36 @@
 
 * Kubernetes 1.2 and later (TLS support for Ingress has been added in 1.2)
 * For NGINX Plus:
-  * This demo is using  guptaarvindk/nginx-plus-ingress:latest, but  you need to build your own plus image with correct licence form nginx.
-  * Build and make available in your cluster the [Ingress controller](../../nginx-controller) image.
+  * Youu need to build your own plus image by copying correct license keys (obtained form nginx) to kubernetes-ingress/nginx-controller dir.
+  * cd kubernetes-ingress/nginx-controller;
+  * make clean;
+  * make container DOCKERFILE=DockerfileForPlus
+  * docker tag nginxdemos/nginx-ingress:0.8.1 <yourDockerImage:version>
+  * docker push  <yourDockerImage:version>
+  
   * Update the container image field in the ```nginx-plus-ingress-rc.yaml``` file accordingly.
 
 ## Running the Example
 
 ## 1. Deploy the Ingress Controller
 
-1. Create an Ingress controller either for NGINX Plus:
+1. Create an Ingress controller either for NGINX or NGINX Plus:
+  ```
+  $ kubectl create -f nginx-ingress-rc.yaml
+  ```
+  or
   ```
   $ kubectl create -f nginx-plus-ingress-rc.yaml
   ```
 
-1. Diamanti provided IP to each pod, so port forwarding is needed.
+1. Diamanti provided IP to each pod, so port forwarding is not needed.
 
 ## 2. Deploy the Cafe Application
 
 1. Create the coffee  service and replication controllers:
 
   ```
+  $ kubectl create -f coffee-configmap.yaml 
   $ kubectl create -f coffee-rc.yaml
   $ kubectl create -f coffee-svc.yaml
   ```
@@ -58,29 +68,37 @@ certificate and the --resolve option to set the Host header of a request with ``
   To get coffee:
   ```
   $ curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com --insecure
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <title>Hello from NGINX!</title>
-  <style>
-      body {
-          width: 35em;
-          margin: 0 auto;
-          font-family: Tahoma, Verdana, Arial, sans-serif;
-      }
-  </style>
-  </head>
-  <body>
-  <h1>Hello!</h1>
-  <h2>URI = /coffee</h2>
-  <h2>My hostname is coffee-rc-mu9ns</h2>
-  <h2>My address is 10.244.0.3:80</h2>
-  </body>
-  </html>
-  ```
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Hello World    </title>
+    ...
+    ...
+    <div class="info">
+    <p><span>Server&nbsp;name:</span> <span>coffee-rc-blkhf</span></p>
+    <p><span>Server&nbsp;address:</span> <span>172.16.137.5:80</span></p>
+    <!--<p><span>User&nbsp;Agent:</span> <span><small>curl/7.29.0</small></span></p>-->
+    <p class="smaller"><span>URI:</span> <span>/</span></p>
+    <p class="smaller"><span>Date:</span> <span>12/Sep/2017:21:20:08 +0000</span></p>
+    <p class="smaller"><span>Client&nbsp;IP:</span> <span>172.16.137.4:60464</span></p>
+    <p class="smaller"><span>NGINX&nbsp;Front-End&nbsp;Load&nbsp;Balancer&nbsp;IP:</span> <span>172.16.137.4:60464</span></p>
+    <p class="smaller"><span>Client&nbsp;IP:</span> <span>172.16.6.136</span></p>
+    <p class="smaller"><span>NGINX Version:</span> <span>1.13.3</span></p>
+    </div>
+        <div class="check"><input type="checkbox" id="check" onchange="changeCookie()"> Auto Refresh</div>
+        <div id="footer">
+            <div id="center" align="center">
+                Request ID: 83f787520176a0c76a8316ee6b71db6f<br/>
+                &copy; NGINX, Inc. 2016
+            </div>
+       </div>
+    </body>
+    </html>
 
-  1. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html
-  If you go to the Upstream tab, you'll see all the backend webserver attached to load balancer.
+  ```
+1. In the curl response you will see the address and name of the web server responded.
+
+1. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html.  If you go to the Upstream tab, you'll see all the backend webserver attached to load balancer.
 
 
 
@@ -94,13 +112,15 @@ certificate and the --resolve option to set the Host header of a request with ``
 1. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html
   If you go to the Upstream tab, you'll see that there are 8 backend server showing up now 
 
-1. If you curl again and again to same address as in previous step, you will see number of request will increase for each backend server in round robin fashion.
+1. If you curl again and again to nginx load balancer IP as in previous step, In the curl response you will see the address and name of the web server will change. 
+   curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/ --insecure | grep address
+
+1. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html. You will see number of request will increase for each backend server in round robin fashion.
 
 1. lets scale down the master.
   ```
   $  kubectl scale --replicas=3 -f coffee-rc.yaml
   replicationcontroller "coffee-rc" scaled
   ```
-1. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html
-  If you go to the Upstream tab, you'll see that there are 3 backend server showing up now 
+1. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html.   If you go to the Upstream tab, you'll see that there are 3 backend server showing up now 
  
