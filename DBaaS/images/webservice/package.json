@@ -1,0 +1,13 @@
+{
+  "name": "starter-node-angular",
+  "main": "server.js",
+  "author": "Shankar Morwal",
+  "dependencies": {
+    "express" : "~4.5.1",
+      "mongoose" : "~3.8.0",
+      "body-parser" : "~1.4.2",
+      "method-override" : "~2.0.2",
+      "shelljs" : "~0.7.8"
+  }
+}
+

@@ -1,0 +1,79 @@
+<div class="col align-self-center">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        <div class=" jumbotron text-center" ng-submit="CreateDb()">
+            <form class="form-horizontal" id="mainForm">
+                <legend><b>Create database</b></legend>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Enter the cost code:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputCost" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Enter the database service name:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputName" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Select the type of database:</label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="selectType">
+                            <option>SQL</option>
+                            <option>MangoDb</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Select the replication count:</label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="selectReplication">
+                            <option>Single replication</option>
+                            <option>Multiple replication</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Select the storage size:</label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="selectStorage">
+                            <option>10MB</option>
+                            <option>1GB</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Select the mirroring per replica count:</label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="selectMirroring">
+                            <option>Single</option>
+                            <option>Multiple</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Select the performance tier:</label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="selectPerformance">
+                            <option>Free tier</option>
+                            <option>Monthly tier</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <button class="btn btn-primary" type="submit">
+                        <span>Create database</span>
+                    </button>
+
+                </div>
+
+                <div class="alert alert-info" ng-if="shellRes!=''"><strong>{{shellRes}}</strong></div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+</div>

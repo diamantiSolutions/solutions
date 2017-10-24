@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    diamanti.com/endpoint0: '{"network":"<NETWORK>","perfTier":"<NET_PERF_TIER>"}'
+  creationTimestamp: null
+  name: <SVC_NAME>-pgbench
+spec:
+  containers:
+  - env:
+    - name: PGBENCH_DATABASE
+      value: <DATABASE_NAME>
+    - name: PGBENCH_USER
+      value:  <USER>
+    - name: PGBENCH_PASSWORD
+      value: <USER_PASSWORD>
+    - name: PGHOST
+      value: <SVC_NAME>
+    - name: PGPORT
+      value: "5432"
+    - name: SCALE_FACTOR
+      value: "<BENCH_SCALE_FACTOR>"
+    - name: ITERATIONS
+      value: "<BENCH_ITRATIONS>"
+    - name: NUM_CLIENTS
+      value: "<BENCH_NUM_CLIENTS>"
+    - name: NUM_JOBS
+      value: "<BENCH_NUM_JOBS>"
+    - name: TIME_DURATION
+      value: "<BENCH_DURATION>"
+    - name: NOLOAD
+      value: "<BENCH_NOLOAD>"
+    image: guptaarvindk/pgbench:perf
+    imagePullPolicy: Always
+    name: master
+    ports:
+    - containerPort: 5432
+      protocol: TCP
+    resources:
+      requests:
+        cpu: "8"
+        memory: 4Gi
+
+
+
