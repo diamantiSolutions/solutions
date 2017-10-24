@@ -28,7 +28,7 @@
 				"value" : "PHASE"
 }
                         ],
-                        "image": "sekhars/dbclient:1.4",
+                        "image": "guptaarvindk/dbbench:perf",
                         "imagePullPolicy": "IfNotPresent",
                         "name": "client",
                         "volumeMounts": [
@@ -42,7 +42,7 @@
                 "volumes": [
                 {
                     "hostPath" : {
-                        "path": "/scratch/sekhar/scale/specs/dbrepo"
+                        "path": "/dwshome/agupta/work/solutions/githubForDBaaS/DBaaS/images/bench"
                     },
                     "name": "test-data"
                  }

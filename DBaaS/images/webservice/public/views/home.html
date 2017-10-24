@@ -7,62 +7,128 @@
                 <div class="form-group">
                     <label class="col-md-12 control-label">Enter the cost code:</label>
                     <div class="col-md-12">
-                        <input type="text" ng-model="inputCost" class="form-control">
+                        <input type="text" ng-model="inputCost" class="form-control" required="required" value="DiamantiSales">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-12 control-label">Enter the database service name:</label>
+                    <label class="col-md-12 control-label">Name your database service:</label>
                     <div class="col-md-12">
-                        <input type="text" ng-model="inputName" class="form-control">
+                        <input type="text" ng-model="inputName" class="form-control" required="required">
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="col-md-12 control-label">Select the type of database:</label>
+                    <label class="col-md-12 control-label">What type of database:</label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="selectType">
-                            <option>SQL</option>
+                        <select class="form-control form-control-lg" name="selectType" ng-model="selectType" ng-change="setDb()" required="required">
+                            <option>PostgresSQL</option>
                             <option>MangoDb</option>
+			    <option>Cassandra</option>
+                        </select>
+
+                    </div>
+                </div>
+		
+                <div class="form-group">
+                    <label class="col-md-12 control-label">How many DB replicas instance:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectReplication">
+                            <option>1</option>
+                            <option>3</option>
+                            <option>5</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-12 control-label">Select the replication count:</label>
+                    <label class="col-md-12 control-label">How much storage for each instance (GB):</label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="selectReplication">
-                            <option>Single replication</option>
-                            <option>Multiple replication</option>
+                        <select class="form-control form-control-lg" ng-model="selectStorage">
+                            <option>10</option>
+                            <option>20</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-12 control-label">Select the storage size:</label>
+                    <label class="col-md-12 control-label">How many mirror per volume:</label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="selectStorage">
-                            <option>10MB</option>
-                            <option>1GB</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-12 control-label">Select the mirroring per replica count:</label>
-                    <div class="col-md-12">
-                        <select class="form-control" ng-model="selectMirroring">
-                            <option>Single</option>
-                            <option>Multiple</option>
+                        <select class="form-control form-control-lg" ng-model="selectMirroring">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
 
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-md-12 control-label">Select the performance tier:</label>
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">Which network this DB belongs to:</label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="selectPerformance">
-                            <option>Free tier</option>
-                            <option>Monthly tier</option>
+                        <select class="form-control form-control-lg" ng-model="selectNetwork">
+                            <option>default</option>
+                            <option>dev</option>
+                            <option>production</option>
 
                         </select>
                     </div>
                 </div>
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">Performance tier for network:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectNetPerfTier">
+                            <option>high</option>
+                            <option>medium</option>
+                            <option>best-effort</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">Performance tier for storage:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectStoragePerfTier">
+                            <option>high</option>
+                            <option>medium</option>
+                            <option>best-effort</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql master password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpgmasterpassword" class="form-control" required="required" value="password">
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql user name:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpguser" class="form-control" required="required" value="pabench">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql user password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpguserpassword" class="form-control" required="required" value="password">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql database name:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpgdb" class="form-control" required="required" value="pgbench">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql root password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpgrootpassword" class="form-control" required="required" value="password">
+                    </div>
+                </div>
+		
                 <div class="form-group">
 
                     <button class="btn btn-primary" type="submit">

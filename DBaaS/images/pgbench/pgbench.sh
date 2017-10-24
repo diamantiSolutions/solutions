@@ -77,8 +77,18 @@ chmod 0600 .pgpass
 
 export PGPASSFILE=~/.pgpass
 
+
+if [ $PG_MODE = "ms" ]; then
+    WRITE_HOST=$PGHOST-master
+    READ_HOST=$PGHOST-slave
+else
+    WRITE_HOST=$PGHOST
+    READ_HOST=$PGHOST
+fi
+
+
 while true; do
-    pg_isready --dbname=$PGBENCH_DATABASE --host=$PGHOST \
+    pg_isready --dbname=$PGBENCH_DATABASE --host=$WRITE_HOST \
 	       --port=$PGPORT \
 	       --username=$PGBENCH_USER --timeout=2
     if [ $? -eq 0 ]; then
@@ -91,8 +101,8 @@ done
 
 if [ $NOLOAD = "false" ]; then
 echo "Running pgbench against Host $1 in mode $2"
-psql -p $PGPORT -h $PGHOST -c "create database $PGBENCH_DATABASE" -U $PGBENCH_USER
-pgbench --host=$PGHOST \
+psql -p $PGPORT -h $WRITE_HOST -c "create database $PGBENCH_DATABASE" -U $PGBENCH_USER
+pgbench --host=$WRITE_HOST \
         --port=$PGPORT \
         --username=$PGBENCH_USER \
         --scale=$SCALE_FACTOR \
@@ -109,7 +119,7 @@ for i in `seq 1 $ITERATIONS`
 do
     echo "running iteration $i on $PGHOST"
     if [ $PG_MODE = "ro" ]; then
-	pgbench -r -S --host=$PGHOST \
+	pgbench -r -S --host=$READ_HOST \
 		--port=$PGPORT \
 		--username=$PGBENCH_USER \
 		--jobs=$NUM_JOBS \
@@ -117,13 +127,31 @@ do
 		--client=$NUM_CLIENTS \
 		$PGBENCH_DATABASE
     elif [ $PG_MODE = "rw" ]; then
-	pgbench -r --host=$PGHOST \
+	pgbench -r --host=$WRITE_HOST \
 		--port=$PGPORT \
 		--username=$PGBENCH_USER \
 		--jobs=$NUM_JOBS \
 		--time=$TIME_DURATION \
 		--client=$NUM_CLIENTS \
 		$PGBENCH_DATABASE
+    elif [ $PG_MODE = "ms" ]; then
+	
+	pgbench -r -S --host=$READ_HOST \
+		--port=$PGPORT \
+		--username=$PGBENCH_USER \
+		--jobs=$NUM_JOBS \
+		--time=$TIME_DURATION \
+		--client=$NUM_CLIENTS \
+		$PGBENCH_DATABASE &
+
+	pgbench -r --host=$WRITE_HOST \
+		--port=$PGPORT \
+		--username=$PGBENCH_USER \
+		--jobs=$NUM_JOBS \
+		--time=$TIME_DURATION \
+		--client=$NUM_CLIENTS \
+		$PGBENCH_DATABASE &
+	wait
     else
 	echo "Invalid run mode specified. Exiting ... "
 	exit 1

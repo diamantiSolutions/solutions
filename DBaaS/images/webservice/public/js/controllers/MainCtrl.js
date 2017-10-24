@@ -1,4 +1,8 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope , $location) {
+angular.module('MainCtrl', []).controller('MainController', function($rootScope,$scope , $location) {
+
+	if($rootScope.loggedIn==1){
+        $location.path('home');
+	}
 
 	$scope.login = function () {
 		   
@@ -7,6 +11,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope , $l
 		    	console.log(this.inputPassword);
 
 		    	$location.path('home');
+		    	$rootScope.loggedIn=1;
 
 		    }
 		    	else{
@@ -14,5 +19,6 @@ angular.module('MainCtrl', []).controller('MainController', function($scope , $l
 		    	}
 		    
 		}
+
 
 });
