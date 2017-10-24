@@ -1,0 +1,56 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "diamanti.com/endpoint0": "{\"network\":\"NET\",\"perfTier\":\"high\"}"
+                },
+                "name": "NAME-PHASE-client"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        
+                        "env": [{
+				"name" : "DB",
+				"value" : "DB_TYPE"
+			},{
+				"name" : "QOS",
+				"value" : "qos"
+			},{
+				"name" : "target_ip",
+				"value" : "TARGET"
+			},{
+				"name" : "phase",
+				"value" : "PHASE"
+}
+                        ],
+                        "image": "sekhars/dbclient:1.4",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "client",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/usr/local/bin",
+                                "name": "test-data"
+                            }
+                       ]
+                    }
+                ],
+                "volumes": [
+                {
+                    "hostPath" : {
+                        "path": "/scratch/sekhar/scale/specs/dbrepo"
+                    },
+                    "name": "test-data"
+                 }
+        ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never"
+            }
+        }
+    ],
+    "kind": "List"
+}
