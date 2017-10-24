@@ -91,6 +91,10 @@
 						"fieldPath": "metadata.name"
 					    }
 					}
+				    },
+				    {
+					"name":"PG_SERVICE_NAME",
+					"value":"pg"
 				    }
 				],
 				"image": "guptaarvindk/diamanti-postgres:v1",
@@ -251,8 +255,8 @@
 					"name": "KUBE_NAMESPACE",
 					"value": "default"
 				    }, {
-					"name": "MASTER_LABEL",
-					"value": "name=pg-master"
+					"name":"PG_SERVICE_NAME",
+					"value":"pg"
 				    }],
 				"volumeMounts": [
 				    {
