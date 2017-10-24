@@ -7,6 +7,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'views/login.html',
 			controller: 'MainController'
 		})
+        .when('/logout', {
+            templateUrl: 'views/login.html',
+            controller: 'MainController'
+        })
 
 		.when('/home', {
 			templateUrl: 'views/home.html',

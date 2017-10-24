@@ -72,7 +72,8 @@ $result = GetOptions("t=s" => \$DB_TYPE, "type=s" => \$DB_TYPE,
 		     "benchNumClients" => \$BENCH_NUM_CLIENTS,
 		     "benchNumJobs" => \$BENCH_NUM_JOBS,
 		     "benchDuration" => \$BENCH_DURATION,
-		     "verbose" => \$verbose, 
+		     "verbose" => \$verbose,
+		     "html" => \$html,
 		     "h" => \$help,  "help" => \$help);
 
 
@@ -85,14 +86,14 @@ $result = GetOptions("t=s" => \$DB_TYPE, "type=s" => \$DB_TYPE,
     
 
 if ($help) {
-    print "\ncreateDb.pl.pl [options]:     create Database as a service.\n";
+    myPrint( "\ncreateDb.pl.pl [options]:     create Database as a service.\n");
 
 }
 
 
 if($delete) {
     $MODE="delete";
-    print "destroying all the components of  selected Database service :  $MY_NAME\n";
+    myPrint( "destroying all the components of  selected Database service :  $MY_NAME\n");
 
 }
 
@@ -121,8 +122,7 @@ if($delete) {
 #1.1) Create storage classes as needed
 
 my $SC_NAME="diamanti-m".$NUM_MIRRORS."-".$STORAGE_PERF_TIER;
-print `sed "s/<CLASS_NAME>/$SC_NAME/g" specs/postgres/diamanti-storage-class.tmpl | sed "s/<PERF_TIER>/$STORAGE_PERF_TIER/g" | sed "s/<MIRROR_COUNT>/$NUM_MIRRORS/g"| kubectl $MODE -f -`;
-
+myPrint(`sed "s/<CLASS_NAME>/$SC_NAME/g" specs/postgres/diamanti-storage-class.tmpl | sed "s/<PERF_TIER>/$STORAGE_PERF_TIER/g" | sed "s/<MIRROR_COUNT>/$NUM_MIRRORS/g"| kubectl $MODE -f -`);
 
 
 
@@ -156,16 +156,17 @@ switch($DB_TYPE){
 	my $joinString="";
 	#create consul-configmap
 	if($delete) {
-	    print `kubectl $MODE configmap consul`;
+	    myPrint( `kubectl $MODE configmap consul`);
+	    
 	}
 	else{
-	    print `kubectl $MODE configmap consul --from-file=specs/postgres/consul-server-configmap.json`;
+	    myPrint( `kubectl $MODE configmap consul --from-file=specs/postgres/consul-server-configmap.json`);
 	}
 	#cretae pg-svc.yaml
-	print `sed "s/<SVC_NAME>/$MY_NAME/g" specs/postgres/pg-svc.tmpl | kubectl $MODE -f -`;
+	myPrint( `sed "s/<SVC_NAME>/$MY_NAME/g" specs/postgres/pg-svc.tmpl | kubectl $MODE -f -`);
 	
 	
-	print `sed "s/<SVC_NAME>/$MY_NAME/g"  specs/postgres/pg-statefulset.tmpl | \
+	myPrint( `sed "s/<SVC_NAME>/$MY_NAME/g"  specs/postgres/pg-statefulset.tmpl | \
 		    sed "s/<NUM_REPLICAS>/$NUM_DB_REPLICAS/g" | \
 		    sed "s/<NETWORK>/$MY_NETWORK/g" | \
 		    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
@@ -177,14 +178,14 @@ switch($DB_TYPE){
 		    sed "s/<DATABASE_NAME>/$MY_DATABASE_NAME/g" | \
 		    sed "s/<ROOT_PASSWORD>/$MY_ROOT_PASSWORD/g" | \
 		    sed "s/<CLUSTER_DOMAIN>/solutions.datawise.io/g" |\
-		    kubectl $MODE -f -`;
+		    kubectl $MODE -f -`);
 	
-	print `sed "s/<SVC_NAME>/$MY_NAME/g" specs/postgres/pgpool.tmpl | \
+	myPrint( `sed "s/<SVC_NAME>/$MY_NAME/g" specs/postgres/pgpool.tmpl | \
 	    sed "s/<NETWORK>/$MY_NETWORK/g"  | \
 	    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
 	    sed "s/<USER>/$MY_USER/g" | \
 	    sed "s/<USER_PASSWORD>/$MY_USER_PASSWORD/g" | \
-	    kubectl $MODE -f -`;
+	    kubectl $MODE -f -`);
 	    
 	    
 	    
@@ -197,7 +198,7 @@ switch($DB_TYPE){
 	    do{
 		$done=1;
 		sleep(10);
-		print "checking pod status...  \n\t ";
+		myPrint ("checking pod status...  \n\t ");
 		my $myStatus="";
 		for(my $i=0;$i<$NUM_DB_REPLICAS;$i++){
 		    chomp($status[$i] = `kubectl get pods -o wide | grep \"$MY_NAME-.*-$i\" | awk 'END {print \$3 }'`);
@@ -217,7 +218,7 @@ switch($DB_TYPE){
 			$done=0;
 		    }
 		}
-		print $myStatus;
+		myPrint($myStatus);
 	    }
 	    while(!$done); 
 	    
@@ -234,19 +235,24 @@ switch($DB_TYPE){
 
 	}
 	
-	print `sed "s/<IP_ADDR_LIST>/$joinString/g" specs/postgres/consul-join.tmpl| \
+	myPrint( `sed "s/<IP_ADDR_LIST>/$joinString/g" specs/postgres/consul-join.tmpl| \
                     sed "s/<SVC_NAME>/$MY_NAME/g" | \
 		    sed "s/<NETWORK>/$MY_NETWORK/g" | \
 		    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
-                    kubectl $MODE -f -`;
+                    kubectl $MODE -f -`);
+
+
+	
+	if($runBenchmark) {
 
 
 	#wait for master to be picked ?? could be multiple of masters!!
 	#kubectl get pods -l role=pgmaster
 
-	if($runBenchmark) {
-
-
+	    if(!$delete) {
+		sleep(20);
+	    }
+	
 	    if($noBenchMarkLoad){
 		$noload="true"
 	    }
@@ -255,7 +261,7 @@ switch($DB_TYPE){
 	    }
 	    
 	    
-	    print  `sed "s/<SVC_NAME>/$MY_NAME/g"  specs/postgres/pgbench.tmpl | \
+	    myPrint( `sed "s/<SVC_NAME>/$MY_NAME/g"  specs/postgres/pgbench.tmpl | \
 		    sed "s/<NETWORK>/$MY_NETWORK/g" | \
 		    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
 		    sed "s/<BENCH_NOLOAD>/$noload/g" | \
@@ -267,7 +273,7 @@ switch($DB_TYPE){
 		    sed "s/<USER>/$MY_USER/g" | \
 		    sed "s/<USER_PASSWORD>/$MY_USER_PASSWORD/g" | \
 		    sed "s/<DATABASE_NAME>/$MY_DATABASE_NAME/g" | \
-	            kubectl $MODE -f -`;
+	            kubectl $MODE -f -`);
 	    
 	    
 	}
@@ -280,18 +286,18 @@ switch($DB_TYPE){
     
     
     case "mongo" {
-	print "mongo db selected\n";
+	myPrint( "mongo db selected\n");
     
 	#sed -e 's~<num>~0~g' mongo-node-template.yaml | kubectl $MODE -f -
 	
 	
-	print `sed "s/<SVC_NAME>/$MY_NAME/g"  specs/mongo/mongo-statefulset.tmpl | \
+	myPrint (`sed "s/<SVC_NAME>/$MY_NAME/g"  specs/mongo/mongo-statefulset.tmpl | \
 		    sed "s/<NUM_REPLICAS>/$NUM_DB_REPLICAS/g" | \
 		    sed "s/<NETWORK>/$MY_NETWORK/g" | \
 		    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
 		    sed "s/<STORAGE_CLASS>/$SC_NAME/g" | \
                     sed "s/<VOL_SIZE>/$VOL_SIZE/g" | \
-	            kubectl $MODE -f -`;
+	            kubectl $MODE -f -`);
 	
 
 	    
@@ -299,9 +305,24 @@ switch($DB_TYPE){
     }
     
     case "mssql" {
-	print "mssql db selected\n"
+	myPrint ("mssql db selected\n");
     
 
     }    
 }
 
+
+
+
+sub myPrint { 
+    my ($str) = @_;
+    my $myTime = strftime "%H:%M:%S", localtime;
+    
+    print "$myTime: $str\n";
+
+    if ($html) {
+	print "<br>";
+    }
+
+    
+}

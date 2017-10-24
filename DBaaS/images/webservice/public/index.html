@@ -25,14 +25,22 @@
 <body ng-app="sampleApp" ng-controller="HomeController">
 <div class="container">
 	
-	<!-- HEADER 
+
 	<nav class="navbar navbar-inverse">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Node and Angular</a>
-		</div>
-		<ul class="nav navbar-nav">
-			<li><a href="/nerds">Nerds</a></li>
-			<li><a href="/geeks">Geeks</a></li>
+	  <div class="navbar-header">
+	    <a class="navbar-brand" href="/">
+	      <img src="https://d5g8f4rm8gkar.cloudfront.net/static/prod/1.86.0/app/img/logo.png"> </a>
+	  </div>
+
+		<ul class="nav navbar-nav" ng-if="loggedIn!=1">
+			<li><a href="/">login</a></li>
+		</ul>
+
+		<ul class="nav navbar-nav" ng-if="loggedIn==1">
+			<li><a href="#">DataBase as a Service</a></li>
+		</ul>
+		<ul class="nav navbar-nav" ng-if="loggedIn==1">
+			<li><a href="#" ng-click="logout()">Logout</a></li>
 		</ul>
 	</nav>
 
