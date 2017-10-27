@@ -29,7 +29,7 @@
 }
                         ],
                         "image": "guptaarvindk/dbbench:perf",
-                        "imagePullPolicy": "IfNotPresent",
+                        "imagePullPolicy": "Always",
                         "name": "client",
                         "volumeMounts": [
                             {
