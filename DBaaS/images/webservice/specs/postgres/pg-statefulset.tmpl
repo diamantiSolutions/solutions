@@ -7,7 +7,7 @@ items:
     labels:
       role: <SVC_NAME>-pg
       dbsvc: <SVC_NAME>
-    name: <SVC_NAME>-pg
+    name: <SVC_NAME>-rs
   spec:
     serviceName: "<SVC_NAME>-pg"
     replicas: <NUM_REPLICAS>
@@ -97,6 +97,11 @@ items:
                 apiVersion: v1
                 fieldPath: status.podIP
           image: consul:0.9.2
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 1Gi
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -176,6 +181,11 @@ items:
             value: name=<SVC_NAME>-master
           image: guptaarvindk/pg-controller:v2
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 1Gi
           name: pg-controller
           resources: {}
           terminationMessagePath: /dev/termination-log

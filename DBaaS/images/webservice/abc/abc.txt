@@ -1,3 +1,0 @@
-1- Script execution is stated  
-2- Database is being created 
-3- execution is complete

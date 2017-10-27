@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: <SVC_NAME>-consul-join
 spec:
+  activeDeadlineSeconds: 100
   template:
     metadata:
       name: <SVC_NAME>-consul-join

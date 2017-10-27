@@ -22,7 +22,7 @@
                     <div class="col-md-12">
                         <select class="form-control form-control-lg" name="selectType" ng-model="selectType" ng-change="setDb()" required="required">
                             <option>PostgresSQL</option>
-                            <option>MangoDb</option>
+                            <option>MongoDb</option>
 			    <option>Cassandra</option>
                         </select>
 
@@ -43,8 +43,8 @@
                     <label class="col-md-12 control-label">How much storage for each instance (GB):</label>
                     <div class="col-md-12">
                         <select class="form-control form-control-lg" ng-model="selectStorage">
-                            <option>10</option>
-                            <option>20</option>
+                            <option>50</option>
+                            <option>100</option>
                         </select>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
 
                 </div>
 
-                <div class="alert alert-info" ng-if="shellRes!=''"><strong>{{shellRes}}</strong></div>
+   		<div class="alert alert-info text-left" ng-if="shellRes!=''" ng-bind-html="shellRes" ></div>
             </form>
         </div>
     </div>
