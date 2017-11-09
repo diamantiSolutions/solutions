@@ -2,6 +2,9 @@
 
 ## Prerequisites
 
+*Please note that currenlty this example only works when using namespace default.
+
+
 * Diamanti plateform with Kubernetes 1.2 and later (TLS support for Ingress has been added in 1.2)
 * For NGINX Plus:
   * Youu need to build your own plus image by copying correct license keys (obtained form nginx) to kubernetes-ingress/nginx-controller dir.
