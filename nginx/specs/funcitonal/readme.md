@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-* Kubernetes 1.2 and later (TLS support for Ingress has been added in 1.2)
+* Diamanti plateform with Kubernetes 1.2 and later (TLS support for Ingress has been added in 1.2)
 * For NGINX Plus:
   * Youu need to build your own plus image by copying correct license keys (obtained form nginx) to kubernetes-ingress/nginx-controller dir.
   ```
@@ -32,12 +32,15 @@
 
 ## 2. Deploy the Cafe Application
 
-1. Create the coffee  service and replication controllers:
+1. Create the coffee and tea service and replication controllers:
 
   ```
   $ kubectl create -f coffee-configmap.yaml 
   $ kubectl create -f coffee-rc.yaml
   $ kubectl create -f coffee-svc.yaml
+  $ kubectl create -f tea-configmap.yaml 
+  $ kubectl create -f tea-rc.yaml
+  $ kubectl create -f tea-svc.yaml
   ```
 
 ## 3. Configure Load Balancing
@@ -58,8 +61,9 @@
   ```
   $ kubectl get pods -o wide
     NAME                          READY     STATUS    RESTARTS   AGE       IP             NODE
-    coffee-rc-9tfkg               1/1       Running   0          5m        172.16.137.6   appserv38
-    nginx-plus-ingress-rc-394zp   1/1       Running   0          5m        172.16.137.4   appserv38
+    coffee-rc-9tfkg               1/1       Running   0          5m        172.16.137.6   node37
+    tea-rc-egs6e                  1/1       Running   0          5m        172.16.137.7   node38
+    nginx-plus-ingress-rc-394zp   1/1       Running   0          5m        172.16.137.4   node36
   ```
    Note down IP of load balancer form above output as XXX.YYY.ZZZ.III
 
@@ -67,9 +71,14 @@
 2. To see that the controller is working, let's curl the load balancer.
 We'll use ```curl```'s --insecure option to turn off certificate verification of our self-signed
 certificate and the --resolve option to set the Host header of a request with ```cafe.example.com```
+  To get tea:
+  ```
+  $ curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/tea --insecure
+  ```
+  or
   To get coffee:
   ```
-  $ curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com --insecure
+  $ curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/cofffe --insecure
     <!DOCTYPE html>
     <html>
     <head>
@@ -116,7 +125,7 @@ certificate and the --resolve option to set the Host header of a request with ``
 
 3. If you curl again and again to nginx load balancer IP as in previous step, In the curl response you will see the address and name of the web server will change.
 ```
-   curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/ --insecure | grep address
+   curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/coffee --insecure | grep address
 ```
 4. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html. You will see number of request will increase for each backend server in round robin fashion.
 
