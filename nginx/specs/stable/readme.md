@@ -109,32 +109,32 @@ certificate and the --resolve option to set the Host header of a request with ``
     </html>
 
   ```
-3. In the curl response you will see the address and name of the web server responded.
+4.3. In the curl response you will see the address and name of the web server responded.
 
-4. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html.  If you go to the Upstream tab, you'll see all the backend webserver attached to load balancer.
+4.4. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html.  If you go to the Upstream tab, you'll see all the backend webserver attached to load balancer.
 
 
 
-## 4. Test the scaling
+## 5. Test the scaling
 
-1. lets scale up the server.
+5.1. lets scale up the server.
   ```
   $  kubectl scale --replicas=8 -f coffee-rc.yaml
   replicationcontroller "coffee-rc" scaled
   ```
-2. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html  
+5.2. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html  
   If you go to the Upstream tab, you'll see that there are 8 backend server showing up now 
 
-3. If you curl again and again to nginx load balancer IP as in previous step, In the curl response you will see the address and name of the web server will change.
+5.3. If you curl again and again to nginx load balancer IP as in previous step, In the curl response you will see the address and name of the web server will change.
 ```
    curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/coffee --insecure | grep address
 ```
-4. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html. You will see number of request will increase for each backend server in round robin fashion.
+5.4. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html. You will see number of request will increase for each backend server in round robin fashion.
 
-5. lets scale down the master.
+5.5. lets scale down the master.
   ```
   $  kubectl scale --replicas=3 -f coffee-rc.yaml
   replicationcontroller "coffee-rc" scaled
   ```
-6. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html.   If you go to the Upstream tab, you'll see that there are 3 backend server showing up now 
+5.6. If you're using NGINX Plus, you can open the live activity monitoring dashboard, which is available at http://XXX.YYY.ZZZ.III:8080/status.html.   If you go to the Upstream tab, you'll see that there are 3 backend server showing up now 
  
