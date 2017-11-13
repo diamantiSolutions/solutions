@@ -33,7 +33,7 @@
                         "name": "client",
                         "volumeMounts": [
                             {
-                                "mountPath": "/usr/local/bin",
+                                "mountPath": "/opt/nfs",
                                 "name": "test-data"
                             }
                        ]
@@ -41,9 +41,10 @@
                 ],
                 "volumes": [
                 {
-                    "hostPath" : {
-                        "path": "/dwshome/agupta/work/solutions/githubForDBaaS/DBaaS/images/bench"
-                    },
+		    "nfs":{
+			"server": "dws-svm-nas01",
+			"path": "/dws_nas_scratch"
+		    },
                     "name": "test-data"
                  }
         ],

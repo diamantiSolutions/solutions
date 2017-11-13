@@ -10,7 +10,7 @@ angular.module('MainCtrl', []).controller('MainController', function($rootScope,
 		    	console.log(this.inputUser);
 		    	console.log(this.inputPassword);
 
-		    	$location.path('home');
+		    	$location.path('scale');
 		    	$rootScope.loggedIn=1;
 
 		    }

@@ -37,6 +37,7 @@ my $MY_NET_PERF_TIER="_UNKNOWN_";
 my $MY_MASTER_PASSWORD="_UNKNOWN_";
 my $MY_USER="_UNKNOWN_";
 my $MY_USER_PASSWORD="_UNKNOWN_";
+my $MY_SA_PASSWORD="_UNKNOWN_";
 my $MY_DATABASE_NAME="_UNKNOWN_";
 my $MY_ROOT_PASSWORD="_UNKNOWN_";
 
@@ -51,6 +52,9 @@ my $noload="false";
 my $success="false";
 
 my $MODE="create";
+
+my $startTime=localtime;
+
 my $result = ""; ## so that this variable is used more than 1 time
 $result = GetOptions("t=s" => \$DB_TYPE, "type=s" => \$DB_TYPE, 
 		     "n=s" => \$MY_NAME, "name=s" => \$MY_NAME,
@@ -60,6 +64,7 @@ $result = GetOptions("t=s" => \$DB_TYPE, "type=s" => \$DB_TYPE,
 		     "sp=s" => \$STORAGE_PERF_TIER, "storageperftier=s" => \$STORAGE_PERF_TIER,
 		     "net=s" => \$MY_NETWORK, "network=s" =>  \$MY_NETWORK,
 		     "np=s" => \$MY_NET_PERF_TIER, "networkperftier=s" => \$MY_NET_PERF_TIER,
+		     "sapassword" => \$MY_SA_PASSWORD,
 		     "pgmasterpassword=s" => \$MY_MASTER_PASSWORD,
 		     "pguser=s" => \$MY_USER,
 		     "pguserpassword=s" => \$MY_USER_PASSWORD,
@@ -194,7 +199,7 @@ switch($DB_TYPE){
 	#    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
 	#    sed "s/<USER>/$MY_USER/g" | \
 	#    sed "s/<USER_PASSWORD>/$MY_USER_PASSWORD/g" | \
-	#    kubectl $MODE -f -`;
+	#    kubectl $MODE -f -`);
 	    
 	    
 	    
@@ -335,7 +340,7 @@ switch($DB_TYPE){
 	#kubectl get pods -l role=pgmaster
 
 	    if(!$delete) {
-		sleep(20);
+		sleep(40);
 	    }
 
 	    #`sed -e 's/qos/high/g' \
@@ -369,19 +374,51 @@ switch($DB_TYPE){
 	
     }
     
+
+    case "MsSQL" {
+	
+	myPrint(`sed "s/<SVC_NAME>/$MY_NAME/g"  specs/mssql/mssql-statefulset.tmpl | \
+		    sed "s/<NUM_REPLICAS>/$NUM_DB_REPLICAS/g" | \
+		    sed "s/<NETWORK>/$MY_NETWORK/g" | \
+		    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
+		    sed "s/<STORAGE_CLASS>/$SC_NAME/g" | \
+                    sed "s/<VOL_SIZE>/$VOL_SIZE/g" | \
+		    sed "s/<SA_PASSWORD>/$MY_SA_PASSWORD/g" | \
+	            kubectl $MODE -f -`);
+
+	
+		
+	if($html){
+	    myPrint("Database service <strong><font color=\"green\">$MY_NAME</font></strong> for $DB_TYPE is <strong><font color=\"green\">READY</font> </strong>\n");
+	}
+	else{
+	    myPrint("Database service $MY_NAME for $DB_TYPE is READY\n");
+	}
+	$success="true";
+
+
+    }
+
+
+    
     case "Cassandra" {
 	myPrint("Cassandra db not supported yet\n");
-    
-
+	
+	
     }
 
-    if($success eq "false"){
-	myPrint("<strong><font color=\"red\"> Database service $MY_NAME for $DB_TYPE FAILED to start</font> </strong>\n");
-    }
-    
+   
 }
 
 
+    #my $timeElapsed =  strftime "%H:%M:%S", (localtime-$startTime);
+    
+    #myPrint("time elapsed: $timeElapsed\n");
+    
+    if($success eq "false"){
+	myPrint("<strong><font color=\"red\"> Database service $MY_NAME for $DB_TYPE FAILED to start</font> </strong>\n");
+    }
+ 
 
 sub myPrint { 
     my ($str) = @_;

@@ -3,7 +3,7 @@
     <div class="col-lg-10">
         <div class=" jumbotron text-center" ng-submit="CreateDb()">
             <form class="form-horizontal" id="mainForm">
-                <legend><b>Create database</b></legend>
+                <legend><b>Create new database service</b></legend>
                 <div class="form-group">
                     <label class="col-md-12 control-label">Enter the cost code:</label>
                     <div class="col-md-12">
@@ -23,13 +23,14 @@
                         <select class="form-control form-control-lg" name="selectType" ng-model="selectType" ng-change="setDb()" required="required">
                             <option>PostgresSQL</option>
                             <option>MongoDb</option>
+			    <option>MsSQL</option>
 			    <option>Cassandra</option>
                         </select>
 
                     </div>
                 </div>
 		
-                <div class="form-group">
+                <div class="form-group" >
                     <label class="col-md-12 control-label">How many DB replicas instance:</label>
                     <div class="col-md-12">
                         <select class="form-control form-control-lg" ng-model="selectReplication">
@@ -94,6 +95,14 @@
                     </div>
                 </div>
 
+
+                <div class="form-group" ng-show="selectType=='MsSQL'">
+                    <label class="col-md-12 control-label">MsSQL Admin password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputsapassword" class="form-control" required="required" value="P455word1">
+                    </div>
+                </div>
+		
                 <div class="form-group" ng-show="selectType=='PostgresSQL'">
                     <label class="col-md-12 control-label">PostgresSql master password:</label>
                     <div class="col-md-12">
@@ -136,7 +145,8 @@
                     </button>
 
                 </div>
-
+		
+		<span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
    		<div class="alert alert-info text-left" ng-if="shellRes!=''" ng-bind-html="shellRes" ></div>
             </form>
         </div>

@@ -27,6 +27,8 @@ RUn npm install -g bower
 
 RUN bower install angular-sanitize  --allow-root
 RUN bower install angular-spinner  --allow-root
+#RUN bower install angular-ui-grid  --allow-root
+
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl; 
 RUN chmod +x ./kubectl;
@@ -42,8 +44,9 @@ COPY . /opt/dbaas
 #COPY ../../runBench.pl /opt/dbaas/
 
 #temp work around for bower stuff
-RUN cp -r  bower_components/angular-spinner/ public/libs/
+RUN cp -r  bower_components/angular-spinner public/libs/
 RUN cp -r  bower_components/angular-sanitize public/libs/
-
+#RUN cp -r  bower_components/angular-ui-grid public/libs/
+RUN cp -r  node_modules/angular-ui-grid public/libs/
 
 CMD ["npm", "start"]
