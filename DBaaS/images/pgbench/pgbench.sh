@@ -37,7 +37,7 @@ if [ ! -v SCALE_FACTOR ]; then
     SCALE_FACTOR=600;
 fi
 if [ ! -v ITERATIONS ]; then
-    ITERATIONS=1;
+    ITERATIONS=100;
 fi
 if [ ! -v NUM_CLIENTS ]; then
     NUM_CLIENTS=16;
@@ -82,8 +82,8 @@ if [ $PG_MODE = "ms" ]; then
     WRITE_HOST=$PGHOST-master
     READ_HOST=$PGHOST-slave
 else
-    WRITE_HOST=$PGHOST
-    READ_HOST=$PGHOST
+    WRITE_HOST=$PGHOST-master
+    READ_HOST=$PGHOST-master
 fi
 
 
@@ -101,7 +101,8 @@ done
 
 if [ $NOLOAD = "false" ]; then
 echo "Running pgbench against Host $1 in mode $2"
-psql -p $PGPORT -h $WRITE_HOST -c "create database $PGBENCH_DATABASE" -U $PGBENCH_USER
+#psql -p $PGPORT -h $WRITE_HOST -c "create database $PGBENCH_DATABASE" -U $PGBENCH_USER
+psql -p $PGPORT -h $WRITE_HOST -c "create database $PGBENCH_DATABASE" -U postgres
 pgbench --host=$WRITE_HOST \
         --port=$PGPORT \
         --username=$PGBENCH_USER \

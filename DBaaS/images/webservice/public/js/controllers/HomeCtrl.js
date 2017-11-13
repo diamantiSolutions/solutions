@@ -1,16 +1,20 @@
-angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope,$scope, $http,$location) {
+angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope,$scope, $http,$location, usSpinnerService) {
 
     //$scope.tagline = 'Nothing beats a pocket protector!';
 
     $scope.shellRes='';
-    $scope.inputCost="diamanti-sales"
+    $scope.inputCost="diamanti-sales";
     $scope.selectType='PostgresSQL';
-    $scope.selectReplication="3";
+    if( $scope.selectType=='MsSQL')
+	$scope.selectReplication="1";
+    else
+	$scope.selectReplication="3";
     $scope.selectStorage="100";
     $scope.selectMirroring="2";
     $scope.selectNetwork="default";
     $scope.selectNetPerfTier="high";
     $scope.selectStoragePerfTier="high";
+    $scope.inputsapassword="P455word1"
     $scope.inputpgmasterpassword="password";
     $scope.inputpguser="pgbench";
     $scope.inputpguserpassword="password";
@@ -27,6 +31,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope
     }
     $scope.CreateDb = function () {
 	
+        usSpinnerService.spin('spinner-1');
         $scope.shellRes="Please wait while we cook a database for you...";
         $http({
             method: 'POST',
@@ -40,6 +45,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope
 		network: this.selectNetwork,
 		netPerfTier: this.selectNetPerfTier,
 		storagePerfTier: this.selectStoragePerfTier,
+		sapassword: this.inputsapassword,
 		pgmasterpassword: this.inputpgmasterpassword,
 		pguser: this.inputpguser,
 		pguserpassword: this.inputpguserpassword,
@@ -48,6 +54,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope
             }
             // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function(response) {
+            usSpinnerService.stop('spinner-1');
             $scope.shellRes=response.data;
         });
     }

@@ -142,4 +142,14 @@ body { padding-top:30px; }
 	    margin-bottom: 0;
 	    text-align: left;
 	}
+	
+  .navbar-nav.navbar-center {
+    #position: absolute;
+    vertical-align: middle;
+    left: 50%;
+    transform: translatex(-50%);
+  }
+  .navbar-nav li a {
+      line-height: 42px;
+  }
 }

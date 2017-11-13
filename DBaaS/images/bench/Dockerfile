@@ -8,6 +8,8 @@ ADD master.sh /master.sh
 ADD user.my.cnf /root/.my.cnf
 COPY . /opt/bench
 
+MKDIR /opt/nfs
+
 CMD /master.sh
 #CMD sleep 1000 && echo "success"
 

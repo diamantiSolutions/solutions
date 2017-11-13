@@ -1,1 +1,1 @@
-angular.module('sampleApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'HomeCtrl', 'HomeService', 'angularSpinner','ngSanitize']);
+angular.module('sampleApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'HomeCtrl','ScaleCtrl', 'HomeService','angularSpinner','ngSanitize','ui.grid']);
