@@ -4,13 +4,13 @@ angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope
 
     $scope.shellRes='';
     $scope.inputCost="diamanti-sales";
-    $scope.selectType='PostgresSQL';
-    if( $scope.selectType=='MsSQL')
+    $scope.selectType="PostgresSQL";
+    if( $scope.selectType=="MsSQL")
 	$scope.selectReplication="1";
     else
 	$scope.selectReplication="3";
-    $scope.selectStorage="100";
-    $scope.selectMirroring="2";
+    $scope.selectStorage="300";
+    $scope.selectMirroring="1";
     $scope.selectNetwork="default";
     $scope.selectNetPerfTier="high";
     $scope.selectStoragePerfTier="high";
