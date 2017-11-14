@@ -1,0 +1,42 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
+                },
+                "name": "mongo-bench-client"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        
+                        "env": [{
+				"name" : "DB",
+				"value" : "mongo"
+			},{
+				"name" : "QOS",
+				"value" : "high"
+			},{
+				"name" : "target_ip",
+				"value" : "TARGET"
+			},{
+				"name" : "phase",
+				"value" : "load"
+}
+                        ],
+                        "image": "guptaarvindk/dbbench:perf",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "client"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never"
+            }
+        }
+    ],
+    "kind": "List"
+}
