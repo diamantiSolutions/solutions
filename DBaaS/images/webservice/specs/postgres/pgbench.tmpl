@@ -25,7 +25,7 @@ spec:
     - name: NOLOAD
       value: "<BENCH_NOLOAD>"
     image: guptaarvindk/pgbench:perf
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     name: master
     ports:
     - containerPort: 5432

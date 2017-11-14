@@ -29,25 +29,10 @@
 }
                         ],
                         "image": "guptaarvindk/dbbench:perf",
-                        "imagePullPolicy": "Always",
-                        "name": "client",
-                        "volumeMounts": [
-                            {
-                                "mountPath": "/opt/nfs",
-                                "name": "test-data"
-                            }
-                       ]
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "client"
                     }
                 ],
-                "volumes": [
-                {
-		    "nfs":{
-			"server": "dws-svm-nas01",
-			"path": "/dws_nas_scratch"
-		    },
-                    "name": "test-data"
-                 }
-        ],
                 "dnsPolicy": "ClusterFirst",
                 "restartPolicy": "Never"
             }

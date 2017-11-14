@@ -63,7 +63,7 @@ items:
                 apiVersion: v1
                 fieldPath: metadata.name
           image: guptaarvindk/diamanti-postgres:v2
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: postgres
           ports:
           - containerPort: 5432
@@ -180,7 +180,7 @@ items:
           - name: MASTER_LABEL
             value: name=<SVC_NAME>-master
           image: guptaarvindk/pg-controller:v2
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 1Gi

@@ -199,7 +199,8 @@ switch($DB_TYPE){
 	#    sed "s/<NET_PERF_TIER>/$MY_NET_PERF_TIER/g" | \
 	#    sed "s/<USER>/$MY_USER/g" | \
 	#    sed "s/<USER_PASSWORD>/$MY_USER_PASSWORD/g" | \
-	#    kubectl $MODE -f -`);
+	# 
+        #   kubectl $MODE -f -`);
 	    
 	    
 	    
