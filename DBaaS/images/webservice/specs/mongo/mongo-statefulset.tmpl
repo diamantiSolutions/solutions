@@ -38,17 +38,17 @@ items:
               - name: mongo-vol
                 mountPath: /data/db
           - name: mongo-sidecar
-            image: diamantisolutions/mongo-k8s-sidecar:v2
+            image: diamantisolutions/mongo-k8s-sidecar:v3
             #image: cvallance/mongo-k8s-sidecar
             env:
               - name: MONGO_SIDECAR_POD_LABELS
                 value: "role=<SVC_NAME>-mongo,environment=<SVC_NAME>-test"
-              - name: KUBERNETES_CLUSTER_DOMAIN
-                value: "solutions.diamanti.com"
-              - name: KUBERNETES_SERVICE_HOST
-                value: "172.16.17.3"
-              - name: KUBERNETES_SERVICE_PORT
-                value: "8080"
+#              - name: KUBERNETES_CLUSTER_DOMAIN
+#                value: "solutions.diamanti.com"
+#              - name: KUBERNETES_SERVICE_HOST
+#                value: "172.16.17.3"
+#              - name: KUBERNETES_SERVICE_PORT
+#                value: "8080"
     volumeClaimTemplates:
     - metadata:
         name: mongo-vol
