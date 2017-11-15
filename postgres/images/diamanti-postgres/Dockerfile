@@ -15,7 +15,6 @@ RUN yum -y install epel-release \
 	hostname \
 	nss_wrapper \
 	openssh-clients \
-	kubernetes-client \
  	procps-ng  \
 	rsync \
  && yum -y clean all
@@ -35,6 +34,12 @@ RUN mkdir -p /opt/cpm/bin /opt/cpm/conf /pgdata /pgwal /pgconf /backup /recover 
 
 RUN chown -R postgres:postgres /opt/cpm /var/lib/pgsql \
 	/pgdata /pgwal /pgconf /backup /recover /backrestrepo
+
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl; 
+RUN chmod +x ./kubectl;
+RUN cp ./kubectl /usr/local/bin
+
 
 
 # add volumes to allow override of pg_hba.conf and postgresql.conf

@@ -1,0 +1,3 @@
+db.passwd=admin
+jdbc.fetchsize=10
+jdbc.autocommit=true

@@ -254,7 +254,7 @@ function promote() {
     
     // set lable "role=pgmaster"so that thaservice can connect to it.
     //k8.pod.patch( )
-    k8s.labelPod(process.env.POD_NAME, "role","process.env.MASTER_LABEL", function(err) {
+    k8s.labelPod(process.env.POD_NAME, "role",process.env.PG_SERVICE_NAME+"-master", function(err) {
 	if(err){
 	    console.error('Error: pod labeling failed'+err);
 	}
