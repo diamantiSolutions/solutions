@@ -1,0 +1,454 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    creationTimestamp: null
+    labels:
+      volume: shrd-1-1
+    name: cassandra-shrd-1-1
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Gi
+    flexVolume:
+      driver: diamanti.com/volume
+      fsType: xfs
+      options:
+        name: cassandra-shrd-1-1
+        perfTier: high
+    persistentVolumeReclaimPolicy: Retain
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    creationTimestamp: null
+    name: cassandra-shrd-1-1-claim
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100G
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    creationTimestamp: null
+    labels:
+      volume: shrd-1-2
+    name: cassandra-shrd-1-2
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Gi
+    flexVolume:
+      driver: diamanti.com/volume
+      fsType: xfs
+      options:
+        name: cassandra-shrd-1-2
+        perfTier: high
+    persistentVolumeReclaimPolicy: Retain
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    creationTimestamp: null
+    name: cassandra-shrd-1-2-claim
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100G
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    creationTimestamp: null
+    labels:
+      volume: shrd-1-3
+    name: cassandra-shrd-1-3
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Gi
+    flexVolume:
+      driver: diamanti.com/volume
+      fsType: xfs
+      options:
+        name: cassandra-shrd-1-3
+        perfTier: high
+    persistentVolumeReclaimPolicy: Retain
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    creationTimestamp: null
+    name: cassandra-shrd-1-3-claim
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100G
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    creationTimestamp: null
+    labels:
+      diamanti/app: cassandra
+      instance: shrd-1-cassandra-3
+    name: cassandra-shrd-1-3
+  spec:
+    replicas: 1
+    selector:
+      diamanti/app: cassandra
+      instance: shrd-1-cassandra-3
+    template:
+      metadata:
+        annotations:
+          diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        creationTimestamp: null
+        labels:
+          diamanti/app: cassandra
+          instance: shrd-1-cassandra-3
+      spec:
+        containers:
+        - env:
+          - name: XCASSANDRA_BROADCAST_ADDRESS
+            value: shrd-1-svc-3
+          - name: XCASSANDRA_SEED
+            value: shrd-1-svc-3
+          - name: CASSANDRA_RACK
+            value: shrd-1-rack
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: diamanti/cassandra:2.2.7
+          imagePullPolicy: IfNotPresent
+          name: cassandra
+          ports:
+          - containerPort: 7000
+            name: intra-node
+            protocol: TCP
+          - containerPort: 7001
+            name: tls-intra-node
+            protocol: TCP
+          - containerPort: 7199
+            name: jmx
+            protocol: TCP
+          - containerPort: 9042
+            name: cql
+            protocol: TCP
+          - containerPort: 9160
+            name: thrift
+            protocol: TCP
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 2Gi
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/cassandra
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: cassandra-shrd-1-3-claim
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: shrd-1-svc-3
+  spec:
+    clusterIP: None
+    ports:
+    - name: intra-node
+      port: 7000
+      protocol: TCP
+      targetPort: 7000
+    - name: tls-intra-node
+      port: 7001
+      protocol: TCP
+      targetPort: 7001
+    - name: jmx
+      port: 7199
+      protocol: TCP
+      targetPort: 7199
+    - name: cql
+      port: 9042
+      protocol: TCP
+      targetPort: 9042
+    - name: thrift
+      port: 9160
+      protocol: TCP
+      targetPort: 9160
+    selector:
+      instance: shrd-1-cassandra-3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    creationTimestamp: null
+    labels:
+      diamanti/app: cassandra
+      instance: shrd-1-cassandra-2
+    name: cassandra-shrd-1-2
+  spec:
+    replicas: 1
+    selector:
+      diamanti/app: cassandra
+      instance: shrd-1-cassandra-2
+    template:
+      metadata:
+        annotations:
+          diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        creationTimestamp: null
+        labels:
+          diamanti/app: cassandra
+          instance: shrd-1-cassandra-2
+      spec:
+        containers:
+        - env:
+          - name: XCASSANDRA_BROADCAST_ADDRESS
+            value: shrd-1-svc-2
+          - name: XCASSANDRA_SEED
+            value: shrd-1-svc-2
+          - name: CASSANDRA_RACK
+            value: shrd-1-rack
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: diamanti/cassandra:2.2.7
+          imagePullPolicy: IfNotPresent
+          name: cassandra
+          ports:
+          - containerPort: 7000
+            name: intra-node
+            protocol: TCP
+          - containerPort: 7001
+            name: tls-intra-node
+            protocol: TCP
+          - containerPort: 7199
+            name: jmx
+            protocol: TCP
+          - containerPort: 9042
+            name: cql
+            protocol: TCP
+          - containerPort: 9160
+            name: thrift
+            protocol: TCP
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 2Gi
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/cassandra
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: cassandra-shrd-1-2-claim
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: shrd-1-svc-2
+  spec:
+    clusterIP: None
+    ports:
+    - name: intra-node
+      port: 7000
+      protocol: TCP
+      targetPort: 7000
+    - name: tls-intra-node
+      port: 7001
+      protocol: TCP
+      targetPort: 7001
+    - name: jmx
+      port: 7199
+      protocol: TCP
+      targetPort: 7199
+    - name: cql
+      port: 9042
+      protocol: TCP
+      targetPort: 9042
+    - name: thrift
+      port: 9160
+      protocol: TCP
+      targetPort: 9160
+    selector:
+      instance: shrd-1-cassandra-2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    creationTimestamp: null
+    labels:
+      diamanti/app: cassandra
+      instance: shrd-1-cassandra-1
+    name: cassandra-shrd-1-1
+  spec:
+    replicas: 1
+    selector:
+      diamanti/app: cassandra
+      instance: shrd-1-cassandra-1
+    template:
+      metadata:
+        annotations:
+          diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        creationTimestamp: null
+        labels:
+          diamanti/app: cassandra
+          instance: shrd-1-cassandra-1
+      spec:
+        containers:
+        - env:
+          - name: XCASSANDRA_BROADCAST_ADDRESS
+            value: shrd-1-svc-1
+          - name: XCASSANDRA_SEED
+            value: shrd-1-svc-1
+          - name: CASSANDRA_RACK
+            value: shrd-1-rack
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: diamanti/cassandra:2.2.7
+          imagePullPolicy: IfNotPresent
+          name: cassandra
+          ports:
+          - containerPort: 7000
+            name: intra-node
+            protocol: TCP
+          - containerPort: 7001
+            name: tls-intra-node
+            protocol: TCP
+          - containerPort: 7199
+            name: jmx
+            protocol: TCP
+          - containerPort: 9042
+            name: cql
+            protocol: TCP
+          - containerPort: 9160
+            name: thrift
+            protocol: TCP
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 2Gi
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/cassandra
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: cassandra-shrd-1-1-claim
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: shrd-1-svc-1
+  spec:
+    clusterIP: None
+    ports:
+    - name: intra-node
+      port: 7000
+      protocol: TCP
+      targetPort: 7000
+    - name: tls-intra-node
+      port: 7001
+      protocol: TCP
+      targetPort: 7001
+    - name: jmx
+      port: 7199
+      protocol: TCP
+      targetPort: 7199
+    - name: cql
+      port: 9042
+      protocol: TCP
+      targetPort: 9042
+    - name: thrift
+      port: 9160
+      protocol: TCP
+      targetPort: 9160
+    selector:
+      instance: shrd-1-cassandra-1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}

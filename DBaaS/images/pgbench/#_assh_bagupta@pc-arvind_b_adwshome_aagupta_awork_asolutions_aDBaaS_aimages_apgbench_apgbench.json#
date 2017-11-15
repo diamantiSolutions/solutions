@@ -1,0 +1,80 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
+                },
+                "name": "pgbench-loadgen"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "command" : ["sleep", "10000"],
+                        "env": [
+                            {
+                                "name": "SCALE_FACTOR",
+                                "value": "600"
+                            },
+                            {
+                                "name": "ITERATIONS",
+                                "value": "1"
+                            },
+                            {
+                                "name": "NUM_CLIENTS",
+                                "value": "16"
+                            },
+                            {
+                                "name": "NUM_JOBS",
+                                "value": "2"
+                            },
+                            {
+                                "name": "PGBENCH_DATABASE",
+                                "value": "pgbench"
+                            },
+                            {
+                                "name": "PGBENCH_USER",
+                                "value": "pgbench"
+                            },
+                            {
+                                "name": "PGBENCH_PASSWORD",
+                                "value": "password"
+                            },
+                            {
+                                "name": "TIME_DURATION",
+                                "value": "300"
+                            },
+                            {
+                                "name": "PGBENCH_HOST",
+                                "value": "host"
+                            },
+                            {
+                                "name": "PGBENCH_PORT",
+                                "value": "5432"
+                            }
+                        ],
+                        "image": "postgres",
+                        "name": "master",
+			"resources" : {
+ 				"requests" : {
+                                  "cpu": "8000m",
+                                  "memory": "4Gi"
+                             }
+                        },
+                        "ports": [
+                            {
+                                "containerPort": 5432,
+                                "protocol": "TCP"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {}
+}

@@ -1,0 +1,156 @@
+<div class="col align-self-center">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        <div class=" jumbotron text-center" ng-submit="CreateDb()">
+            <form class="form-horizontal" id="mainForm">
+                <legend><b>Create new database service</b></legend>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Enter the cost code:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputCost" class="form-control" required="required" value="DiamantiSales">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">Name your database service:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputName" class="form-control" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12 control-label">What type of database:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" name="selectType" ng-model="selectType" ng-change="setDb()" required="required">
+                            <option>PostgresSQL</option>
+                            <option>MongoDb</option>
+			    <option>MsSQL</option>
+			    <option>Cassandra</option>
+                        </select>
+
+                    </div>
+                </div>
+		
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">How many DB replicas instance:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectReplication">
+                            <option>1</option>
+                            <option>3</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">How much storage for each instance (GB):</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectStorage">
+                            <option>50</option>
+                            <option>100</option>
+                            <option>300</option>
+                            <option>500</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 control-label">How many mirror per volume:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectMirroring">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">Which network this DB belongs to:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectNetwork">
+                            <option>default</option>
+                            <option>dev</option>
+                            <option>production</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">Performance tier for network:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectNetPerfTier">
+                            <option>high</option>
+                            <option>medium</option>
+                            <option>best-effort</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-md-12 control-label">Performance tier for storage:</label>
+                    <div class="col-md-12">
+                        <select class="form-control form-control-lg" ng-model="selectStoragePerfTier">
+                            <option>high</option>
+                            <option>medium</option>
+                            <option>best-effort</option>
+
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-group" ng-show="selectType=='MsSQL'">
+                    <label class="col-md-12 control-label">MsSQL Admin password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputsapassword" class="form-control" required="required" value="P455word1">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql master password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpgmasterpassword" class="form-control" required="required" value="password">
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql user name:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpguser" class="form-control" required="required" value="pabench">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql user password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpguserpassword" class="form-control" required="required" value="password">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql database name:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpgdb" class="form-control" required="required" value="pgbench">
+                    </div>
+                </div>
+		
+                <div class="form-group" ng-show="selectType=='PostgresSQL'">
+                    <label class="col-md-12 control-label">PostgresSql root password:</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="inputpgrootpassword" class="form-control" required="required" value="password">
+                    </div>
+                </div>
+		
+                <div class="form-group">
+
+                    <button class="btn btn-primary" type="submit">
+                        <span>Create database</span>
+                    </button>
+
+                </div>
+		
+		<span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+   		<div class="alert alert-info text-left" ng-if="shellRes!=''" ng-bind-html="shellRes" ></div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
