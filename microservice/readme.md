@@ -1,19 +1,19 @@
+# Demo of running microservices on Diamanti
 
-1.0 REFERRENCE:
-This demo soluiton is loosely referred from:
+## REFERRENCE:
+* This demo soluiton is loosely referred from:
 https://github.com/Crizstian/cinema-microservice
 
-1.1 You can find full description of this solution and microservics interaction at diamanti website:
+* You can find full description of this solution and microservics interaction at diamanti website:
 <TBD>
 
-2.0 Prerequisite 
+## Prerequisite 
 
-2.1 download this solutions repository.
+1.1. download this solutions repository.
 ```
 git clone https://github.com/diamantiSolutions/solutions.git
 ```
-
-2.2 You need to have a mongodb database running in order to get this solution working. This solution assumes you have a mongodb instance (or cluster) running base don following example, for different mongo DB setup , please modify the env file for each microservice.
+1.2. You need to have a mongodb database running in order to get this solution working. This solution assumes you have a mongodb instance (or cluster) running base don following example, for different mongo DB setup , please modify the env file for each microservice.
 ```
 cd <cloned_dir>/mongodb-cluster/specs/ss/
 ./run.sh cinema
@@ -22,12 +22,14 @@ This will start a 3 member replica set for mongoDB which is highly availble, rec
 ```
 cinema-rs-0.cinema-mongo:27017 cinema-rs-1.cinema-mongo:27017 cinema-rs-2.cinema-mongo:27017
 ```
-2.3 if there is any change in above steps of mongo deplyment. please modify the env files in future steps.
+1.3. if there is any change in above steps of mongo deplyment. please modify the env files in future steps.
 
 
-3.0 prelaod database for our example
+## Running the example
 
-3.1 Setup and preload movie database:
+### 2.0. prelaod database for our example
+
+2.1. Setup and preload movie database:
 ```
 kubectl exec -it cinema-rs-0 mongo sh
 
@@ -114,7 +116,7 @@ rs0:PRIMARY> exit
 bye
 ```
 
-3.2 copy over database json files to mongo master pod so that we can preload those data.
+2.2 copy over database json files to mongo master pod so that we can preload those data.
 ```
 cd <cloned_dir>/microservice/specs/db/
 kubectl cp cinemas.json default/cinema-rs-0:/
@@ -123,7 +125,7 @@ kubectl cp countries.json default/cinema-rs-0:/
 kubectl cp states.json default/cinema-rs-0:/
 ```
 
-3.3 load the cinema catalog
+2.3 load the cinema catalog
 ```
 kubectl exec -it cinema-rs-0 mongo sh
 
@@ -133,23 +135,23 @@ rs0:PRIMARY> mongoimport --db cinemas --collection cities --file cities.json --j
 rs0:PRIMARY> mongoimport --db cinemas --collection cinemas --file cinemas.json --jsonArray -u arvind -p arvindsmongo --authenticationDatabase "admin"
 ```
 
-4.0 launch all the microservices
+### 3.0 launch all the microservices
 ```
 cd <cloned_dir>/microservices/specs ;
 ./run.sh
 ```
 
-4.1 find the IP address of frontend Cinema App:
+3.1 find the IP address of frontend Cinema App:
 kubectl get pods -o wide | grep cinema-app-deployment
 cinema-app-deployment-3620067656-8586m               1/1       Running            0          18h       172.16.137.31    appserv94
 
 
-4.2 Point your browser to following address and start interacting with the application.:
+3.2 Point your browser to following address and start interacting with the application.:
 ``
 http://<IP_Address>:3000
 ``
 
-4.3 delete all the microservice:
+3.3 delete all the microservice:
 
 kubectl delete -f deploy.yaml
 
