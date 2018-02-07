@@ -1,0 +1,303 @@
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1 else beta2
+kind: Deployment
+metadata:
+  name: movie-service-deployment
+  labels:
+    app: cinema
+    apiRoute: "movies"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movie-service
+  template:
+    metadata:
+      labels:
+        app: movie-service
+    spec:
+      containers:
+      - name: movie-service
+        image: guptaarvindk/microservice-movie-service:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB
+            value: movies
+          - name: DB_USER
+            value: arvind
+          - name: DB_PASS
+            value: arvindsmongo
+          - name: DB_REPLS
+            value: rs0
+          - name: DB_SERVERS
+            value: '<MONGO_RS>'
+          - name: PORT
+            value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-svc
+  labels:
+    app: movie-service
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: movie-service
+
+---
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1 else beta2
+kind: Deployment
+metadata:
+  name: cinema-catalog-service-deployment
+  labels:
+    app: cinema
+    apiRoute: "cinemas"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cinema-catalog-service
+  template:
+    metadata:
+      labels:
+        app: cinema-catalog-service
+    spec:
+      containers:
+      - name: cinema-catalog-service
+        image: guptaarvindk/microservice-cinema-catalog-service:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB
+            value: cinemas
+          - name: DB_USER
+            value: arvind
+          - name: DB_PASS
+            value: arvindsmongo
+          - name: DB_REPLS
+            value: rs0
+          - name: DB_SERVERS
+            value: '<MONGO_RS>'
+          - name: PORT
+            value: "3000"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cinema-catalog-svc
+  labels:
+    app: cinema-catalog-service
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: cinema-catalog-service
+---
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1 else beta2
+kind: Deployment
+metadata:
+  name: booking-service-deployment
+  labels:
+    app: cinema
+    apiRoute: "booking"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-service
+  template:
+    metadata:
+      labels:
+        app: booking-service
+    spec:
+      containers:
+      - name: booking-service
+        image: guptaarvindk/microservice-booking-service:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB
+            value: booking
+          - name: DB_USER
+            value: arvind
+          - name: DB_PASS
+            value: arvindsmongo
+          - name: DB_REPLS
+            value: rs0
+          - name: DB_SERVERS
+            value: '<MONGO_RS>'
+          - name: PORT
+            value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-svc
+  labels:
+    app: booking-service
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: booking-service
+---
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1 else beta2
+kind: Deployment
+metadata:
+  name: payment-service-deployment
+  labels:
+    app: cinema
+    apiRoute: "payment"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+      - name: payment-service
+        image: guptaarvindk/microservice-payment-service:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB
+            value: payment
+          - name: DB_USER
+            value: arvind
+          - name: DB_PASS
+            value: arvindsmongo
+          - name: DB_REPLS
+            value: rs0
+          - name: DB_SERVERS
+            value: '<MONGO_RS>'
+          - name: PORT
+            value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-svc
+  labels:
+    app: payment-service
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: payment-service
+---
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1 else beta2
+kind: Deployment
+metadata:
+  name: notification-service-deployment
+  labels:
+    app: cinema
+    apiRoute: "notification"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+      - name: notification-service
+        image: guptaarvindk/microservice-notification-service:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB
+            value: booking
+          - name: DB_USER
+            value: arvind
+          - name: DB_PASS
+            value: arvindsmongo
+          - name: DB_REPLS
+            value: rs0
+          - name: DB_SERVERS
+            value: '<MONGO_RS>'
+          - name: PORT
+            value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-svc
+  labels:
+    app: notification-service
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: notification-service
+---
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1 else beta2
+kind: Deployment
+metadata:
+  name: cinema-app-deployment
+  labels:
+    app: cinema
+    apiRoute: "app"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cinema-app-service
+  template:
+    metadata:
+      labels:
+        app: cinema-app-service
+    spec:
+      containers:
+      - name: cinema-app
+        image: guptaarvindk/microservice-cinema-app:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB
+            value: booking
+          - name: DB_USER
+            value: arvind
+          - name: DB_PASS
+            value: arvindsmongo
+          - name: DB_REPLS
+            value: rs0
+          - name: DB_SERVERS
+            value: '<MONGO_RS>'
+          - name: PORT
+            value: "3000"
