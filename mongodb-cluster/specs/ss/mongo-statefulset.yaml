@@ -19,7 +19,7 @@ items:
         terminationGracePeriodSeconds: 10
         containers:
           - name: mongo
-            image: mongo
+            image: mongo:3.4.10-jessie
             command:
               - mongod
               - "--replSet"
