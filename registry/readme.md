@@ -1,1 +1,2 @@
-[docker registry](/specs/docker/readme.md)
+[docker registry](../tree/registry/specs/docker/)
+
