@@ -1,3 +1,3 @@
-# Example of running various registris on Diamanti plateform
-1. [docker registry](specs/docker/)
+# Examples of running various registries on Diamanti platform
+1. [Docker registry](specs/docker/)
 
