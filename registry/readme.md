@@ -1,2 +1,2 @@
-[docker registry](../tree/registry/specs/docker/)
+[docker registry](registry/specs/docker/)
 
