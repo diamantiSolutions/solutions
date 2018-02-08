@@ -116,7 +116,7 @@ rs0:PRIMARY> exit
 bye
 ```
 
-2.2 copy over database json files to mongo master pod so that we can preload those data.
+2.2. copy over database json files to mongo master pod so that we can preload those data.
 ```
 cd <cloned_dir>/microservice/specs/db/
 kubectl cp cinemas.json default/cinema-rs-0:/
@@ -125,7 +125,7 @@ kubectl cp countries.json default/cinema-rs-0:/
 kubectl cp states.json default/cinema-rs-0:/
 ```
 
-2.3 load the cinema catalog
+2.3. load the cinema catalog
 ```
 kubectl exec -it cinema-rs-0 mongo sh
 
@@ -135,23 +135,23 @@ rs0:PRIMARY> mongoimport --db cinemas --collection cities --file cities.json --j
 rs0:PRIMARY> mongoimport --db cinemas --collection cinemas --file cinemas.json --jsonArray -u arvind -p arvindsmongo --authenticationDatabase "admin"
 ```
 
-### 3.0 launch all the microservices
+### 3.0. launch all the microservices
 ```
 cd <cloned_dir>/microservices/specs ;
 ./run.sh
 ```
 
-3.1 find the IP address of frontend Cinema App:
+3.1. find the IP address of frontend Cinema App:
 kubectl get pods -o wide | grep cinema-app-deployment
 cinema-app-deployment-3620067656-8586m               1/1       Running            0          18h       172.16.137.31    appserv94
 
 
-3.2 Point your browser to following address and start interacting with the application.:
+3.2. Point your browser to following address and start interacting with the application.:
 ``
 http://<IP_Address>:3000
 ``
 
-3.3 delete all the microservice:
+3.3. delete all the microservice:
 
 kubectl delete -f deploy.yaml
 

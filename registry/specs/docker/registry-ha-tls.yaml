@@ -25,15 +25,27 @@ spec:
             name: vol-registry
             perfTier: high
             type: Simple
+      - name: certificate
+        configMap:
+          name: certs
       containers:
       - name: registry
         image: registry:2
         imagePullPolicy: Always
+        env:
+          - name: REGISTRY_HTTP_ADDR
+            value: "0.0.0.0:443"
+          - name: REGISTRY_HTTP_TLS_CERTIFICATE
+            value: "/certs/registry.crt"
+          - name: REGISTRY_HTTP_TLS_KEY
+            value: "/certs/registry.key"
         ports:
-          - containerPort: 5000
+          - containerPort: 443
         volumeMounts:
           - mountPath: /var/lib/registry
             name: registry-data
+          - mountPath: /certs/
+            name: certificate
 ---
 kind: Service
 apiVersion: v1
@@ -44,5 +56,5 @@ spec:
   selector:
     app: registry
   ports:
-    - port: 5000
-      targetPort: 5000
+    - port: 443
+      targetPort: 443
