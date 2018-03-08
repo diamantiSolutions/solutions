@@ -4,7 +4,7 @@ metadata:
   labels:
     app: registry-deployment
   name: registry-deployment
-  namespace: docker-registry
+  namespace: registry-docker
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
       name: registry
       labels:
         app: registry
-      namespace: docker-registry
+      namespace: registry-docker
     spec:
       volumes:
       - name: registry-data
@@ -22,12 +22,12 @@ spec:
           driver: diamanti.com/volume
           fsType: xfs
           options:
-            name: vol-registry
+            name: vol-registry-docker
             perfTier: high
             type: Simple
       - name: certificate
         configMap:
-          name: certs
+          name: docker-registry-tls
       containers:
       - name: registry
         image: registry:2
@@ -51,8 +51,9 @@ kind: Service
 apiVersion: v1
 metadata:
   name: registry
-  namespace: docker-registry
+  namespace: registry-docker
 spec:
+  clusterIP: None
   selector:
     app: registry
   ports:
