@@ -1,5 +1,5 @@
 
-# Deploying a Highly Available Jfrog Artifactory Docker Registry on Diamanti
+# Deploying a  Jfrog Artifactory Docker Registry on Diamanti
 
 
 ##setup namespace
@@ -14,7 +14,7 @@ $ kubectl apply -f postgresql-storage.yaml
 $ kubectl apply -f postgresql.yaml
 ```
 
-3.0. Create artifactory storage. Please note that this example is using dynamic persistent volume, but for better manageability and easy recovery of volume after disaster it is recommended to use statically created persistent volume.
+3.0. Create artifactory storage. Please note that this example is using dynamic persistent volume, but for better manageability and easy recovery of volume after disaster, it is recommended to use statically created persistent volume. Also to make this solutions Highly avaialble, setup storage with mirrorcount more than 1. (Not covered in this example)
 ```
 $ kubectl apply -f artifactory-storage.yaml
 ```
@@ -167,7 +167,7 @@ server {
 
 9.0. Accessing repository
 ```
-[diamanti@appserv94 specs]$ kubectl create -f docker-testpod.yaml
+[diamanti@appserv94 specs]$ kubectl create -f ../test/docker-testpod.yaml
 pod "docker-dind" created
 
 [diamanti@appserv94 ~]$  kubectl exec -it docker-dind -c docker sh
@@ -218,10 +218,7 @@ access_log  /var/log/nginx/access.log  upstream_logging;
 
 
 # TO DO:
-2.0.  Deployment with helm.
+1.0. HA setup
+2.0. Deployment with helm.
 
-
-CONS:
-1- license cost
-2- takes long time to start.
 
