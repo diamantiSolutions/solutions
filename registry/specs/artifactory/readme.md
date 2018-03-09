@@ -1,5 +1,5 @@
 
-# Deploying a  Jfrog Artifactory Docker Registry on Diamanti
+# Deploying Jfrog Artifactory Docker Registry on Diamanti
 
 
 ##setup namespace
@@ -29,7 +29,8 @@ $ kubectl apply -f artifactory.yaml
 
 7.1. create tls secrete for nginx:
 ```
-kubectl create secret tls art-tls --cert=/home/diamanti/registry-tls/jfrog-tls/registry.crt --key=/home/diamanti/registry-tls/jfrog-tls/registry.key
+kubectl create secret tls -n registry-artifactory art-tls --cert=/home/diamanti/registry-tls/jfrog-tls/registry.crt --key=/home/diamanti/registry-tls/jfrog-tls/registry.key
+
 ```
 
 7.2.  Storage and deployment
@@ -167,7 +168,7 @@ server {
 
 9.0. Accessing repository
 ```
-[diamanti@appserv94 specs]$ kubectl create -f ../test/docker-testpod.yaml
+$ kubectl create -f ../test/docker-testpod.yaml
 pod "docker-dind" created
 
 [diamanti@appserv94 ~]$  kubectl exec -it docker-dind -c docker sh
