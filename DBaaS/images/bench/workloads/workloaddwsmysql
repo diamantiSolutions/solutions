@@ -1,0 +1,13 @@
+workload=com.yahoo.ycsb.workloads.CoreWorkload
+fieldcount=10
+fieldlength=2000
+recordcount=800000
+operationcount=50000000
+readallfields=true
+readproportion=0.95
+updateproportion=0.05
+scanproportion=0
+insertproportion=0
+requestdistribution=zipfian
+exportfile=/tmp/test_results.json
+maxexecutiontime=30000

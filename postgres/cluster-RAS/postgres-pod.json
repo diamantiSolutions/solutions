@@ -91,10 +91,14 @@
 						"fieldPath": "metadata.name"
 					    }
 					}
+				    },
+				    {
+					"name":"PG_SERVICE_NAME",
+					"value":"pg"
 				    }
 				],
 				"image": "guptaarvindk/diamanti-postgres:v1",
-				"imagePullPolicy": "Always",
+				"imagePullPolicy": "IfNotPresent",
 				"name": "postgres",
 				"resources" : {
 				    "requests" : {
@@ -211,7 +215,7 @@
 
 				"name": "pg-controller",
 				"image": "guptaarvindk/pg-controller:v1",
-				"imagePullPolicy": "Always",
+				"imagePullPolicy": "IfNotPresent",
 				"env": [
 				    { 
 					"name": "POD_IP",
@@ -251,8 +255,8 @@
 					"name": "KUBE_NAMESPACE",
 					"value": "default"
 				    }, {
-					"name": "MASTER_LABEL",
-					"value": "name=pg-master"
+					"name":"PG_SERVICE_NAME",
+					"value":"pg"
 				    }],
 				"volumeMounts": [
 				    {
