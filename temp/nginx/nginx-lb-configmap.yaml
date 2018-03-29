@@ -6,10 +6,14 @@ metadata:
   name: nginx-lb-config-<lb_num>
 data:
   proxy-buffering: "True"
-  worker-processes: "1"
+  worker-processes: "auto"
+  max-worker-connections: "4000"
+  client-body-buffer-size: "5M"
+  proxy-buffer-size: "32k"
+  server-tokens: "off"
+  error-log-path: "stderr"
   worker-rlimit-nofile: "10240"
   server-names-hash-bucket-size: "128"
-  keepalive: "128"
+  keepalive: "30"
   worker-connections: "10240"
-  worker-cpu-affinity: "<CPU_AFFINITY>"
-  
+  #worker-cpu-affinity: "<CPU_AFFINITY>"
