@@ -1,0 +1,15 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: nginx-lb
+  name: nginx-lb-config-<lb_num>
+data:
+  proxy-buffering: "True"
+  worker-processes: "1"
+  worker-rlimit-nofile: "10240"
+  server-names-hash-bucket-size: "128"
+  keepalive: "128"
+  worker-connections: "10240"
+  worker-cpu-affinity: "<CPU_AFFINITY>"
+  

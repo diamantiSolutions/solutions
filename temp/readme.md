@@ -1,0 +1,1 @@
+temp folder for nginx multi-instance example.
