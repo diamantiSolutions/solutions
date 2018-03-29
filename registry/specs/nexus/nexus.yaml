@@ -1,0 +1,112 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: registry-nexus
+  name: nexus-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: nexus-registry
+      labels:
+        app: nexus-registry
+    spec:
+      volumes:
+      - name: nexus-registry-data
+        flexVolume:
+          driver: diamanti.com/volume
+          fsType: xfs
+          options:
+            name: vol-nexus-registry
+            perfTier: high
+            type: Simple
+      - configMap:
+          name: nginx-nexus-config
+        name: nginx-nexus-config
+      - name: ssl-secret-volume
+        secret:
+          secretName: nexus-tls
+      containers:
+      - name: nexus-registry
+        image: sonatype/nexus3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+        #unfortunately nexus docker image doesnt work with mounted volume. They need to fix the permission issue in nexus image. Meanwhile a hack to not use persistant volume
+        #- mountPath: /nexus-data
+        - mountPath: /temp
+          name: nexus-registry-data
+      - name: nginx
+        image: nginx:latest
+        ports:
+          - containerPort: 80
+        volumeMounts:
+        - mountPath: "/etc/nginx/ssl"
+          name: ssl-secret-volume
+        - mountPath: /etc/nginx/conf.d/nexus.conf
+          subPath: nexus.conf
+          name: nginx-nexus-config
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: proxy
+  namespace: registry-nexus
+spec:
+  clusterIP: None
+  selector:
+    app: nexus-registry
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: registry-nexus
+  name: nginx-nexus-config
+data:
+  nexus.conf: |
+    ## add ssl entries when https has been set in config
+    ssl_certificate      /etc/nginx/ssl/tls.crt;
+    ssl_certificate_key  /etc/nginx/ssl/tls.key;
+    ssl_session_cache shared:SSL:1m;
+    ssl_prefer_server_ciphers   on;
+    ## server configuration
+    server_names_hash_bucket_size 1024;
+    server {
+        listen 443 ssl;
+        listen 80 ;
+        
+        server_name *.proxy.registry-nexus.svc.solutions.eng.diamanti.com proxy.registry-nexus.svc.solutions.eng.diamanti.com;
+        
+        if ($http_x_forwarded_proto = '') {
+            set $http_x_forwarded_proto  $scheme;
+        }
+        ## Application specific logs
+        ## access_log /var/log/nginx/proxy.registry-nexus.svc.solutions.eng.diamanti.com-access.log timing;
+        ## error_log /var/log/nginx/proxy.registry-nexus.svc.solutions.eng.diamanti.com-error.log;
+        rewrite ^/$ /webapp/ redirect;
+        rewrite ^//?(/webapp)?$ /webapp/ redirect;
+        rewrite ^/(v2)/(.*) /$1/$2;
+        chunked_transfer_encoding on;
+        client_max_body_size 0;
+        location / {
+        proxy_read_timeout  900;
+        proxy_pass_header   Server;
+        proxy_cookie_path   ~*^/.* /;
+        if ( $request_uri ~ ^/(.*)$ ) {
+            proxy_pass          http://localhost:5000/$1;
+        }
+        proxy_pass          http://localhost:5000/;
+        proxy_set_header    X-Nexus-Override-Base-Url $http_x_forwarded_proto://$host:$server_port;
+        proxy_set_header    X-Forwarded-Port  $server_port;
+        proxy_set_header    X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_set_header    Host              $http_host;
+        proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+        }
+    }
+
