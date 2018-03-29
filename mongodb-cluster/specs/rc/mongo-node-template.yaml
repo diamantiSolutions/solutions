@@ -59,7 +59,7 @@ items:
                 mountPath: /data/db
           - name: mongo-sidecar
             image: diamantisolutions/mongo-k8s-sidecar:v1
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
             env:
               - name: MONGO_SIDECAR_POD_LABELS
                 value: "role=mongo,environment=test"
