@@ -3,12 +3,9 @@ angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope
     //$scope.tagline = 'Nothing beats a pocket protector!';
 
     $scope.shellRes='';
+    $scope.selectType='';
     $scope.inputCost="diamanti-sales";
-    $scope.selectType="PostgresSQL";
-    if( $scope.selectType=="MsSQL")
-	$scope.selectReplication="1";
-    else
-	$scope.selectReplication="3";
+    //$scope.selectType="PostgresSQL";
     $scope.selectStorage="300";
     $scope.selectMirroring="1";
     $scope.selectNetwork="default";
@@ -58,5 +55,15 @@ angular.module('HomeCtrl', []).controller('HomeController', function ($rootScope
             $scope.shellRes=response.data;
         });
     }
+
+    
+    $scope.setDb = function(val){
+        $scope.selectType=val;
+	if( $scope.selectType=="MsSQL")
+	    $scope.selectReplication="1";
+	else
+	    $scope.selectReplication="3";
+    }
+
 
 });
