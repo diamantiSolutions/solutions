@@ -1,0 +1,63 @@
+# docker dind pod to test the registries. Login to pod and try push and pull to docker repo
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+  labels:
+    app: docker-dind
+  name: docker-dind
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: appserv94
+  containers:
+  - command:
+    - cat
+    env:
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
+    image: docker:1.12.6
+    imagePullPolicy: IfNotPresent
+    name: docker
+    resources: {}
+    securityContext:
+      privileged: false
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    tty: true
+    volumeMounts:
+    - mountPath: /etc/docker/certs.d
+      name: volume-2
+    - mountPath: /var/lib/docker
+      name: volume-0
+    - mountPath: /var/run
+      name: volume-1
+  - env:
+    image: docker:stable-dind
+    imagePullPolicy: IfNotPresent
+    name: docker-dind
+    resources: {}
+    securityContext:
+      privileged: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    tty: true
+    volumeMounts:
+    - mountPath: /etc/docker/certs.d
+      name: volume-2
+    - mountPath: /var/lib/docker
+      name: volume-0
+    - mountPath: /var/run
+      name: volume-1
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+  volumes:
+  - emptyDir:
+      medium: Memory
+    name: volume-0
+  - emptyDir:
+      medium: Memory
+    name: volume-1
+  - hostPath:
+      path: /etc/docker/certs.d/
+    name: volume-2
