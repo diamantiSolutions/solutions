@@ -9,6 +9,7 @@ fi
 
 #create load balancer pod
 kubectl create -f nginx-plus-ingress-rc.yaml --namespace=$ns
+#kubectl create -f nginx-lb-configmap.yaml 
 
 #create backend web server (config,pod,svc)
 kubectl create -f coffee-configmap.yaml --namespace=$ns
