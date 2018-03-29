@@ -44,6 +44,12 @@ fi
 #	fi
 #fi
 
+if [ ! -v PG_SERVICE_NAME ]; then
+	echo "PG_SERVICE_NAME env var (name of this DBaaS) is not set, aborting"
+	exit 1
+fi
+
+
 if [ ! -v KUBERNETES_SERVICE_HOST ]; then
 	echo "KUBERNETES_SERVICE_HOST env var is not set, aborting"
 	exit 1
@@ -475,7 +481,7 @@ else
     touch /pgdata/pg-failover-trigger
 fi
 
-kubectl label --overwrite=true pod $POD_NAME  role=pgmaster
+kubectl label --overwrite=true pod $POD_NAME  role=${PG_SERVICE_NAME}-master
 
 }
 
@@ -514,7 +520,7 @@ case "$PG_MODE" in
 		initialize_replica
 	fi
 	setupRecoveryConf
-	kubectl label --overwrite=true pod $POD_NAME  role=pgslave
+	kubectl label --overwrite=true pod $POD_NAME  role=${PG_SERVICE_NAME}-slave
 	;;
 	"master")
 	echo "working on master..."

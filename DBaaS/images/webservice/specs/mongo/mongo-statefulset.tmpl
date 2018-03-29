@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: apps/v1beta1
+  kind: StatefulSet
+  metadata:
+    name: <SVC_NAME>-rs
+  spec:
+    serviceName: "<SVC_NAME>-mongo"
+    replicas: <NUM_REPLICAS>
+    template:
+      metadata:
+        annotations:
+          diamanti.com/endpoint0: '{"network":"<NETWORK>","perfTier":"<NET_PERF_TIER>"}'
+        labels:
+          role: <SVC_NAME>-mongo
+          environment: <SVC_NAME>-test
+      spec:
+        terminationGracePeriodSeconds: 10
+        containers:
+          - name: mongo
+            image: mongo
+            command:
+              - mongod
+              - "--replSet"
+              - rs0
+              - "--smallfiles"
+              - "--noprealloc"
+              - "--wiredTigerCacheSizeGB=1"
+            ports:
+              - containerPort: 27017
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                memory: 2Gi
+            volumeMounts:
+              - name: mongo-vol
+                mountPath: /data/db
+          - name: mongo-sidecar
+            image: diamantisolutions/mongo-k8s-sidecar:v3
+            #image: cvallance/mongo-k8s-sidecar
+            env:
+              - name: MONGO_SIDECAR_POD_LABELS
+                value: "role=<SVC_NAME>-mongo,environment=<SVC_NAME>-test"
+#              - name: KUBERNETES_CLUSTER_DOMAIN
+#                value: "solutions.diamanti.com"
+#              - name: KUBERNETES_SERVICE_HOST
+#                value: "172.16.17.3"
+#              - name: KUBERNETES_SERVICE_PORT
+#                value: "8080"
+    volumeClaimTemplates:
+    - metadata:
+        name: mongo-vol
+        annotations:
+          volume.beta.kubernetes.io/storage-class: "<STORAGE_CLASS>"
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: <VOL_SIZE>Gi
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: <SVC_NAME>-mongo
+  spec:
+    clusterIP: None
+    ports:
+    - name: tcp0
+      port: 27017
+      protocol: TCP
+      targetPort: 27017
+    selector:
+      #name: mongo-node-<num>
+      role: <SVC_NAME>-mongo
+    sessionAffinity: None
+    type: ClusterIP

@@ -8,6 +8,6 @@ COPY package.json /opt/cvallance/mongo-k8s-sidecar/package.json
 RUN npm install
 
 COPY ./src /opt/cvallance/mongo-k8s-sidecar/src
-COPY .foreverignore /opt/cvallance/.foreverignore
+#COPY .foreverignore /opt/cvallance/.foreverignore
 
 CMD ["npm", "start"]

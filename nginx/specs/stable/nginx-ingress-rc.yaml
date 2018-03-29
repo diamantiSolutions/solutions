@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-ingress-rc
+  labels:
+    app: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    app: nginx-ingress
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+      annotations:
+        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+    spec:
+      dnsPolicy: ClusterFirst
+      containers:
+      - image: nginxdemos/nginx-ingress:0.9.0
+        imagePullPolicy: Always
+        name: nginx-ingress
+        # Uncomment the lines below to enable extensive logging and/or customization of
+        # NGINX configuration with configmaps
+        #args:
+         #- -v=3
+         #- -nginx-configmaps=default/nginx-config

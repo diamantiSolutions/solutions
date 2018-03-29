@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: coffee-rc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: coffee
+      annotations:
+        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: appserv36
+      containers:
+      - name: coffee
+#        image: nginxdemos/hello
+        image: nginx
+        resources:
+          requests:
+            #memory: "64Mi"
+            cpu: "16"
+          limits:
+            #memory: "128Mi"
+            cpu: "16"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          name: nginx-config
+      volumes:
+      - configMap:
+          name: nginx-config
+        name: nginx-config

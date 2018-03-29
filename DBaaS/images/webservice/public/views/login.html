@@ -1,0 +1,13 @@
+<div class="container">
+	<div class="card card-container">
+		<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        <div class="alert alert-danger alert-dismissable modal-error shake animated" ng-if="err"><ol style="margin-bottom: 0px">{{err}}</ol></div>
+        <form class="form-signin" ng-submit="login()">
+            <span id="reauth-email" class="reauth-email"></span>
+            <input type="text" id="inputUser" ng-model="inputUser" class="form-control" placeholder="User Name" required autofocus>
+            <input type="password" id="inputPassword" ng-model="inputPassword" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+        </form>       
+    </div>
+</div>
