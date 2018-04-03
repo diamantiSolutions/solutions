@@ -9,7 +9,7 @@ data:
   worker-processes: "auto"
   max-worker-connections: "4000"
   client-body-buffer-size: "5M"
-  proxy-buffer-size: "32k"
+  #proxy-buffer-size: "32k"
   server-tokens: "off"
   error-log-path: "stderr"
   worker-rlimit-nofile: "10240"

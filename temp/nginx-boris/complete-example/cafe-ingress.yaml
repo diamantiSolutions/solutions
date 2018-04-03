@@ -6,10 +6,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - mylb-1.nginx-ingress.svc.solutions.eng.diamanti.com
+    - nginx-ingress.nginx-ingress.svc.solutions.eng.diamanti.com
     secretName: cafe-secret
   rules:
-  - host: mylb-1.nginx-ingress.svc.solutions.eng.diamanti.com
+  - host: nginx-ingress.nginx-ingress.svc.solutions.eng.diamanti.com
     http:
       paths:
       - path: /tea
