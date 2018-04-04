@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         app: nginx-ingress
+      annotations:
+        diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
+        diamanti.com/endpoint1: '{"network":"red","perfTier":"high"}'
     spec:
       serviceAccountName: nginx-ingress
       containers:

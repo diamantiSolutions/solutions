@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app: coffee
+      annotations:
+        diamanti.com/endpoint0: '{"network":"red","perfTier":"best-effort"}'
     spec:
       containers:
       - name: coffee
@@ -47,6 +49,8 @@ spec:
     metadata:
       labels:
         app: tea
+    annotations:
+      diamanti.com/endpoint0: '{"network":"red","perfTier":"best-effort"}'
     spec:
       containers:
       - name: tea

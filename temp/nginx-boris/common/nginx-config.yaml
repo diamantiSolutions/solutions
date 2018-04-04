@@ -4,4 +4,19 @@ metadata:
   name: nginx-config
   namespace: nginx-ingress
 data:
-  server-names-hash-bucket-size: "512"
+  server-names-hash-bucket-size: "10240"
+  server-names-hash-max-size: "10240"
+  worker-processes: "auto"
+  worker-connections: "102400"
+  worker-rlimit-nofile: "65536"
+  keepalive: "128"
+  worker-cpu-affinity: "auto"
+  server-tokens: "False"
+  proxy-max-temp-file-size: "0"
+  proxy-buffer-size: "32k"
+  proxy-buffers: "32 16k"
+  proxy-buffering: "False"
+  proxy-read-timeout: "10s"
+  proxy-connect-timeout: "10s"
+  http2: "True"
+  client-max-body-size: "2m"
