@@ -19,9 +19,11 @@ kubectl create -f service/loadbalancer.yaml
 kubectl create -f complete-example/cafe.yaml
 kubectl create -f complete-example/cafe-ingress.yaml
 kubectl create -f complete-example/cafe-secret.yaml
+echo "Wait for everything to fire up"
+sleep 60
+#kubectl create -f stress/wrk-rc.yaml
 
-ssh diamanti@appserv94 "\$HOME/wrk-4.1.0/wrk -c 50 -t 50 -d 60 https://nginx-ingress.nginx-ingress.svc.solutions.eng.diamanti.com/tea"
-
+# ssh diamanti@appserv94 "\$HOME/wrk-4.1.0/wrk -c 50 -t 50 -d 60 https://nginx-ingress.nginx-ingress.svc.solutions.eng.diamanti.com/tea"
 # sysctl net.core.optmem_max=25165824
 # sysctl net.core.netdev_max_backlog=65536
 # sysctl net.core.wmem_max=33554432

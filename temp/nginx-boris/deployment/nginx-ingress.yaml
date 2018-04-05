@@ -1,24 +1,30 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: ReplicationController
 metadata:
   name: nginx-ingress
   namespace: nginx-ingress
 spec:
-  replicas: 1
+  replicas: 40
   selector:
-    matchLabels:
-      app: nginx-ingress
+    app: nginx-ingress
   template:
     metadata:
       labels:
         app: nginx-ingress
       annotations:
-        diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
-        diamanti.com/endpoint1: '{"network":"red","perfTier":"high"}'
+        diamanti.com/endpoint0: '{"network":"blue","perfTier":"best-effort"}'
+        diamanti.com/endpoint1: '{"network":"red","perfTier":"best-effort"}'
     spec:
       serviceAccountName: nginx-ingress
+      # nodeSelector:
+      #   kubernetes.io/hostname: appserv96
       containers:
       - image: nginxdemos/nginx-ingress:1.1.1
+        resources:
+          requests:
+            cpu: "1"
+          limits:
+            cpu: "1"
         name: nginx-ingress
         ports:
         - name: http
@@ -33,4 +39,4 @@ spec:
         args:
           - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
           - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
-          - -v=3 # Enables extensive logging. Useful for trooublshooting.
+          #- -v=3 # Enables extensive logging. Useful for trooublshooting.
