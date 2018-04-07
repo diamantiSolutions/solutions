@@ -1,6 +1,6 @@
 workload=com.yahoo.ycsb.workloads.CoreWorkload
 fieldcount=10
-fieldlength=2000
+fieldlength=1000
 recordcount=5000000
 operationcount=50000000
 maxexecutiontime=30000
