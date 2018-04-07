@@ -8,7 +8,7 @@
                 "annotations": {
                     "diamanti.com/endpoint0": "{\"network\":\"default\",\"perfTier\":\"high\"}"
                 },
-                "name": "mongo-bench-client"
+                "name": "mongo-bench-SVC_NAME"
             },
             "spec": {
                 "containers": [
@@ -28,7 +28,7 @@
 				"value" : "load"
 }
                         ],
-                        "image": "guptaarvindk/dbbench:perf",
+                        "image": "guptaarvindk/dbbench:v1",
                         "imagePullPolicy": "IfNotPresent",
                         "name": "client"
                     }

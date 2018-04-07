@@ -19,7 +19,7 @@ items:
       spec:
         hostNetwork: false
         containers:
-        - image: guptaarvindk/dbaas-web:v2
+        - image: guptaarvindk/dbaas-web:v3
           name: dbaasselfservice
           imagePullPolicy: Always
           command: [npm] 
