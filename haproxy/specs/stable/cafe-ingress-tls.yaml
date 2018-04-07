@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: cafe-ingress
 spec:
+  tls:
+  - hosts:
+    - cafe.example.com
+    secretName: haproxy-tls
   rules:
   - host: cafe.example.com
     http:

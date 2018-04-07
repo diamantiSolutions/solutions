@@ -2,26 +2,30 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    run: haproxy-ingress
-  name: haproxy-ingress
+    run: haproxy-ingress-2
+  name: haproxy-ingress-2
 spec:
   selector:
     matchLabels:
-      run: haproxy-ingress
+      run: haproxy-ingress-2
   template:
     metadata:
       labels:
-        run: haproxy-ingress
-        app: haproxy-ingress
-#    annotations:     # If you plan on using a network other than the default you will need to uncomment these two lines
-#      diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        run: haproxy-ingress-2
+        app: haproxy-ingress-2
+      annotations:     
+        diamanti.com/endpoint0: '{"endpointId":"haproxy-ep-2","perfTier":"high"}'
     spec:
+      nodeSelector:
+        app: lb
+      hostname: haproxy-2
       containers:
       - name: haproxy-ingress
-        image: quay.io/jcmoraisjr/haproxy-ingress
+        image: guptaarvindk/haproxy-ingress:peers
+        imagePullPolicy: Always
         args:
         - --default-backend-service=$(POD_NAMESPACE)/default-http-backend  # here is where the default backend (the 404) is set
-        #- --default-ssl-certificate=$(POD_NAMESPACE)/tls-secret   # here is where the secret is used
+        #- --default-ssl-certificate=$(POD_NAMESPACE)/haproxy-tls   # here is where the secret is used
         - --configmap=$(POD_NAMESPACE)/haproxy-ingress # here is the configmap with  the haproxy configuration options
         env:
         - name: POD_NAME
@@ -36,9 +40,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: haproxy-ingress
+  name: haproxy-ingress-2
   labels:
-    app: haproxy-ingress
+    app: haproxy-ingress-2
 spec:
   clusterIP: None
   ports:
@@ -51,4 +55,4 @@ spec:
     protocol: TCP
     name: https
   selector:
-    app: haproxy-ingress
+    app: haproxy-ingress-2

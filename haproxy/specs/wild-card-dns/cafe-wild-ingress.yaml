@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cafe-wild-ingress
+spec:
+  rules:
+  - host: coffee.cafe.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: coffee-svc
+          servicePort: 80
+  - host: tea.cafe.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: tea-svc
+          servicePort: 80
+  - host: water.cafe.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: water-svc
+          servicePort: 80
