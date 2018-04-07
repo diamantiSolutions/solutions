@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wrk2
+  labels:
+    app: wrk2
+  annotations:
+    diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: appserv38
+  restartPolicy: Never
+  containers:
+  - name: wrk
+    image: guptaarvindk/wrk-parallel:v1
+    imagePullPolicy: Always	
+    ports:
+    - containerPort: 80
+    env:
+      - name: WRK_NUM_CONNECTIONS
+        value: "50"
+      - name: WRK_NUM_CORE
+        #value: "<numcore>"
+        value: "16"
+      - name: WRK_RUNTIME
+        value: "80s"
+      - name: NGINX_IP
+        value: "172.16.137.4"
+      - name: DOMAIN_NAME
+        value: "cafe.example.com"
+      - name: TEST_URI
+        #value: "https://cafe.example.com:443/coffee/1kb.bin"
+        value: "http://172.16.137.8/1kb.bin"

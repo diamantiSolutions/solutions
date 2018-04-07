@@ -1,0 +1,4 @@
+FROM sekhars/dbclient:0.1
+RUN yum install postgresql -y && rpm -ivh http://rpm.datastax.com/community/noarch/cassandra22-2.2.7-1.noarch.rpm && yum install -y  https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.4/x86_64/RPMS/mongodb-org-shell-3.4.1-1.el7.x86_64.rpm  yum clean all
+RUN mv /usr/local/bin/ycsb-0.5.0.tar.gz /
+ADD master.sh /master.sh

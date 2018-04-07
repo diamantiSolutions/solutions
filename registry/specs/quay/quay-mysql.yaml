@@ -1,0 +1,67 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  namespace: quay-enterprise
+  name: quay-mysql-volume-claim
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "high"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: quay-enterprise
+  name: quay-mysql
+  labels:
+    quay-enterprise-component: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      quay-enterprise-component: app
+  template:
+    metadata:
+      namespace: quay-enterprise
+      labels:
+        quay-enterprise-component: app
+    spec:
+      volumes:
+      - name: quay-mysql-volume
+        persistentVolumeClaim:
+          claimName: quay-mysql-volume-claim
+      containers:
+      - name: quay-enterprise-mysql
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "MYSQL_ROOT"
+        - name: MYSQL_USER
+          value: "registry-user"
+        - name: MYSQL_PASSWORD
+          value: "registry-password"
+        - name: MYSQL_DATABASE
+          value: "registry-database"
+        volumeMounts:
+        - mountPath: "/var/lib/mysql"
+          name: quay-mysql-volume
+        ports:
+        - containerPort: 3306	  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: quay-enterprise
+  name: quay-mysql-service
+  labels:
+    app: quay-mysql-service
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+  selector:
+    quay-enterprise-component: db

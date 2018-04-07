@@ -1,0 +1,84 @@
+{
+    "apiVersion": "v1",
+    "items": [
+	{
+	    "apiVersion": "v1",
+	    "kind": "ReplicationController",
+	    "metadata":{
+	    	"name": "<SVC_NAME>-pgpool"
+	    },
+	    "spec":{
+		"replicas": 1,
+  		"selector":{
+		    "name": "<SVC_NAME>-pgpool"
+		},
+		"template":{
+		    "metadata": {
+			"annotations": {
+			    "diamanti.com/endpoint0": "{\"network\":\"<NETWORK>\",\"perfTier\":\"<NET_PERF_TIER>\"}"
+			},
+			"name": "<SVC_NAME>-pgpool",
+			"labels": {
+		    "name": "<SVC_NAME>-pgpool"
+			}
+		    },
+		    "spec": {
+			"containers": [{
+			    "name": "pgpool",
+			    "imagePullPolicy": "Always",
+			    "image": "guptaarvindk/pgpool:v2",
+			    "ports": [{
+				"containerPort": 5432,
+				"protocol": "TCP"
+			    }],
+			    "env": [{
+				"name": "PG_USERNAME",
+				"value": "<USER>"
+			    }, {
+				"name": "PG_PASSWORD",
+				"value": "<USER_PASSWORD>"
+			    }, {
+				"name": "PG_MASTER_SERVICE_NAME",
+				"value": "<SVC_NAME>-master"
+			    }, {
+				"name": "PG_READ_SERVICE_NAME",
+				"value": "<SVC_NAME>-slave"
+			    }],
+			    "volumeMounts": []
+			}],
+			"volumes": []
+		    }
+		}
+	    }
+	},
+	
+	
+	{
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+		"name": "<SVC_NAME>",
+		"labels": {
+                    "name": "<SVC_NAME>"
+		}
+            },
+            "spec": {
+                "clusterIP": "None",
+		"ports": [{
+                    "protocol": "TCP",
+                    "port": 5432,
+                    "targetPort": 5432,
+                    "nodePort": 0
+            }],
+		"selector": {
+                    "name": "<SVC_NAME>-pgpool"
+		},
+		"sessionAffinity": "None"
+            }
+	}
+    ],
+    "kind": "List",
+    "metadata": {}
+}
+
+	
