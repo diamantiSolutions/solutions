@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  balance-algorithm: roundrobin
+kind: ConfigMap
+metadata:
+  name: haproxy-ingress
+data:
+  #balance-algorithm: source
+  balance-algorithm: roundrobin
+  #nbproc: "5"
+  #cpu-map: "1-4 20-23"
+  haproxy-peers-cfg: |
+    peers diamanti_peers
+        peer haproxy-1 172.16.254.199:1024
+        peer haproxy-2 172.16.254.201:1024
+
+  stick-table-cfg: |
+    stick-table type ip size 20k peers diamanti_peers
+        stick on src
