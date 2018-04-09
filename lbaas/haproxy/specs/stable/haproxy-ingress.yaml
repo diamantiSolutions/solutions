@@ -21,7 +21,7 @@ spec:
         image: quay.io/jcmoraisjr/haproxy-ingress
         args:
         - --default-backend-service=$(POD_NAMESPACE)/default-http-backend  # here is where the default backend (the 404) is set
-        - --default-ssl-certificate=$(POD_NAMESPACE)/tls-secret   # here is where the secret is used
+        #- --default-ssl-certificate=$(POD_NAMESPACE)/tls-secret   # here is where the secret is used
         - --configmap=$(POD_NAMESPACE)/haproxy-ingress # here is the configmap with  the haproxy configuration options
         env:
         - name: POD_NAME

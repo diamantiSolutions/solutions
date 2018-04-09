@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: vip-configmap
-data:
-  172.16.137.251: default/nginx-ha

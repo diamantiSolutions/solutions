@@ -1,6 +1,7 @@
 if [ $# -eq 0 ]
 then
     echo "No namespace supplied using default"
+    ns=default
 else
     ns=$1
 fi

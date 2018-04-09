@@ -56,37 +56,19 @@ certificate and the --resolve option to set the Host header of a request with ``
 
   To get tea:
   ```
-  $ curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/tea --insecure
+  $ curl --resolve cafe.example.com:XXX.YYY.ZZZ.III http://cafe.example.com/tea --insecure
   ```
   or  
   To get coffee:
   ```
-  $ curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/cofffe --insecure
+  $ curl --resolve cafe.example.com:XXX.YYY.ZZZ.III http://cafe.example.com/cofffe --insecure
     <!DOCTYPE html>
     <html>
     <head>
     <title>Hello World    </title>
     ...
-    ...
-    <div class="info">
-    <p><span>Server&nbsp;name:</span> <span>coffee-rc-blkhf</span></p>
     <p><span>Server&nbsp;address:</span> <span>172.16.137.5:80</span></p>
-    <!--<p><span>User&nbsp;Agent:</span> <span><small>curl/7.29.0</small></span></p>-->
-    <p class="smaller"><span>URI:</span> <span>/</span></p>
-    <p class="smaller"><span>Date:</span> <span>12/Sep/2017:21:20:08 +0000</span></p>
-    <p class="smaller"><span>Client&nbsp;IP:</span> <span>172.16.137.4:60464</span></p>
-    <p class="smaller"><span>NGINX&nbsp;Front-End&nbsp;Load&nbsp;Balancer&nbsp;IP:</span> <span>172.16.137.4:60464</span></p>
-    <p class="smaller"><span>Client&nbsp;IP:</span> <span>172.16.6.136</span></p>
-    <p class="smaller"><span>NGINX Version:</span> <span>1.13.3</span></p>
-    </div>
-        <div class="check"><input type="checkbox" id="check" onchange="changeCookie()"> Auto Refresh</div>
-        <div id="footer">
-            <div id="center" align="center">
-                Request ID: 83f787520176a0c76a8316ee6b71db6f<br/>
-                &copy; NGINX, Inc. 2016
-            </div>
-       </div>
-    </body>
+    ...
     </html>
 
   ```
@@ -104,7 +86,7 @@ certificate and the --resolve option to set the Host header of a request with ``
 
 5.3. If you curl again and again to haproxy load balancer IP as in previous step, In the curl response you will see the address and name of the web server will change.
 ```
-   curl --resolve cafe.example.com:443:XXX.YYY.ZZZ.III https://cafe.example.com/coffee --insecure | grep address
+   curl --resolve cafe.example.com:XXX.YYY.ZZZ.III http://cafe.example.com/coffee --insecure | grep address
 ```
 
 5.5. lets scale down the master.
@@ -112,3 +94,119 @@ certificate and the --resolve option to set the Host header of a request with ``
   $  kubectl scale --replicas=3 -f coffee-rc.yaml
   replicationcontroller "coffee-rc" scaled
   ```
+
+
+## 6. setting up TLS for SSL termination
+
+
+1. Create the DNS entry
+```$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout registry.key -x509 -days 365 -out registry.crt```
+
+1. Specify DNS name as common name when creatign the certificate.
+```Common Name (eg, your name or your server's hostname) []:*.cafe.example.com```
+
+1. Create tls secrete:
+```$ kubectl create secret tls haproxy-tls --cert=/home/diamanti/tls/cafe.example.com/registry.crt --key=/home/diamanti/tls/cafe.example.com/registry.key```
+
+
+1. add tls support in ingress spec
+```
+spec:
+  tls:
+  - hosts:
+    - cafe.example.com
+    secretName: haproxy-tls
+```
+
+1. create new modified ingress.
+```
+$ kubectl create -f cafe-ingress-tls.yaml
+```
+
+
+1. Access the services with https. 
+```
+curl --resolve cafe.example.com:443:172.16.254.201 https://cafe.example.com/coffee/ -k  | grep address
+curl --resolve cafe.example.com:443:172.16.254.201 https://cafe.example.com/tea/ -k  | grep address
+```
+
+> Please note as we are using self signed certificate, curl will complain about the authenticity, so for testign purpose you can run curl with `-k` or `--insecure` option
+
+
+
+1. you can also setup a default TLS with cmdline args to HAProxy cotnainer:
+```
+...
+      containers:
+      - name: haproxy-ingress
+        image: quay.io/jcmoraisjr/haproxy-ingress
+        args:
+        - --default-backend-service=$(POD_NAMESPACE)/default-http-backend  # here is where the default backend (the 404) is set
+        - --default-ssl-certificate=$(POD_NAMESPACE)/tls-secret   # here is where the secret is used
+```
+
+
+
+## 7. North-south access to HAProxy
+
+1. Diamanti netowrking lets you assign an IP address to a Pod which is directly accessible from your netowrk. So you can simply create a DNS entry for cafe.example.com pointing to HAproxy IP. And access cafe.example.com directly.
+
+
+```
+$ curl http://cafe.example.com/tea/
+$ curl http://cafe.example.com/coffee/
+$ curl https://cafe.example.com/tea/ -k
+$ curl https://cafe.example.com/coffee/ -k
+```
+
+
+
+## 7. East-west access to HAProxy
+
+When accessing the HAProxy from within cluster, there are two options.
+
+1. Using custom DNS name. If you need to use your own custom DNS name then either you can add an entry for it to your local DNS server just like in nort-south access OR you can add it /etc/hosts of pod accessing the HAProxy.
+
+2. Using kubernetes DNS names. In case of east-west access cusotm DNS name may not have much relevence. In that case you can access the load balacner with  fully qualified hostname assigned by  kubernetes itself. This way its accessible from any pod in the cluster without any need to modify any setting anywhere. But in that case you need to setup the Ingress configuration accordingly. Following is an example of
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: my-ns
+  name: cafe-ingress
+  labels:
+    app: cafe-ingress
+spec:
+  rules:
+  - host: mylb.my-ns.svc.cluster-domain.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: coffee-svc
+          servicePort: 80
+      - path: /tea
+        backend:
+          serviceName: tea-svc
+          servicePort: 80
+      - path: /coffee
+        backend:
+          serviceName: coffee-svc
+          servicePort: 80
+
+```
+
+
+***
+> you can use run*.sh scripts in this dir to do everythign in one step. But be aware that it assumes you dont have any existign pods running. So its better to run the script first with delete option to cleanup.
+```
+./run.sh delete
+./run.sh
+```
+
+
+
+
+
+
