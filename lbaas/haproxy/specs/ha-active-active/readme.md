@@ -2,9 +2,9 @@
 
 ***
 
-This example will deponstrate how to setup HAProxy to setup in active active mode to provided highly available and scalable solution, while making sure that if one HAProxy goes down users session still persists.
+This example will demonstrate how to setup HAProxy to setup in active-active mode to provided highly available and scalable solution, while making sure that if one HAProxy goes down user’s session still persists.
 
-This solution requires HA-proxy configuration to be modified to enable stick table for session persistance. We also need let each HAProxy know the list of peers of the HA cluster they part of. As current HAProxy ingress controller configmap doesnt support these configurations, we have forked the HAProxy to extend the capability. We will try to roll the changes back to upstream HAProxy. Meanwhile current HAProxy fork is availble at:
+This solution requires HA-proxy configuration to be modified to enable stick table for session persistence. We also need let each HAProxy know the list of peers of the HA cluster they part of. As current HAProxy ingress controller configmap doesn’t support these configurations, we have forked the HAProxy to extend the capability. We will try to roll the changes back to upstream HAProxy. Meanwhile current HAProxy fork is available at:
 
 ```
 HAProxy URL
@@ -14,7 +14,7 @@ HAProxy URL
 > This example is extension of haproxy/specs/stable example. It will use ingress resource and backends from haproxy/specs/stable example. 
 
 
-1. As HAProxy dont have peers discover mechanism, we need to create static endpoints (IP) for each HAproxy. This is also useful for North-South access of Ingress controller. You will need to specify the newtork to use as well as an IP from the range of the network. 
+1. As HAProxy doesn’t have peers discover mechanism, we need to create static endpoints (IP) for each HAproxy. This is also useful for North-South access of Ingress controller. You will need to specify the network to use, as well as an IP from the range of the network. 
 ```
 dctl endpoint create haproxy-ep-1 -i 172.16.254.201 -n red
 dctl endpoint create haproxy-ep-2 -i 172.16.254.202 -n red
@@ -33,7 +33,7 @@ spec:
 > Here NUM is your HAproxy instance number.
 
 
-1. Add following to HAProxy configmap to setup the peers and stick table correctly, please note follwoing will `ONLY` work with diamanti version of HAProxy.
+1. Add following to HAProxy configmap to setup the peers and stick table correctly, please note following will `ONLY` work with Diamanti version of HAProxy.
 ```
 data:
   ...
@@ -60,7 +60,7 @@ kubectl create -f ../stable/default-http-backend.yaml
 ```
 
 
-1. Create HAProxy configmap conaining the peer configuration.
+1. Create HAProxy configmap containing the peer configuration.
 ```
 kubectl create -f haproxy-configmap.yaml
 ```
@@ -77,7 +77,7 @@ kubectl create -f ../stable/cafe-ingress.yaml
 ```
 
 
-1. In order to test the setup. Curl the tea or coffee services via all HAProxy instance from many different machines in your network. For a given client machine, all the requests to a given svc should be reuturned by same server IP. In this example you can grep for address field in response.
+1. In order to test the setup. Curl the tea or coffee services via all HAProxy instance from many different machines in your network. For a given client machine, all the requests to a given svc should be returned by same server IP. In this example you can grep for address field in response.
 
 ```
 [diamanti@server1 ~]$ curl --resolve cafe.example.com:172.16.254.201 http://cafe.example.com/coffee/ -k  | grep address
@@ -99,7 +99,7 @@ kubectl create -f ../stable/cafe-ingress.yaml
 
 
 
-1. If you prefer to use official HAProxy image you can manually modify the haproxy.cfg by getitng in to the pod and modify the /etc/haproxy/haproxy.cfg and reload HAProxy. Please note that this step is not needed if you are using Diamanti HAProxy image.
+1. If you prefer to use official HAProxy image you can manually modify the haproxy.cfg by getting in to the pod and modify the /etc/haproxy/haproxy.cfg and reload HAProxy. Please note that this step is not needed if you are using Diamanti HAProxy image.
 * get into pods
 ```
 $ kubectl exec -it <HAProxy Pod> sh

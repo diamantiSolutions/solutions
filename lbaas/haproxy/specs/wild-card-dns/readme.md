@@ -1,7 +1,7 @@
 # HAProxy setup with wildcard DNS.
 
 ***
-This example is extension of haproxy/specs/stable example. It will use ingress controller and backeds from haproxy/specs/stable example. For this example we will use wildcard DNS *.cafe.example.com mapped to static endpoint/IP assigned for HAProxy instance.
+This example is extension of haproxy/specs/stable example. It will use ingress controller and backends from haproxy/specs/stable example. For this example, we will use wildcard DNS *.cafe.example.com mapped to static endpoint/IP assigned for HAProxy instance.
 
 
 1. Setup cafe-wild-ingress.yaml with correct rules:
@@ -26,15 +26,15 @@ spec:
           servicePort: 80
 ```
 
-1. Create new Ingress coinfiguration.
+1. Create new Ingress configuration.
 ```
 $ kubectl create -f cafe-wild-ingress.yaml
 ```
-> please note that as no ingress-class is specified in ingress spec, These rules will be added in addition to rules added by Ingress spec in base example.
+> please note that as no ingress-class is specified in ingress spec, these rules will be added in addition to rules added by Ingress spec in base example.
 
 
 1.  North-south access to ingress controller         
-    Map wild card DNS entry  *.cafe.example.com  to IP of HAproxy. And access *.cafe.example.com with respective subdomain name.
+    Map wild card DNS entry *.cafe.example.com  to IP of HAproxy. And access *.cafe.example.com with respective subdomain name.
 ```
   curl http://water.cafe.example.com/ | grep address
   curl http://coffee.cafe.example.com/ | grep address
@@ -52,10 +52,10 @@ $ kubectl create -f cafe-wild-ingress.yaml
 1. Specify common name as will card.
 ```Common Name (eg, your name or your server's hostname) []:*.cafe.example.com```
 
-1. Create wildcard tls secrete:
+1. Create wildcard TLS secrete:
 ```$ kubectl create secret tls haproxy-wild-tls --cert=/home/diamanti/tls/wild.cafe.example.com/registry.crt --key=/home/diamanti/tls/wild.cafe.example.com/registry.key```
 
-1. Update ingress controller spec  to have tis entry for all possible domain.
+1. Update ingress controller spec to have tis entry for all possible domain.
 ```
 cat cafe-wild-ingress-tls.yaml
 ...
@@ -97,21 +97,21 @@ $ kubectl delete -f cafe-wild-ingress.yaml
 $ kubectl create -f cafe-wild-ingress-tls.yaml
 ```
 
-1. Access it from out side or in side cluster using curl
+1. Access it from outside or in side cluster using curl
 ```
 curl https://tea.cafe.example.com/ -k | grep address
 curl https://coffee.cafe.example.com/ -k | grep address
 ```
-> Please note as we are using self signed certificate, curl will complain about the authenticity, so for testign purpose you can run curl with `-k` or `--insecure` option
+> Please note as we are using self signed certificate, curl will complain about the authenticity, so for testing purpose you can run curl with `-k` or `--insecure` option
 
 
 > Please note:
 > * TLS setting in ingress spec need to have individual subdomain, wild card *.cafe.exmaple.com does not work
-> * THis setup will only work for *.cafe.example.com, not for cafe.example.com or *.*.cafe.example.com . If needed we can have different certs for other levels of domain. Another possibility is to have subjectAltName extension enabled for openSSL generation and CA.
+> * This setup will only work for *.cafe.example.com, not for cafe.example.com or *.*.cafe.example.com . If needed we can have different certs for other levels of domain. Another possibility is to have subjectAltName extension enabled for openSSL generation and CA.
 
 
 ***
-> you can use run*.sh scripts in this dir to do everythign in one step. But be aware that it assumes you dont have any existign pods running. So its better to run the script first with delete option to cleanup.
+> you can use run*.sh scripts in this dir to do everything in one step. But be aware that it assumes you don’t have any existing pods running. So its better to run the script first with delete option to cleanup.
 ```
 ./run.sh delete
 ./run.sh
