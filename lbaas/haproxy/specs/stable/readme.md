@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-* Diamanti plateform with Kubernetes 1.2 and later (TLS support for Ingress has been added in 1.2)
+* Diamanti platform with Kubernetes 1.2 and later (TLS support for Ingress has been added in 1.2)
 
 
 ## Running the Example
@@ -102,7 +102,7 @@ certificate and the --resolve option to set the Host header of a request with ``
 1. Create the DNS entry
 ```$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout registry.key -x509 -days 365 -out registry.crt```
 
-1. Specify DNS name as common name when creatign the certificate.
+1. Specify DNS name as common name when creating the certificate.
 ```Common Name (eg, your name or your server's hostname) []:*.cafe.example.com```
 
 1. Create tls secrete:
@@ -134,7 +134,7 @@ curl --resolve cafe.example.com:443:172.16.254.201 https://cafe.example.com/tea/
 
 
 
-1. you can also setup a default TLS with cmdline args to HAProxy cotnainer:
+1. you can also setup a default TLS with cmdline args to HAProxy container:
 ```
 ...
       containers:
@@ -149,7 +149,7 @@ curl --resolve cafe.example.com:443:172.16.254.201 https://cafe.example.com/tea/
 
 ## 7. North-south access to HAProxy
 
-1. Diamanti netowrking lets you assign an IP address to a Pod which is directly accessible from your netowrk. So you can simply create a DNS entry for cafe.example.com pointing to HAproxy IP. And access cafe.example.com directly.
+1. Diamanti networking lets you assign an IP address to a Pod which is directly accessible from your network. So you can simply create a DNS entry for cafe.example.com pointing to HAproxy IP. And access cafe.example.com directly.
 
 
 ```
@@ -165,9 +165,9 @@ $ curl https://cafe.example.com/coffee/ -k
 
 When accessing the HAProxy from within cluster, there are two options.
 
-1. Using custom DNS name. If you need to use your own custom DNS name then either you can add an entry for it to your local DNS server just like in nort-south access OR you can add it /etc/hosts of pod accessing the HAProxy.
+1. Using custom DNS name. If you need to use your own custom DNS name then either you can add an entry for it to your local DNS server just like in north-south access OR you can add it /etc/hosts of pod accessing the HAProxy.
 
-2. Using kubernetes DNS names. In case of east-west access cusotm DNS name may not have much relevence. In that case you can access the load balacner with  fully qualified hostname assigned by  kubernetes itself. This way its accessible from any pod in the cluster without any need to modify any setting anywhere. But in that case you need to setup the Ingress configuration accordingly. Following is an example of
+2. Using Kubernetes DNS names. In case of east-west access custom DNS name may not have much relevance. In that case you can access the load balancer with fully qualified hostname assigned by  Kubernetes itself. This way its accessible from any pod in the cluster without any need to modify any setting anywhere. But in that case, you need to setup the Ingress configuration accordingly. Following is an example of
 
 ```
 apiVersion: extensions/v1beta1
@@ -199,7 +199,7 @@ spec:
 
 
 ***
-> you can use run*.sh scripts in this dir to do everythign in one step. But be aware that it assumes you dont have any existign pods running. So its better to run the script first with delete option to cleanup.
+> you can use run*.sh scripts in this dir to do everything in one step. But be aware that it assumes you don’t have any existing pods running. So, it’s better to run the script first with delete option to cleanup.
 ```
 ./run.sh delete
 ./run.sh
