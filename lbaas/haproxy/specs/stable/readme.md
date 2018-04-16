@@ -51,8 +51,8 @@ Create an Ingress Resource:
 
 
 * To see that the controller is working, let's curl the load balancer.
-We'll use ```curl```'s --insecure option to turn off certificate verification of our self-signed
-certificate and the --resolve option to set the Host header of a request with ```cafe.example.com```.  
+We'll use ```curl```'s `--insecure` option to turn off certificate verification of our self-signed
+certificate and the `--resolve` option to set the Host header of a request with ```cafe.example.com```.  
 
   To get tea:
   ```
@@ -141,6 +141,7 @@ curl --resolve cafe.example.com:443:172.16.254.201 https://cafe.example.com/tea/
 
 
 * you can also setup a default TLS with cmdline args to HAProxy container:
+
 ```
 ...
       containers:
@@ -150,7 +151,7 @@ curl --resolve cafe.example.com:443:172.16.254.201 https://cafe.example.com/tea/
         - --default-backend-service=$(POD_NAMESPACE)/default-http-backend  # here is where the default backend (the 404) is set
         - --default-ssl-certificate=$(POD_NAMESPACE)/tls-secret   # here is where the secret is used
 ```
-
+.
 
 
 ## 7. North-south access to HAProxy
@@ -171,7 +172,7 @@ $ curl https://cafe.example.com/coffee/ -k
 
 When accessing the HAProxy from within cluster, there are two options.
 
-* Using custom DNS name. If you need to use your own custom DNS name then either you can add an entry for it to your local DNS server just like in north-south access OR you can add it /etc/hosts of pod accessing the HAProxy.
+* Using custom DNS name. If you need to use your own custom DNS name then either you can add an entry for it to your local DNS server just like in north-south access OR you can add it `/etc/hosts` of pod accessing the HAProxy.
 
 * Using Kubernetes DNS names. In case of east-west access custom DNS name may not have much relevance. In that case you can access the load balancer with fully qualified hostname assigned by  Kubernetes itself. This way its accessible from any pod in the cluster without any need to modify any setting anywhere. But in that case, you need to setup the Ingress configuration accordingly. Following is an example of
 

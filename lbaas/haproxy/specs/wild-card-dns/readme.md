@@ -47,6 +47,8 @@ Map wild card DNS entry *.cafe.example.com  to IP of HAproxy. And access *.cafe.
 # Termination with wildcard SSL 
 ****
 
+Following exmaple demonstrate how to setup TLS termination for HAProxy with wildcard DNS.
+
 ### 1. Create the wild card DNS entry
 ```
 $ openssl req -newkey rsa:4096 -nodes -sha256 -keyout registry.key -x509 -days 365 -out registry.crt
@@ -62,7 +64,7 @@ Common Name (eg, your name or your server's hostname) []:*.cafe.example.com
 $ kubectl create secret tls haproxy-wild-tls --cert=/home/diamanti/tls/wild.cafe.example.com/registry.crt --key=/home/diamanti/tls/wild.cafe.example.com/registry.key
 ```
 
-### 4. Update ingress controller spec to have tis entry for all possible domain.
+### 4. Update ingress controller spec to have tls entry for all possible domain.
 ```
 cat cafe-wild-ingress-tls.yaml
 ...
