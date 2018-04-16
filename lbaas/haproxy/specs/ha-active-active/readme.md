@@ -28,8 +28,9 @@ spec:
     ...
     spec:
       hostname: haproxy-<NUM>
-
 ```
+
+
 > Here NUM is your HAproxy instance number.
 
 
