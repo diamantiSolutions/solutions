@@ -5,31 +5,31 @@
 This example will demonstrate how to setup HAProxy in active-passive mode to provided highly available and scalable solution. This will containe two instances of HAProxy one a active and one passive. At a given time floating VIP will point to the active instance of HAProxy. In case active HAProxy instance goes down, etcd demon will switch the VIP to point to the passive HAproxy.  
 
 ## prerquisite
-This example is extension of haproxy/specs/stable example. It will use ingress resource and backends from `solutions/lbaas/haproxy/specs/stable` example. So make sure the first follow and create pods based on the readme file at `../stable/readme.md`
+This example is extension of haproxy/specs/stable example. It will use ingress resource and backends from `solutions/lbaas/haproxy/specs/stable` example. So make sure the first follow and create pods based on the readme file at `../stable/readme.md`.
 
 
-1. ### Deploy passive HAProxy.
+### 1. Deploy passive HAProxy.
 
   scale the haproxy  as described in `../stable/readme.md` to have 2 copy of Ingress controller
   ```
   kubectl scale deployment haproxy-ingress --replicas=2
   ```
 
-2. ### Create configuration for etcd daemonset.
+### 2. Create configuration for etcd daemonset.
   Create a configmap for the etcd daemon by replacing the template text with your own VIP being used for this HA solutions. Make sure to use correct static IP as floating IP, which is not conflicting with others in network. We picked an unused IP from the current default network.
   ```
   sed "s/<MY_FLOATING_IP>/172.16.137.101/g"  vip-configmap.yaml | kubectl create --namespace=$ns -f -
   ```
 
-3. ### Create etcd daemonset.
+### 3. Create etcd daemonset.
   start the keepalived DameonSet to manage and failover the VIP. 
    ```
    kubectl create -f keepalived.yaml
    ```
    
-4. ### Test the setup
+### 4. Test the setup
    test that whole setup is working as expected.
-*  figure out the ip of both load balancer.
+* figure out the ip of both load balancer.
 * test LB1 by running following cmd for coffee svc, multiple times, every time response address  should ping pong between IP of multiple coffe svc:
    ```
    curl --resolve cafe.example.com:443:<LB_1_IP> https://cafe.example.com/coffee --insecure | grep "Server&nbsp;address"
@@ -57,7 +57,7 @@ This example is extension of haproxy/specs/stable example. It will use ingress r
   ```
 
 
-5. # test for HA.
+### 5. test for HA.
 
 * To test properly to see if HA setup is working or not, its better to create two different deployment for ingress controller instead of scaling it. For normal setup scaling the deployment enough, this setup is just for ease in testing. 
 * test if VIP is working or not by running following cmds for coffee/tea and make sure you get similar results as you would get for accessing ingress LB directly.
