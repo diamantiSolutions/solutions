@@ -2,25 +2,30 @@
 
 ***
 
-This example will demonstrate how to setup HAProxy to setup in active-active mode to provided highly available and scalable solution, while making sure that if one HAProxy goes down user’s session still persists.
+This example will demonstrate how to setup HAProxy in active-active mode to provided highly available and scalable solution, while making sure that if one HAProxy goes down user’s session still persists.
 
-This solution requires HA-proxy configuration to be modified to enable stick table for session persistence. We also need let each HAProxy know the list of peers of the HA cluster they part of. As current HAProxy ingress controller configmap doesn’t support these configurations, we have forked the HAProxy to extend the capability. We will try to roll the changes back to upstream HAProxy. Meanwhile current HAProxy fork is available at:
+This solution requires changes in HA-proxy configuration to enable stick table for session persistence. We also need to let each HAProxy know the list of peers of the HA cluster they part of. As current HAProxy ingress controller configmap doesn’t support these configurations, we have forked the HAProxy to extend the capability. We will try to roll the changes back to upstream HAProxy. Meanwhile current HAProxy fork is available at:
 
 ```
-HAProxy URL
+<TBD: HAProxy URL>
 ```
+
+Above URL contains the modified ingress controller source code. We will use Docker images build from the above source code. In normal scenario you dont need to modify the above code. But in case modifying the above code, please modify the specs using in this example to reflect your own docker image.  
 
 
 > This example is extension of haproxy/specs/stable example. It will use ingress resource and backends from haproxy/specs/stable example. 
 
 
-1. As HAProxy doesn’t have peers discover mechanism, we need to create static endpoints (IP) for each HAproxy. This is also useful for North-South access of Ingress controller. You will need to specify the network to use, as well as an IP from the range of the network. 
+### 1. Create static endpoint
+
+As HAProxy doesn’t have peers discovery mechanism, we need to create static endpoints (IP) for each HAproxy. This is also useful for North-South access of Ingress controller. You will need to specify the network to use, as well as an IP from the range of the network. 
 ```
 dctl endpoint create haproxy-ep-1 -i 172.16.254.201 -n red
 dctl endpoint create haproxy-ep-2 -i 172.16.254.202 -n red
 ```
 
-1. Modify the specs to use Diamanti's HAProxy image for ingress controller. Also in order to setup the Peers its advisable to use a static hostname in your cfg file, otherwise whenever container restarts with new hostname Peers wont work.
+### 1. Use Diamanti's HAproxyimage.
+Modify the specs to use Diamanti's HAProxy image for ingress controller. Also in order to setup the Peers it is advisable to use a static hostname in your cfg file, otherwise whenever container restarts with new hostname Peers wont work. You can either use the script to replace the static name in each HAProxy deploment or manually create seperate file with different static hostname.
 ```
 ...
 spec:
@@ -28,13 +33,11 @@ spec:
     ...
     spec:
       hostname: haproxy-<NUM>
+> Here NUM is your HAproxy instance number.
 ```
 
 
-> Here NUM is your HAproxy instance number.
-
-
-1. Add following to HAProxy configmap to setup the peers and stick table correctly, please note following will `ONLY` work with Diamanti version of HAProxy.
+### 1. Add following to HAProxy configmap to setup the peers and stick table correctly, please note following will `ONLY` work with Diamanti version of HAProxy.
 ```
 data:
   ...
@@ -69,7 +72,7 @@ kubectl create -f haproxy-configmap.yaml
 1. Create HAProxy instance
 ```
 kubectl create -f haproxy-ingress-1.yaml
-kubectl create -f haproxy-ingress-1.yaml
+kubectl create -f haproxy-ingress-2.yaml
 ```
 
 1. Create Ingress resource
