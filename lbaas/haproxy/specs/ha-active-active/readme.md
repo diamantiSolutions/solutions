@@ -117,7 +117,7 @@ If you prefer to use official HAProxy image you can manually modify the haproxy.
 $ kubectl exec -it <HAProxy Pod> sh
 ```
 
-* modify /etc/haproxy/haproxy.cfg
+* Modify /etc/haproxy/haproxy.cfg
 ```
 $ vi /etc/haproxy/haproxy.cfg
 ```
@@ -132,7 +132,7 @@ peers diamanti_peers
     peer <HAPROXY_INSTANCE_1_HOSTNAME>  <HAPROXY_INSTANCE_1_IP>:1024
     peer <HAPROXY_INSTANCE_1_HOSTNAME>  <HAPROXY_INSTANCE_1_IP>:1024
 ```
-* reload the HAProxy instance inside the container
+* Reload the HAProxy instance inside the container
 ```
 ./haproxy-reload.sh native /etc/haproxy/haproxy.cfg
 ```
