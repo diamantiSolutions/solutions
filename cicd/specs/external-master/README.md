@@ -19,7 +19,7 @@ In order to accomplish this you will need a few things to already be in place:
 3. Make sure the Kubernetes plugin is installed, and if not install it, by visiting the plugins section of your master https://your_jenkins_master/pluginManager/
   * If you do not have it installed, click on the Available tab and search for Kubernetes
   * At a minimum you will need the Kubernetes plugin, if you would like you can also install the Kubernetes::Pipeline::Kubernetes Steps and Kubernetes::Pipeline::DevOps Steps as well, but they are not required for this to work
-3. Next go to to the global configuration section https://your_jenkins_master/configure (Manage Jenkins/Configure System)
+4. Next go to to the global configuration section https://your_jenkins_master/configure (Manage Jenkins/Configure System)
   * Find the Cloud section, usually all the way at the bottom of the page
   * Add a new Cloud
   * You can name it whatever you would like, however, by default the Pipeline steps accept _kubernetes_, so if you would like to not specify a cloud name every time you execute a pipeline step, naming it _kubernetes_ will give you the option.
@@ -33,7 +33,7 @@ In order to accomplish this you will need a few things to already be in place:
   * Click Add
   * Make sure the new Secret you created is selected from the dropdown
   * Click the **Test Connection** button on the right
-4. If everything worked, click the Save button
+5. If everything worked, click the Save button
 
 ## Testing the new connection
 You are now ready to exectue workloads in your Diamanti cluster!
