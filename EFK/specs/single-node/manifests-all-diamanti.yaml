@@ -632,7 +632,8 @@ spec:
           mountPath: /var/log
         - name: host-var-lib-docker-containers
           mountPath: /var/lib/docker/containers
-          # readOnly: true
+        - name: host-diamanti-log
+          mountPath: /var/log/diamanti
         # securityContext:
         #   runAsUser: 0
       volumes:
@@ -645,6 +646,9 @@ spec:
       - name: host-var-lib-docker-containers
         hostPath:
           path: /var/lib/docker/containers
+      - name: host-diamanti-log
+        hostPath:
+          path: /data/log
 
 # Setup the Kibana ConfigMap
 ---
