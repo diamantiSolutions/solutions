@@ -19,3 +19,29 @@ Go back to the "Discover" tab and you should now see log data ordered with `time
 There is no access control for the Kibana web interface. If you want to run this in public you need to secure your setup. The provided manifests here are for demonstration purposes only.
 
 This is a simple non-failover deployment of EFK. This means its a single node elasticsearch cluster, with a single Kibana instance.
+
+## Sample Kibana Queries
+In order to pull up specific log file you can use the following query string: `tag:name_of_component` where the name of the component can be one of the following:
+```
+├── core
+│   ├── armada.log
+│   ├── bosun.log
+│   ├── convoy.log
+│   ├── docker.log
+│   ├── dock.log
+│   └── etcd.log
+├── embedded
+│   ├── ldfs.log
+│   ├── nq_ach.log
+│   ├── scd.log
+│   └── skipper.log
+├── kubernetes
+│   ├── apiserver.log
+│   ├── controller-manager.log
+│   ├── kubelet.log
+│   ├── proxy.log
+│   └── scheduler.log
+└── plugin
+    ├── cni-network.log
+    └── volume.log
+```
