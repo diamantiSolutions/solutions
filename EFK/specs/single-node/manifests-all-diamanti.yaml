@@ -419,6 +419,7 @@ data:
     # Setup log endpoints for Diamanti System Logs
     ###
     <source>
+      @id docker.log
       type tail
       format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) msg="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
       #format none
@@ -428,6 +429,7 @@ data:
     </source>
 
     <source>
+      @id etcd.log
       type tail
       format none
       path /var/log/diamanti/core/etcd.log
@@ -436,6 +438,7 @@ data:
     </source>
 
     <source>
+      @id armada.log
       type tail
       format none
       path /var/log/diamanti/core/armada.log
@@ -444,6 +447,7 @@ data:
     </source>
 
     <source>
+      @id convoy.log
       type tail
       format none
       path /var/log/diamanti/core/convoy.log
@@ -452,6 +456,7 @@ data:
     </source>
 
     <source>
+      @id bosun.log
       type tail
       format none
       path /var/log/diamanti/core/bosun.log
@@ -460,6 +465,7 @@ data:
     </source>
 
     <source>
+      @id dock.log
       type tail
       format none
       path /var/log/diamanti/core/dock.log
@@ -468,6 +474,7 @@ data:
     </source>
 
     <source>
+      @id ldfs.log
       type tail
       format none
       path /var/log/diamanti/embedded/ldfs.log
@@ -476,6 +483,7 @@ data:
     </source>
 
     <source>
+      @id nq_ach.log
       type tail
       format none
       path /var/log/diamanti/embedded/nq_ach.log
@@ -484,6 +492,7 @@ data:
     </source>
 
     <source>
+      @id scd.log
       type tail
       format none
       path /var/log/diamanti/embedded/scd.log
@@ -492,6 +501,7 @@ data:
     </source>
 
     <source>
+      @id skipper.log
       type tail
       format none
       path /var/log/diamanti/embedded/skipper.log
@@ -503,6 +513,7 @@ data:
     # Setup log endpoints for Diamanti Kubernetes Logs
     ###
     <source>
+      @id kubelet.log
       type tail
       format kubernetes
       multiline_flush_interval 5s
@@ -512,6 +523,7 @@ data:
     </source>
 
     <source>
+      @id kube-proxy.log
       type tail
       format kubernetes
       multiline_flush_interval 5s
@@ -521,6 +533,7 @@ data:
     </source>
 
     <source>
+      @id kube-apiserver.log
       type tail
       format kubernetes
       multiline_flush_interval 5s
@@ -530,6 +543,7 @@ data:
     </source>
 
     <source>
+      @id controller-manager.log
       type tail
       format kubernetes
       multiline_flush_interval 5s
@@ -539,6 +553,7 @@ data:
     </source>
 
     <source>
+      @id kube-scheduler.log
       type tail
       format kubernetes
       multiline_flush_interval 5s
@@ -573,6 +588,7 @@ data:
     # Setup log endpoints for Diamanti Plugin Logs
     ###
     <source>
+      @id cni-network.log
       type tail
       format none
       path /var/log/diamanti/plugn/cni-network.log
@@ -581,6 +597,7 @@ data:
     </source>
 
     <source>
+      @id volume.log
       type tail
       format none
       path /var/log/diamanti/plugn/volume.log
