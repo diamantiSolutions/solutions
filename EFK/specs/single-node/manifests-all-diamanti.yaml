@@ -409,19 +409,10 @@ data:
       path /var/log/containers/*.log
       pos_file /var/log/fluentd-containers.log.pos
       time_format %Y-%m-%dT%H:%M:%S.%NZ
-      # tag_to_kubernetes_name_regexp \.(?<pod_name>[^\._]+)_(?<namespace>[^_]+)_(?<container_name>.+)-(?<docker_id>[a-z0-9]{64})\.log$</pod>)
+      tag_to_kubernetes_name_regexp \.(?<pod_name>[^\._]+)_(?<namespace>[^_]+)_(?<container_name>.+)-(?<docker_id>[a-z0-9]{64})\.log$</pod>)
       tag kubernetes.*
       format json
       read_from_head true
-    </source>
-
-    <source>
-      type tail
-      format /^(?<time>[^ ]* [^ ,]*)[^\[]*\[[^\]]*\]\[(?<severity>[^ \]]*) *\] (?<message>.*)$/
-      time_format %Y-%m-%d %H:%M:%S
-      path /var/log/salt/minion
-      pos_file /var/log/fluentd-salt.pos
-      tag salt
     </source>
 
     ###
@@ -430,6 +421,7 @@ data:
     <source>
       type tail
       format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) msg="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
+      #format none
       path /var/log/diamanti/core/docker.log
       pos_file /var/log/fluentd-docker.log.pos
       tag docker

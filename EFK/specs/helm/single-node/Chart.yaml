@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for Diamanti single node EFK stack deployment
+name: efk-single-node
+version: 0.1.0
