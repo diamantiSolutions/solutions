@@ -7,7 +7,7 @@ This example will demonstrate how to setup HAProxy in active-active mode to prov
 This solution requires changes in HA-proxy configuration to enable stick table for session persistence. We also need to let each HAProxy know the list of peers of the HA cluster they part of. As current HAProxy ingress controller configmap doesn’t support these configurations, we have forked the HAProxy to extend the capability. We will try to roll the changes back to upstream HAProxy. Meanwhile current HAProxy fork is available at:
 
 ```
-<TBD: HAProxy URL>
+<TBD: need to upload the forked code to github after internel review: HAProxy URL>
 ```
 
 Above URL contains the modified ingress controller source code. We will use Docker images build from the above source code. In normal scenario you dont need to modify the above code. But in case modifying the above code, please modify the specs using in this example to reflect your own docker image.  
@@ -33,9 +33,12 @@ spec:
     ...
     spec:
       hostname: haproxy-<NUM>
+      containers:
+      - name: haproxy-ingress
+        image: <YOUR_HAPROXY_IMAGE:TAG>
 ```
 
-> Here NUM is your HAproxy instance number.
+> Here NUM is your HAproxy instance number. If you are using Diamanti's HAProxy image you can leave the default in spec, but if you are using your own HAProxy image, you can change the image name at <YOUR_HAPROXY_IMAGE:TAG>.
 
 
 
