@@ -200,22 +200,6 @@ spec:
 # The PV is not needed in order to use Diamanti storage controllers
 # Instead we will just let the dynamic provisioner setup the volume for us
 # by using a PVC only
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: elastic-data-1
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   capacity:
-#     storage: 100Gi
-#   flexVolume:
-#     driver: diamanti.com/volume
-#     fsType: xfs
-#     options:
-#       name: elastic-data-1
-#       perfTier: high
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
