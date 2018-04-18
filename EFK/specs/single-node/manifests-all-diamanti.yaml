@@ -467,6 +467,38 @@ data:
       tag dock
     </source>
 
+    <source>
+      type tail
+      format none
+      path /var/log/diamanti/embedded/ldfs.log
+      pos_file /var/log/fluentd-ldfs.log.pos
+      tag ldfs
+    </source>
+
+    <source>
+      type tail
+      format none
+      path /var/log/diamanti/embedded/nq_ach.log
+      pos_file /var/log/fluentd-nq_ach.log.pos
+      tag nq_ach
+    </source>
+
+    <source>
+      type tail
+      format none
+      path /var/log/diamanti/embedded/scd.log
+      pos_file /var/log/fluentd-scd.log.pos
+      tag scd
+    </source>
+
+    <source>
+      type tail
+      format none
+      path /var/log/diamanti/embedded/skipper.log
+      pos_file /var/log/fluentd-skipper.log.pos
+      tag skipper
+    </source>
+
     ###
     # Setup log endpoints for Diamanti Kubernetes Logs
     ###
