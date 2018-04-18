@@ -25,6 +25,5 @@ disabled=false
 pulldown_type=true
 ```
 
-
 ## Things to keep in mind
 The Docker json logging driver treats each line as a separate message. When using the Docker logging driver, there is no direct support for multi-line messages. You need to handle multi-line messages at the logging agent level or higher
