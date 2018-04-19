@@ -11,12 +11,14 @@ spec:
       name: cpx-ingress
       annotations:
          NETSCALER_AS_APP: "True"
+         diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
       labels:
          app: cpx-ingress-device
     spec:
       containers:
       - name: cpx-ingress
-        image: "store/citrix/netscalercpx:12.0-56.20"
+        image: "cpx:sleep"
+        #image: "store/citerix/netscalercpx:12.0-56.20"
         securityContext:
            privileged: true
         env:
@@ -26,12 +28,8 @@ spec:
            value: "172.16.32.101"
          - name: "NS_MGMT_FINGER_PRINT"
            value: "CB:F5:22:8A:D4:79:58:F4:89:DA:22:BF:19:BA:CA:B3:77:10:3D:A9"
-         - name: "NS_ROUTABLE"
-           value: "FALSE"
-         - name: "NS_HTTP_PORT"
-           value: "5080"
-         - name: "NS_HTTPS_PORT"
-           value: "5443"
+         - name: "NS_NETMODE"
+           value: "IP_PER_CONTAINER"
          - name: "NS_LB_ROLE"
            value: "SERVER"
          - name: "HOST"
@@ -40,15 +38,6 @@ spec:
            valueFrom:
              fieldRef:
                fieldPath: metadata.name
-        ports:
-         - containerPort: 80
-           hostPort: 5080
-         - containerPort: 443
-           hostPort: 5443
-         - containerPort: 5080
-           hostPort: 80
-         - containerPort: 5443
-           hostPort: 443
-        imagePullPolicy: Always
+        #imagePullPolicy: Always
       nodeSelector:
          node-role: ingress    
