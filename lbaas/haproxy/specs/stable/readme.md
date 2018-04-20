@@ -56,12 +56,12 @@ certificate and the --resolve option to set the Host header of a request with ``
 
   To get tea:
   ```
-  $ curl --resolve cafe.example.com:XXX.YYY.ZZZ.III http://cafe.example.com/tea --insecure
+  $ curl --resolve cafe.example.com:80:XXX.YYY.ZZZ.III http://cafe.example.com/tea --insecure
   ```
   or  
   To get coffee:
   ```
-  $ curl --resolve cafe.example.com:XXX.YYY.ZZZ.III http://cafe.example.com/cofffe --insecure
+  $ curl --resolve cafe.example.com:80:XXX.YYY.ZZZ.III http://cafe.example.com/cofffe --insecure
     <!DOCTYPE html>
     <html>
     <head>
@@ -86,10 +86,10 @@ certificate and the --resolve option to set the Host header of a request with ``
 
 5.3. If you curl again and again to haproxy load balancer IP as in previous step, In the curl response you will see the address and name of the web server will change.
 ```
-   curl --resolve cafe.example.com:XXX.YYY.ZZZ.III http://cafe.example.com/coffee --insecure | grep address
+   curl --resolve cafe.example.com:80:XXX.YYY.ZZZ.III http://cafe.example.com/coffee --insecure | grep address
 ```
 
-5.5. lets scale down the master.
+5.5. lets scale down the coffee svc.
   ```
   $  kubectl scale --replicas=3 -f coffee-rc.yaml
   replicationcontroller "coffee-rc" scaled
@@ -100,13 +100,19 @@ certificate and the --resolve option to set the Host header of a request with ``
 
 
 1. Create the DNS entry
-```$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout registry.key -x509 -days 365 -out registry.crt```
+```
+$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout registry.key -x509 -days 365 -out registry.crt
+```
 
 1. Specify DNS name as common name when creating the certificate.
-```Common Name (eg, your name or your server's hostname) []:*.cafe.example.com```
+```
+Common Name (eg, your name or your server's hostname) []:cafe.example.com
+```
 
 1. Create tls secrete:
-```$ kubectl create secret tls haproxy-tls --cert=/home/diamanti/tls/cafe.example.com/registry.crt --key=/home/diamanti/tls/cafe.example.com/registry.key```
+```
+$ kubectl create secret tls haproxy-tls --cert=/home/diamanti/tls/cafe.example.com/registry.crt --key=/home/diamanti/tls/cafe.example.com/registry.key
+```
 
 
 1. add tls support in ingress spec
@@ -195,6 +201,11 @@ spec:
           serviceName: coffee-svc
           servicePort: 80
 
+```
+
+and you can access load balancer as follows:
+```
+curl http://mylb.my-ns.svc.cluster-domain.com/tea
 ```
 
 
