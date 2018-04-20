@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: haproxy-ingress
+  name: haproxy-ingress
+spec:
+  selector:
+    matchLabels:
+      run: haproxy-ingress
+  template:
+    metadata:
+      labels:
+        run: haproxy-ingress
+        app: haproxy-ingress
+      annotations:  
+        diamanti.com/endpoint0: '{"endpointId":"haproxy-ep-1","perfTier":"high"}'
+        diamanti.com/endpoint1: '{"endpointId":"haproxy-ep-2","perfTier":"high"}'
+    spec:
+      #nodeSelector:
+      #  app: lb
+      containers:
+      - name: haproxy-ingress
+        #image: quay.io/jcmoraisjr/haproxy-ingress
+        #image: guptaarvindk/haproxy-ingress:nbproc
+        image: guptaarvindk/haproxy-ingress:peers
+        imagePullPolicy: Always
+        args:
+        - --default-backend-service=$(POD_NAMESPACE)/default-http-backend  # here is where the default backend (the 404) is set
+        #- --default-ssl-certificate=$(POD_NAMESPACE)/haproxy-tls   # here is where the secret is used
+        - --configmap=$(POD_NAMESPACE)/haproxy-ingress # here is the configmap with  the haproxy configuration options
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: haproxy-ingress
+  labels:
+    app: haproxy-ingress
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: haproxy-ingress

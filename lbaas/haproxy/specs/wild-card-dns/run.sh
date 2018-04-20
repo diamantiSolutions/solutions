@@ -9,5 +9,5 @@ kubectl $mode -f ../stable/default-http-backend.yaml
 
 
 kubectl $mode -f ../stable/haproxy-configmap.yaml
-kubectl $mode -f ../stable/haproxy-ingress.yaml
+kubectl $mode -f haproxy-ingress.yaml
 kubectl $mode -f cafe-wild-ingress.yaml
