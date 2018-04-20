@@ -18,7 +18,7 @@ This example is extension of haproxy/specs/stable example. It will use ingress r
 ### 2. Create configuration for etcd daemonset.
   Create a configmap for the etcd daemon by replacing the template text with your own VIP being used for this HA solutions. Make sure to use correct static IP as floating IP, which is not conflicting with others in network. We picked an unused IP from the current default network.
   ```
-  sed "s/<MY_FLOATING_IP>/172.16.137.101/g"  vip-configmap.yaml | kubectl create --namespace=$ns -f -
+  sed "s/<MY_FLOATING_IP>/172.16.179.251/g"  vip-configmap.yaml | kubectl create  -f -
   ```
 
 ### 3. Create etcd daemonset.
