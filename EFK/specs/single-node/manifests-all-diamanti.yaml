@@ -291,6 +291,8 @@ metadata:
     app: fluentd
     stack: logging
 spec:
+  privileged: true
+  allowPrivilegeEscalation: true
   fsGroup:
     rule: RunAsAny
   runAsUser:
@@ -676,8 +678,8 @@ spec:
           mountPath: /var/lib/docker/containers
         - name: host-diamanti-log
           mountPath: /var/log/diamanti
-        # securityContext:
-        #   runAsUser: 0
+        securityContext:
+          runAsUser: 0
       volumes:
       - name: config
         configMap:
