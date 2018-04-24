@@ -10,8 +10,9 @@ spec:
     metadata:
       name: cpx-ingress
       annotations:
-         NETSCALER_AS_APP: "True"
-         diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        NETSCALER_AS_APP: "True"
+        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        #diamanti.com/endpoint0: '{"endpointId":"haproxy-1","perfTier":"high"}'
       labels:
          app: cpx-ingress-device
     spec:
