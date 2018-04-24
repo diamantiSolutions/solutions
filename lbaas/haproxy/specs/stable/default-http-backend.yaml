@@ -10,8 +10,8 @@ spec:
     metadata:
       labels:
         app: default-http-backend
-#    annotations:     # If you plan on using a network other than the default you will need to uncomment these two lines
-#       diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+      annotations:     # If you plan on using a network other than the default you will need to uncomment these two lines
+        diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
     spec:
       terminationGracePeriodSeconds: 60
       containers:

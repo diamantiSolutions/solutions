@@ -18,7 +18,7 @@ spec:
         - containerPort: 80
         volumeMounts:
         - mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
+          subPath: ..data/nginx.conf
           name: coffee-config
       volumes:
       - configMap:

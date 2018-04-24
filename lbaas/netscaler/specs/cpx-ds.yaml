@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: cpx
+spec:
+  template:
+    metadata:
+      name: cpx
+      labels:
+        app: cpx-daemon
+      annotations:
+        NETSCALER_AS_APP: "True"
+    spec:
+      hostNetwork: true
+      containers:
+        - name: cpx
+          image: "store/citrix/netscalercpx:12.0-56.20"
+          securityContext:
+             privileged: true
+          env:
+          - name: "EULA"
+            value: "yes"
+          - name: "NS_NETMODE"
+            value: "HOST"
+          - name: "kubernetes_url"
+            value: "https://solutions.eng.diamanti.com:6443"
+          - name: "NS_MGMT_SERVER"
+            value: "http://172.16.32.101"
+          - name: "NS_MGMT_FINGER_PRINT"
+            value: "CB:F5:22:8A:D4:79:58:F4:89:DA:22:BF:19:BA:CA:B3:77:10:3D:A9"
+          - name: "NS_ROUTABLE"
+            value: "FALSE"
+          - name: "KUBERNETES_TASK_ID"
+            valueFrom:
+               fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+          imagePullPolicy: Always
+

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: cpx-ingress
+spec:
+  replicas: 1
+  selector:
+     app: cpx-ingress-device
+  template:
+    metadata:
+      name: cpx-ingress
+      annotations:
+        NETSCALER_AS_APP: "True"
+        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+        #diamanti.com/endpoint0: '{"endpointId":"haproxy-1","perfTier":"high"}'
+      labels:
+         app: cpx-ingress-device
+    spec:
+      containers:
+      - name: cpx-ingress
+        image: "cpx:sleep"
+        #image: "store/citerix/netscalercpx:12.0-56.20"
+        securityContext:
+           privileged: true
+        env:
+         - name: "EULA"
+           value: "yes"
+         - name: "NS_MGMT_SERVER"
+           value: "172.16.32.101"
+         - name: "NS_MGMT_FINGER_PRINT"
+           value: "CB:F5:22:8A:D4:79:58:F4:89:DA:22:BF:19:BA:CA:B3:77:10:3D:A9"
+         - name: "NS_NETMODE"
+           value: "IP_PER_CONTAINER"
+         - name: "NS_LB_ROLE"
+           value: "SERVER"
+         - name: "HOST"
+           value: "appserv94.eng.diamanti.com"
+         - name: "KUBERNETES_TASK_ID"
+           valueFrom:
+             fieldRef:
+               fieldPath: metadata.name
+        #imagePullPolicy: Always
+      nodeSelector:
+         node-role: ingress    

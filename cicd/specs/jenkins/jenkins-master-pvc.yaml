@@ -1,19 +1,15 @@
 ---
-apiVersion: "v1"
-kind: "List"
-items:
-
-  - apiVersion: "v1"
-    kind: "PersistentVolumeClaim"
-    metadata:
-      name: "jenkins"
-      namespace: "jenkins"
-    spec:
-      volumeName: "jenkins-vol"
-      storageClassName: ""
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 100Gi
-
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins
+  namespace: jenkins
+  labels:
+    app: jenkins
+spec:
+  storageClassName: high
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
