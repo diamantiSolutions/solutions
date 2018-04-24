@@ -4,6 +4,19 @@
 This example is extension of haproxy/specs/stable example. It will use ingress controller and backends from haproxy/specs/stable example. For this example, we will use wildcard DNS *.cafe.example.com mapped to static endpoint/IP assigned for HAProxy instance.
 
 
+
+
+
+
+### 1. Create static endpoint
+
+Lets create two static endpoints (IP) for HAproxy, please make sure to map one endpoint to cafe.example.com and second one to *.cafe.example.com. This is useful for North-South access of Ingress controller. You will need to specify the network to use, as well as an IP from the range of the network. 
+```
+dctl endpoint create haproxy-ep-1 -i 172.16.254.199 -n red
+dctl endpoint create haproxy-ep-2 -i 172.16.254.200 -n red
+```
+
+
 ### 1. setup ingress rules for wild card DNS
 Setup cafe-wild-ingress.yaml with correct rules:
 ```
@@ -37,7 +50,7 @@ $ kubectl create -f cafe-wild-ingress.yaml
 ### 3.  Test North-south access to ingress controller         
 Map wild card DNS entry *.cafe.example.com  to IP of HAproxy. And access *.cafe.example.com with respective subdomain name. Look at the response to make sure you are being served from correct and expected IP backends.
 ```
-  curl http://water.cafe.example.com/ | grep address
+  curl http://tea.cafe.example.com/ | grep address
   curl http://coffee.cafe.example.com/ | grep address
 ```
 
