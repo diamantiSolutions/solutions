@@ -2,7 +2,7 @@
 apiVersion: "v1"
 kind: "List"
 items:
-  - apiVersion: "v1"
+  - apiVersion: extensions/v1beta1
     kind: "Deployment"
     metadata:
       name: "jenkins-master"
@@ -16,8 +16,6 @@ items:
           name: "jenkins-master"
           labels:
             name: "jenkins-master"
-          annotations:
-            diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
         spec:
           serviceAccountName: jenkins
           containers:
@@ -32,7 +30,7 @@ items:
                   cpu: 4
                   memory: 4Gi
                 requests:
-                  cpu: 4 
+                  cpu: 4
                   memory: 4Gi
               env:
                 - name: MEM_REQUEST
@@ -62,9 +60,14 @@ items:
               volumeMounts:
                 - name: "jenkins"
                   mountPath: "/var/jenkins_home"
+                - name: docker-sock-volume
+                  mountPath: /var/run/docker.sock
           securityContext:
             fsGroup: 1000
           volumes:
+            - name: docker-sock-volume
+              hostPath:
+                path: /var/run/docker.sock
             - name: "jenkins"
               persistentVolumeClaim:
                 claimName: "jenkins"
