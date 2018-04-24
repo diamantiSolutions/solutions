@@ -13,15 +13,21 @@ spec:
       labels:
         run: haproxy-ingress
         app: haproxy-ingress
-      annotations:
-        diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
+      annotations:  
+        diamanti.com/endpoint0: '{"endpointId":"haproxy-ep-1","perfTier":"high"}'
+        diamanti.com/endpoint1: '{"endpointId":"haproxy-ep-2","perfTier":"high"}'
     spec:
+      #nodeSelector:
+      #  app: lb
       containers:
       - name: haproxy-ingress
-        image: quay.io/jcmoraisjr/haproxy-ingress
+        #image: quay.io/jcmoraisjr/haproxy-ingress
+        #image: guptaarvindk/haproxy-ingress:nbproc
+        image: guptaarvindk/haproxy-ingress:peers
+        imagePullPolicy: Always
         args:
         - --default-backend-service=$(POD_NAMESPACE)/default-http-backend  # here is where the default backend (the 404) is set
-        #- --default-ssl-certificate=$(POD_NAMESPACE)/tls-secret   # here is where the secret is used
+        #- --default-ssl-certificate=$(POD_NAMESPACE)/haproxy-tls   # here is where the secret is used
         - --configmap=$(POD_NAMESPACE)/haproxy-ingress # here is the configmap with  the haproxy configuration options
         env:
         - name: POD_NAME

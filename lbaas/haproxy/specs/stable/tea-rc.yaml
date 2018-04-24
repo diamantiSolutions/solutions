@@ -8,8 +8,8 @@ spec:
     metadata:
       labels:
         app: tea
-#    annotations:     # If you plan on using a network other than the default you will need to uncomment these two lines
-#        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+      annotations:     # If you plan on using a network other than the default you will need to uncomment these two lines
+        diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
     spec:
       containers:
       - name: tea
@@ -18,7 +18,7 @@ spec:
         - containerPort: 80
         volumeMounts:
         - mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
+          subPath: ..data/nginx.conf
           name: tea-config
       volumes:
       - configMap:
