@@ -292,7 +292,7 @@ metadata:
     stack: logging
 spec:
   privileged: true
-  allowPrivilegeEscalation: true
+  # allowPrivilegeEscalation: true
   fsGroup:
     rule: RunAsAny
   runAsUser:
@@ -372,6 +372,7 @@ data:
       reload_connections "#{ENV['FLUENT_ELASTICSEARCH_RELOAD_CONNECTIONS'] || 'true'}"
       logstash_prefix "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX'] || 'logstash'}"
       logstash_format true
+      # Cap buffer memory usage to 2MiB/chunk * 32 chunks = 64 MiB
       buffer_chunk_limit 2M
       buffer_queue_limit 32
       flush_interval 5s
@@ -394,8 +395,8 @@ data:
       type tail
       path /var/log/containers/*.log
       pos_file /var/log/fluentd-containers.log.pos
-      time_format %Y-%m-%d T%H:%M:%S
-      tag_to_kubernetes_name_regexp \.(?<pod_name>[^\._]+)_(?<namespace>[^_]+)_(?<container_name>.+)-(?<docker_id>[a-z0-9]{64})\.log$</pod>)
+      #time_format %Y-%m-%d T%H:%M:%S
+      #tag_to_kubernetes_name_regexp \.(?<pod_name>[^\._]+)_(?<namespace>[^_]+)_(?<container_name>.+)-(?<docker_id>[a-z0-9]{64})\.log$</pod>)
       tag kubernetes.*
       format json
       read_from_head true
@@ -405,101 +406,91 @@ data:
     # Setup log endpoints for Diamanti System Logs
     ###
     <source>
-      @id docker.log
       type tail
-      time_format %Y-%m-%dT %H:%M:%S
-      format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) msg="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
-      #format none
+      #time_format %Y-%m-%dT %H:%M:%S
+      #format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) msg="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
+      format none
       path /var/log/diamanti/core/docker.log
       pos_file /var/log/fluentd-docker.log.pos
       tag docker
     </source>
 
     <source>
-      @id etcd.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/core/etcd.log
       pos_file /var/log/fluentd-etcd.log.pos
       tag etcd
     </source>
 
     <source>
-      @id armada.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/core/armada.log
       pos_file /var/log/fluentd-armada.log.pos
       tag armada
     </source>
 
     <source>
-      @id convoy.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/core/convoy.log
       pos_file /var/log/fluentd-convoy.log.pos
       tag convoy
     </source>
 
     <source>
-      @id bosun.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/core/bosun.log
       pos_file /var/log/fluentd-bosun.log.pos
       tag bosun
     </source>
 
     <source>
-      @id dock.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/core/dock.log
       pos_file /var/log/fluentd-dock.log.pos
       tag dock
     </source>
 
     <source>
-      @id ldfs.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/embedded/ldfs.log
       pos_file /var/log/fluentd-ldfs.log.pos
       tag ldfs
     </source>
 
     <source>
-      @id nq_ach.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/embedded/nq_ach.log
       pos_file /var/log/fluentd-nq_ach.log.pos
       tag nq_ach
     </source>
 
     <source>
-      @id scd.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/embedded/scd.log
       pos_file /var/log/fluentd-scd.log.pos
       tag scd
     </source>
 
     <source>
-      @id skipper.log
       type tail
       format none
-      time_format %a %d %H:%M:%S
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/embedded/skipper.log
       pos_file /var/log/fluentd-skipper.log.pos
       tag skipper
@@ -509,10 +500,9 @@ data:
     # Setup log endpoints for Diamanti Kubernetes Logs
     ###
     <source>
-      @id kubelet.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       multiline_flush_interval 5s
       path /var/log/diamanti/kubernetes/kubelet.log
       pos_file /var/log/fluentd-kubelet.log.pos
@@ -520,10 +510,9 @@ data:
     </source>
 
     <source>
-      @id kube-proxy.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       multiline_flush_interval 5s
       path /var/log/diamanti/kubernetes/proxy.log
       pos_file /var/log/fluentd-kube-proxy.log.pos
@@ -531,10 +520,9 @@ data:
     </source>
 
     <source>
-      @id kube-apiserver.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       multiline_flush_interval 5s
       path /var/log/diamanti/kubernetes/apiserver.log
       pos_file /var/log/fluentd-kube-apiserver.log.pos
@@ -542,10 +530,9 @@ data:
     </source>
 
     <source>
-      @id controller-manager.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       multiline_flush_interval 5s
       path /var/log/diamanti/kubernetes/controller-manager.log
       pos_file /var/log/fluentd-kube-controller-manager.log.pos
@@ -553,10 +540,9 @@ data:
     </source>
 
     <source>
-      @id kube-scheduler.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       multiline_flush_interval 5s
       path /var/log/diamanti/kubernetes/scheduler.log
       pos_file /var/log/fluentd-kube-scheduler.log.pos
@@ -589,20 +575,18 @@ data:
     # Setup log endpoints for Diamanti Plugin Logs
     ###
     <source>
-      @id cni-network.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/plugn/cni-network.log
       pos_file /var/log/fluentd-cni-network.log.pos
       tag cni-network
     </source>
 
     <source>
-      @id volume.log
       type tail
-      format kubernetes
-      time_format %a %d %H:%M:%S
+      format none
+      #time_format %a %d %H:%M:%S
       path /var/log/diamanti/plugn/volume.log
       pos_file /var/log/fluentd-volume.log.pos
       tag volume
@@ -679,7 +663,8 @@ spec:
         - name: host-diamanti-log
           mountPath: /var/log/diamanti
         securityContext:
-          runAsUser: 0
+          privileged: true
+        #   runAsUser: 0
       volumes:
       - name: config
         configMap:
