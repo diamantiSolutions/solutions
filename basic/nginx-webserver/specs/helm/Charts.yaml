@@ -1,0 +1,17 @@
+name: nginx
+description: A basic NGINX HTTP server for Ingress controller functional or perf testing
+version: 0.1.0
+kubeVersion: ">=1.2.0"
+keywords:
+  - http
+  - nginx
+  - www
+  - web
+  - perf
+  - ingress
+home: https://github.com/kubernetes/helm??
+sources:
+  - https://hub.docker.com/_/nginx/??
+maintainers:
+  - name: Arvind Gupta
+    email: agupta@diamanti.com
