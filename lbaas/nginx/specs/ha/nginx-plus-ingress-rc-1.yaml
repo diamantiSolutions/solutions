@@ -25,3 +25,19 @@ spec:
           - -nginx-plus
          # - -v=3
          #- -nginx-configmaps=default/nginx-lb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ha
+  labels:
+    app: nginx
+spec:
+  clusterIP: None
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: nginx-plus-ingress

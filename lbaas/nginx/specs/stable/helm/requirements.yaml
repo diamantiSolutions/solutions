@@ -1,0 +1,10 @@
+dependencies:
+  - name: nginx-ingress
+    version: 0.0.1
+    repository: https://github.com/nginxinc/kubernetes-ingress/tree/master/helm-chart
+  - alias: tea
+    name: nginx
+    repository: https://github.com/kubernetes/helm/tree/master/docs/examples/nginx
+  - alias: coffee
+    name: nginx
+    repository: https://github.com/kubernetes/helm/tree/master/docs/examples/nginx

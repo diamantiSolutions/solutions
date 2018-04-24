@@ -16,7 +16,7 @@ spec:
 #        diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
     spec:
       containers:
-      - image: <your plus image>
+      - image: <yourOwnNginxPlusIngressImage:version>
         imagePullPolicy: IfNotPresent
         name: nginx-plus-ingress
         # Uncomment the lines below to enable extensive logging and/or customization of

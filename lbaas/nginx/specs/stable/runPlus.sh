@@ -9,7 +9,8 @@ fi
 ./cleanupPlus.sh $ns
 
 #create load balancer pod
-kubectl create -f nginx-plus-ingress-rc.yaml --namespace=$ns
+sed "s/<yourOwnNginxPlusIngressImage:version>/guptaarvindk\/nginx-plus-ingress:latest/g" nginx-plus-ingress-rc.yaml  | kubectl create  --namespace=$ns -f -
+
 #kubectl create -f nginx-lb-configmap.yaml 
 
 #create backend web server (config,pod,svc)
