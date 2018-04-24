@@ -13,8 +13,8 @@ spec:
       labels:
         run: haproxy-ingress
         app: haproxy-ingress
-#    annotations:     # If you plan on using a network other than the default you will need to uncomment these two lines
-#      diamanti.com/endpoint0: '{"network":"default","perfTier":"high"}'
+      annotations:
+        diamanti.com/endpoint0: '{"network":"blue","perfTier":"high"}'
     spec:
       containers:
       - name: haproxy-ingress

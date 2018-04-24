@@ -1,0 +1,14 @@
+# Default values for nginx.
+# This is a YAML-formatted file.
+# Declare name/value pairs to be passed into your templates.
+
+replicaCount: 2
+
+
+image:
+  repository: nginxdemos/hello
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80

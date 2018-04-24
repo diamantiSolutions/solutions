@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sock-shop-load
+  labels:
+    name: sock-shop-load
+  namespace: sock-shop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: sock-shop-load
+    spec:
+      containers:
+      - name: sock-shop-load
+        image: weaveworksdemos/load-test
+        args:
+         - -h 172.16.137.10:8079
