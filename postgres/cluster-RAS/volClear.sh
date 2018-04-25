@@ -1,3 +1,0 @@
-./volDelete.sh
-
-./volCreate.sh
