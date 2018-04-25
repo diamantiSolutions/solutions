@@ -1,6 +1,0 @@
-apiVersion: v1
-data:
-  balance-algorithm: roundrobin
-kind: ConfigMap
-metadata:
-  name: haproxy-ingress
