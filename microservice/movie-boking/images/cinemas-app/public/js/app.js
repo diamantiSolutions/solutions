@@ -1,1 +1,0 @@
-angular.module('cinemaApp', ['ngRoute', 'appRoutes', 'MovCtrl', 'CinemaCtrl','BookingCtrl', 'HomeService','angularSpinner','ngSanitize','ui.grid']);
